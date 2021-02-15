@@ -1,0 +1,56 @@
+{
+    "boundary_wall": true,
+    "boundary_wall_color": "#800080FF",
+    "boundary_wall_width": 1,
+    "ground_color": "#008000FF",
+    "height": 250,
+    "robots": [
+        {
+            "body": [],
+            "cameras": [],
+            "color": [
+                255,
+                0,
+                0,
+                255
+            ],
+            "direction": 180.0,
+            "image_data": [
+                "coil20",
+                1
+            ],
+            "name": "Red",
+            "rangeSensors": [],
+            "va": 0.0,
+            "vx": 0.0,
+            "vy": 0.0,
+            "x": 430,
+            "y": 50
+        },
+        {
+            "body": [],
+            "cameras": [],
+            "color": [
+                255,
+                255,
+                255,
+                255
+            ],
+            "direction": 0.0,
+            "image_data": [
+                "coil20",
+                1
+            ],
+            "name": "White",
+            "rangeSensors": [],
+            "va": 0.0,
+            "vx": 0.0,
+            "vy": 0.0,
+            "x": 30,
+            "y": 50
+        }
+    ],
+    "scale": 5.0,
+    "walls": [],
+    "width": 500
+}

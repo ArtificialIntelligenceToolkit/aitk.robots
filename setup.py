@@ -47,7 +47,6 @@ setup_args = dict(
     description="A lightweight Python Robot simulator",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    #namespace_packages=["aitk"],
     packages=setuptools.find_namespace_packages(include=['aitk.*']),
     package_data={"aitk.robots": ["worlds/*.json", "worlds/*.png"]},
     install_requires=["setuptools", "Pillow"],

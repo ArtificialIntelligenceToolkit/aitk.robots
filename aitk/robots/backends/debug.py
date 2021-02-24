@@ -30,7 +30,7 @@ class DebugBackend(Backend):
     def watch(self):
         print("watch()")
 
-    # High-level API (jyrobot draw API)
+    # High-level API (backend draw API)
 
     def draw_image(self, image, x, y):
         if self.show_high:

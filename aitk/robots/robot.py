@@ -185,7 +185,7 @@ class Robot:
         """
         Load a robot from a JSON config dict.
         """
-        DEVICES = importlib.import_module("jyrobot.devices")
+        DEVICES = importlib.import_module("aitk.robots.devices")
 
         if "name" in config:
             self.name = config["name"]

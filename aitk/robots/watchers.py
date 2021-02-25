@@ -176,11 +176,13 @@ class AttributesWatcher(Watcher):
 
 
 class CameraWatcher:
-    def __init__(self, camera):
+    def __init__(self, camera, width=None, height=None):
         super().__init__()
         self.camera = camera
+        width = "-webkit-fill-available" if width is None else width
+        height = "auto" if height is None else height
         self.widget = Image(
-            layout=Layout(width="-webkit-fill-available", height="auto")
+            layout=Layout(width=width, height=height)
         )
         # Update and draw:
         self.draw()

@@ -127,14 +127,14 @@ class Camera:
             round(self.angle * 180 / math.pi, 2),
         )
 
-    def watch(self):
+    def watch(self, width=None, height=None):
         from ..watchers import CameraWatcher
 
         if self.robot is None or self.robot.world is None:
             print("ERROR: can't watch until added to robot, and robot is in world")
             return None
 
-        watcher = CameraWatcher(self)
+        watcher = CameraWatcher(self, width, height)
         self.robot.world.watchers.append(watcher)
         # Return the widget:
         return watcher.widget
@@ -629,14 +629,14 @@ class GroundCamera:
             self.cameraShape[1],
         )
 
-    def watch(self):
+    def watch(self, width=None, height=None):
         from ..watchers import CameraWatcher
 
         if self.robot is None or self.robot.world is None:
             print("ERROR: can't watch until added to robot, and robot is in world")
             return None
 
-        watcher = CameraWatcher(self)
+        watcher = CameraWatcher(self, width, height)
         self.robot.world.watchers.append(watcher)
         # Return the widget:
         return watcher.widget

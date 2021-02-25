@@ -577,10 +577,10 @@ class World:
         self.update(show=False)
         self.draw()  # force
 
-    def watch(self):
+    def watch(self, width=None, height=None):
         self.step_display = "notebook"
         self.update()
-        return self.backend.watch()
+        return self.backend.watch(width, height)
 
     def record(self):
         from .watchers import Recorder

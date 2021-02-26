@@ -719,12 +719,20 @@ class World:
         Suspends signal handling execution
         """
         self.stop = False
-        signal.signal(signal.SIGINT, self._signal_handler)
+        try:
+            signal.signal(signal.SIGINT, self._signal_handler)
+        except ValueError:
+            # Cannot do this in a thread
+            pass
 
         try:
             yield None
         finally:
-            signal.signal(signal.SIGINT, DEFAULT_HANDLER)
+            try:
+                signal.signal(signal.SIGINT, DEFAULT_HANDLER)
+            except ValueError:
+                # Cannot do this in a thread
+                pass
 
     def run(
         self,

@@ -13,11 +13,13 @@ import os
 import threading
 import time
 
-from IPython.display import HTML, Image as display_Image, display
+from IPython.display import HTML as display_HTML, Image as display_Image, display
 from ipywidgets import (
+    Box,
     Button,
     FloatSlider,
     FloatText,
+    HTML,
     HBox,
     Image,
     Label,
@@ -102,7 +104,13 @@ class RobotWatcher(Watcher):
         ]
         widget = make_attr_widget(self.robot, self.map, None, self.attrs, self.labels)
         if self.show_robot:
-            image = Image(layout=Layout(width="-webkit-fill-available", height="auto"))
+            css = HTML("<style>img.pixelated {image-rendering: pixelated;}</style>")
+            display(css)
+            image = Image(layout=Layout(
+                width="-webkit-fill-available",
+                height="auto",
+            ))
+            image.add_class("pixelated")
             widget.children = [image] + list(widget.children)
 
         self.widget = widget
@@ -181,9 +189,16 @@ class CameraWatcher:
         self.camera = camera
         width = "-webkit-fill-available" if width is None else width
         height = "auto" if height is None else height
+
         self.widget = Image(
-            layout=Layout(width=width, height=height)
+            layout=Layout(
+                width=width,
+                height=height,
+            )
         )
+        self.widget.add_class("pixelated")
+        css = HTML("<style>img.pixelated {image-rendering: pixelated;}</style>")
+        display(css)
         # Update and draw:
         self.draw()
 
@@ -364,7 +379,7 @@ class Recorder(Watcher):
                     )
                 )
                 if retval == 0:
-                    return HTML(
+                    return display_HTML(
                         """<video src='{0}.mp4' controls style="width: 100%"></video>""".format(
                             movie_name
                         )

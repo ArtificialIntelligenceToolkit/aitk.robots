@@ -58,6 +58,7 @@ class Camera:
             "name": name,
             "samples": samples,
         }
+        self._watcher = None
         self.robot = None
         self.initialize()
         self.from_json(config)
@@ -134,10 +135,12 @@ class Camera:
             print("ERROR: can't watch until added to robot, and robot is in world")
             return None
 
-        watcher = CameraWatcher(self, width, height)
-        self.robot.world.watchers.append(watcher)
+        if self._watcher is None:
+            self._watcher = CameraWatcher(self, width, height)
+            self.robot.world.watchers.append(self._watcher)
+
         # Return the widget:
-        return watcher.widget
+        return self._watcher.widget
 
     def step(self, time_step):
         pass
@@ -596,6 +599,7 @@ class GroundCamera:
             "height": height,
             "name": name,
         }
+        self._watcher = None
         self.robot = None
         self.initialize()
         self.from_json(config)
@@ -636,10 +640,12 @@ class GroundCamera:
             print("ERROR: can't watch until added to robot, and robot is in world")
             return None
 
-        watcher = CameraWatcher(self, width, height)
-        self.robot.world.watchers.append(watcher)
+        if self._watcher is None:
+            self._watcher = CameraWatcher(self, width, height)
+            self.robot.world.watchers.append(self._watcher)
+
         # Return the widget:
-        return watcher.widget
+        return self._watcher.widget
 
     def step(self, time_step):
         """

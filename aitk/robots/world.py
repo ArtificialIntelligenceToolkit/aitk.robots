@@ -32,6 +32,9 @@ from .utils import (
     json_dump,
     load_image,
     progress_bar,
+    PI_OVER_180,
+    PI_OVER_2,
+    ONE80_OVER_PI,
 )
 
 DEFAULT_HANDLER = signal.getsignal(signal.SIGINT)
@@ -203,7 +206,7 @@ class World:
     def __repr__(self):
         return "<World width=%r, height=%r>" % (self.width, self.height)
 
-    def take_picture(self, index=None, size=100):
+    def display(self, index=None, size=100):
         """
         Take a picture of the world, or of a robot.
         """

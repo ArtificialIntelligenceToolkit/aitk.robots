@@ -59,13 +59,13 @@
                 {
                     "angle": 60,
                     "class": "Camera",
-                    "colorsFadeWithDistance": 0.5,
-                    "height": 128,
+                    "colorsFadeWithDistance": 0.9,
+                    "height": 32,
                     "max_range": 1000,
                     "reflectGround": true,
                     "reflectSky": false,
                     "sizeFadeWithDistance": 3,
-                    "width": 256
+                    "width": 64
                 }],
             "direction": 0,
             "do_trace": true,

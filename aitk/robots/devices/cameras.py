@@ -10,16 +10,21 @@
 
 import math
 
-from ..utils import Color
+from ..utils import (
+    Color,
+    PI_OVER_180,
+    PI_OVER_2,
+    ONE80_OVER_PI,
+)
 
 
 class Camera:
     def __init__(
         self,
-        width=256,
-        height=128,
-        angle=60,
-        colorsFadeWithDistance=0.5,
+        width=64,
+        height=32,
+        angle=30,
+        colorsFadeWithDistance=0.9,
         sizeFadeWithDistance=1.0,
         reflectGround=True,
         reflectSky=False,
@@ -36,8 +41,10 @@ class Camera:
             * height: (int) height of camera in pixels
             * angle: (number) width of camera field of view in degrees. Can be
                 180 or even 360 for wide angle cameras.
-            * colorsFadeWithDistance: (bool) colors get darker with distance?
-            * sizeFadeWithDistance: (bool) size get smaller with distance?
+            * colorsFadeWithDistance: (float) colors get darker
+                faster with larger value
+            * sizeFadeWithDistance: (float) size gets smaller faster
+                with with larger value
             * reflectGround: (bool) ground reflects for 3D point cloud
             * reflectSky: (bool) sky reflects for 3D point cloud
             * max_range: (int) maximum range of camera
@@ -67,12 +74,12 @@ class Camera:
         # FIXME: camera is fixed at (0,0) facing forward
         self.type = "camera"
         self.time = 0.0
-        self.cameraShape = [256, 128]
+        self.cameraShape = [64, 32]
         self.max_range = 1000
         self.samples = 1
         self.name = "camera"
         # 0 = no fade, 1.0 = max fade
-        self.colorsFadeWithDistance = 0.5
+        self.colorsFadeWithDistance = 0.9
         self.sizeFadeWithDistance = 1.0
         self.reflectGround = True
         self.reflectSky = False
@@ -114,7 +121,7 @@ class Camera:
             "sizeFadeWithDistance": self.sizeFadeWithDistance,
             "reflectGround": self.reflectGround,
             "reflectSky": self.reflectSky,
-            "angle": self.angle * 180 / math.pi,  # save in degrees
+            "angle": self.angle * ONE80_OVER_PI,  # save in degrees
             "max_range": self.max_range,
             "samples": self.samples,
             "name": self.name,
@@ -125,7 +132,7 @@ class Camera:
             self.name,
             self.cameraShape[0],
             self.cameraShape[1],
-            round(self.angle * 180 / math.pi, 2),
+            round(self.angle * ONE80_OVER_PI, 2),
         )
 
     def watch(self, width=None, height=None):
@@ -196,7 +203,7 @@ class Camera:
             self.hits[i] = self.robot.cast_ray(
                 self.robot.x,
                 self.robot.y,
-                math.pi / 2 - self.robot.direction - angle,
+                PI_OVER_2 - self.robot.direction - angle,
                 1000,
             )
 
@@ -419,10 +426,10 @@ class Camera:
                     math.atan2(
                         data["robot"].x - self.robot.x, data["robot"].y - self.robot.y
                     )
-                    + math.pi / 2
+                    + PI_OVER_2
                     + data["robot"].direction
                 )
-                degrees = round(radians * 180 / math.pi)
+                degrees = round(radians * ONE80_OVER_PI)
                 picture = data["robot"].get_image(degrees)  # degrees
                 x1, y1 = data["min_x"], data["min_y"]  # noqa: F841
                 x2, y2 = data["max_x"], data["max_y"]
@@ -490,7 +497,7 @@ class Camera:
         # given in degrees
         # save in radians
         # scale = min(max(angle / 6.0, 0.0), 1.0)
-        self.angle = angle * math.pi / 180.0
+        self.angle = angle * PI_OVER_180
         # self.sizeFadeWithDistance = scale
         self.reset()
 
@@ -575,7 +582,7 @@ class Camera:
         """
         Get the field of view angle in degrees.
         """
-        return self.angle * 180 / math.pi
+        return self.angle * ONE80_OVER_PI
 
     def get_max(self):
         """
@@ -680,7 +687,7 @@ class GroundCamera:
             self.robot.y * self.robot.world.scale,
         )
         rotated_image = self.robot.world.ground_image.rotate(
-            (self.robot.direction - math.pi / 4 * 6) * (180 / math.pi), center=center,
+            (self.robot.direction - math.pi / 4 * 6) * (ONE80_OVER_PI), center=center,
         )
         left = center[0] - self.cameraShape[0] // 2
         right = center[0] + self.cameraShape[0] // 2

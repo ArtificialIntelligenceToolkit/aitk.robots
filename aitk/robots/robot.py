@@ -14,7 +14,18 @@ import re
 
 from .datasets import get_dataset
 from .hit import Hit
-from .utils import Color, Line, Point, distance, intersect, intersect_hit
+from .utils import (
+    Color,
+    Line,
+    Point,
+    distance,
+    intersect,
+    intersect_hit,
+    PI_OVER_180,
+    PI_OVER_2,
+    ONE80_OVER_PI,
+    TWO_PI,
+)
 
 
 class Robot:
@@ -129,7 +140,7 @@ class Robot:
                 self.name,
                 round(self.x, 2),
                 round(self.y, 2),
-                round((self.direction * (180 / math.pi)) % 360, 2),
+                round(((self.direction + math.pi)* (ONE80_OVER_PI)) % 360, 2),
                 round(self.vx, 2),
                 round(self.vy, 2),
                 round(self.va, 2),
@@ -229,7 +240,7 @@ class Robot:
         if "y" in config:
             self.y = config["y"]
         if "direction" in config:
-            self.direction = config["direction"] * math.pi / 180
+            self.direction = config["direction"] * PI_OVER_180
 
         if "image_data" in config:
             self.image_data = config["image_data"]  # ["dataset", index]
@@ -354,7 +365,7 @@ class Robot:
             )
         else:
             if direction is not None:
-                direction = direction * math.pi / 180
+                direction = (TWO_PI - (direction * PI_OVER_180))
             self._set_pose(x, y, direction, clear_trace)
             # Save the robot's pose to the config
             self.world.update()
@@ -437,7 +448,7 @@ class Robot:
             "vy_ramp": self.vy_ramp,
             "x": self.x,
             "y": self.y,
-            "direction": self.direction * 180 / math.pi,
+            "direction": self.direction * ONE80_OVER_PI,
             "image_data": self.image_data,
             "height": self.height,
             "color": str(self.color),
@@ -561,7 +572,7 @@ class Robot:
         Get the pose of the robot (x, y, direction) where direction
         is in degrees.
         """
-        return (self.x, self.y, (self.direction * 180 / math.pi) % 360)
+        return (self.x, self.y, ((self.direction + math.pi) * ONE80_OVER_PI) % 360)
 
     def cast_ray(self, x1, y1, a, maxRange):
         """
@@ -648,7 +659,7 @@ class Robot:
         ]:
             dist = distance(0, 0, x, y)
             angle = math.atan2(-x, y)
-            p = self.rotate_around(px, py, dist, pdirection + angle + math.pi / 2)
+            p = self.rotate_around(px, py, dist, pdirection + angle + PI_OVER_2)
             ps.append(p)
         return ps
 
@@ -714,7 +725,7 @@ class Robot:
             self.tvy, self.vy, self.vy_max, self.vy_ramp, time_step
         )
         # graphics offset:
-        offset = math.pi / 2
+        offset = PI_OVER_2
         # proposed positions:
         pdirection = self.direction - va * time_step
         tvx = (
@@ -857,7 +868,8 @@ class Robot:
         """
         Swing a line around a point.
         """
-        return [x1 + length * math.cos(-angle), y1 - length * math.sin(-angle)]
+        return [x1 + length * math.cos(-angle),
+                y1 - length * math.sin(-angle)]
 
     def get_current_text(self, time):
         """

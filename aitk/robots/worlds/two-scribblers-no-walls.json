@@ -50,12 +50,12 @@
                 {
                     "angle": 60,
                     "class": "Camera",
-                    "colorsFadeWithDistance": 0.5,
-                    "height": 128,
+                    "colorsFadeWithDistance": 0.9,
+                    "height": 32,
                     "reflectGround": true,
                     "reflectSky": false,
                     "sizeFadeWithDistance": 1,
-                    "width": 256
+                    "width": 64
                 }, 
                 {
                     "class": "RangeSensor",
@@ -148,12 +148,12 @@
                 {
                     "angle": 60,
                     "class": "Camera",
-                    "colorsFadeWithDistance": 0.5,
-                    "height": 128,
+                    "colorsFadeWithDistance": 0.9,
+                    "height": 32,
                     "reflectGround": true,
                     "reflectSky": false,
                     "sizeFadeWithDistance": 1,
-                    "width": 256
+                    "width": 64
                 }, 
                 {
                     "class": "RangeSensor",

@@ -20,6 +20,10 @@ from functools import wraps
 from .color_data import COLORS
 from .config import get_aitk_search_paths
 
+PI_OVER_180 = math.pi / 180
+PI_OVER_2 = math.pi / 2
+ONE80_OVER_PI = 180 / math.pi
+TWO_PI = math.pi * 2
 
 def progress_bar(range, show_progress=True, progress_type="tqdm"):
     """

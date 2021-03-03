@@ -48,7 +48,7 @@
             "devices": 
             [
                 {
-                    "angle": 60,
+                    "angle": 30,
                     "colorsFadeWithDistance": 0.9,
                     "height": 32,
                     "reflectGround": true,

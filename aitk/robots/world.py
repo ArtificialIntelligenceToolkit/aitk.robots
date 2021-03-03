@@ -298,11 +298,15 @@ class World:
         Reloads the config from initialization, or from
         last save.
         """
+        self.initialize()
         self.reset_watchers()
         self.from_json(self.config)
         self.time = 0.0
         for robot in self._robots:
             robot.reset()
+            # Re-add the robot's boundaries:
+            wall = Wall(robot.color, robot, *robot.bounding_lines)
+            self.walls.append(wall)
         self.stop = False  # should stop?
         self.update(show=False)  # twice to allow robots to see each other
         self.update(show=False)

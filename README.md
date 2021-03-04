@@ -1,6 +1,6 @@
-# jyrobot
+# aitk.robots
 
-[![PyPI version](https://badge.fury.io/py/jyrobot.svg)](https://badge.fury.io/py/jyrobot) [![CI build status](https://img.shields.io/circleci/build/github/Calysto/jyrobot)](https://app.circleci.com/pipelines/github/Calysto/jyrobot)
+[![PyPI version](https://badge.fury.io/py/aitk.robots.svg)](https://badge.fury.io/py/aitk.robots) [![CI build status](https://img.shields.io/circleci/build/github/ArtificialIntelligenceToolkit/aitk.robots)](https://app.circleci.com/pipelines/github/ArtificialIntelligenceToolkit/aitk.robots)
 
 A lightweight Python robot simulator for Jupyter Lab, Notebooks,
 and other environments.
@@ -23,10 +23,10 @@ and other environments.
 There are pre-designed simulations ready to run, like this:
 
 ```python
-import jyrobot
+import aitk.robots
 import random
 
-world = jyrobot.load("two-scribblers")
+world = aitk.robots.load("two-scribblers")
 
 for robot in world.robots:
     # Give each robot a desired speed:
@@ -49,12 +49,12 @@ world.run(control, show=True, real_time=False)
 You can also easily assemble your own simulations, robots, and sensors.
 
 ```python
-import jyrobot
+import aitk.robots
 
-world = jyrobot.World(width=100, height=100)
+world = aitk.robots.World(width=100, height=100)
 world.watch()
 
-robot = jyrobot.Scribbler()
+robot = aitk.robots.Scribbler()
 
 world.add_robot(robot)
 
@@ -69,7 +69,7 @@ world.save_as("world-1")
 For the core operations, you will need to install just jyrobot:
 
 ```shell
-pip install jyrobot
+pip install aitk.robots
 ```
 
 For just image processing on top of of the core, you will need:
@@ -83,19 +83,11 @@ For the full set of options, you will need:
 * IPython
 * bqplot
 
-There are three different backends:
-
-* "pil" - requires `Pillow` (Python Image Library, PIL), the default; best tested
-* "canvas" - requires `ipycanvas` and `numpy`; some issues
-* "svg" - requires `svgwrite` and `cairosvg` (for backend.take_picture()); some issues
-
-You can install all of the above with conda or pip.
-
 To use the Jupyter enhancements, you'll also need the browser-based
 extensions. You can install those with:
 
 ```
-jupyter labextension install @jupyter-widgets/jupyterlab-manager ipycanvas bqplot
+jupyter labextension install @jupyter-widgets/jupyterlab-manager ipycanvas
 ```
 
 If not in a conda environment, then you will also need to:

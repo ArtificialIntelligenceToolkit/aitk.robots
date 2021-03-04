@@ -29,4 +29,4 @@ def test_soccer_world():
     robot = world.robots[0]
     picture = robot["camera"].take_picture()
 
-    assert picture.size == (256, 128)
+    assert picture.size == (64, 32)

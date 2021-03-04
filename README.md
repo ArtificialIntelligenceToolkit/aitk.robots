@@ -58,15 +58,15 @@ robot = aitk.robots.Scribbler()
 
 world.add_robot(robot)
 
-robot.add_device(jyrobot.RangeSensor())
-robot.add_device(jyrobot.Camera())
+robot.add_device(aitk.robots.RangeSensor())
+robot.add_device(aitk.robots.Camera())
 
 world.save_as("world-1")
 ```
 
 ## Installation
 
-For the core operations, you will need to install just jyrobot:
+For the core operations, you will need to install just aitk.robots:
 
 ```shell
 pip install aitk.robots

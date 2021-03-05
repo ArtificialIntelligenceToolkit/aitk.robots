@@ -459,7 +459,7 @@ class Robot:
         }
         return robot_json
 
-    def move(self, translate, rotate):
+    def move(self, translate=None, rotate=None):
         """
         Set the target translate and rotate velocities.
 
@@ -467,8 +467,10 @@ class Robot:
         """
         # values between -1 and 1
         # compute target velocities
-        self.tvx = round(translate * self.vx_max, 1)
-        self.tva = round(rotate * self.va_max, 1)
+        if translate is not None:
+            self.tvx = round(translate * self.vx_max, 1)
+        if rotate is not None:
+            self.tva = round(rotate * self.va_max, 1)
 
     def forward(self, translate):
         """

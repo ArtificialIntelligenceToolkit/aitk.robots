@@ -373,7 +373,7 @@ class World:
 
         for bulb in config.get("bulbs", []):
             # bulbs are {x, y, z, color, brightness}
-            self.add_bulb(Bulb(**bulb))
+            self.add_bulb(**bulb)
 
         ## Create robot, and add to world:
         for i, robotConfig in enumerate(self.config.get("robots", [])):

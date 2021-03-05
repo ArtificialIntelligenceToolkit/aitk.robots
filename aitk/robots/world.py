@@ -630,7 +630,11 @@ class World:
     def del_watchers(self):
         self.watchers[:] = []
 
-    def add_bulb(self, bulb):
+    def add_bulb(self, color, x, y, z, brightness):
+        """
+        Add a bulb to the world.
+        """
+        bulb = Bulb(color, x, y, z, brightness)
         self.bulbs.append(bulb)
         self.update()  # request draw
 

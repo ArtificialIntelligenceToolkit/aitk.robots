@@ -314,7 +314,7 @@ class Robot:
         self.world.watchers.append(plot)
         return plot
 
-    def watch(self, size=100, show_robot=True):
+    def get_widget(self, size=100, show_robot=True):
         """
         Watch the robot stats with live updates.
 
@@ -327,7 +327,22 @@ class Robot:
         robot_watcher = RobotWatcher(self, size=size, show_robot=show_robot)
         self.world.watchers.append(robot_watcher)
         # Return the widget:
-        return robot_watcher.watch()
+        return robot_watcher.get_widget()
+
+    def display(self, size=100, show_robot=True):
+        """
+        Watch the robot stats with live updates.
+
+        Args:
+            * size: (int) size in pixels around robot
+            * show_robot: (bool) show picture of robot
+        """
+        from .watchers import RobotWatcher
+
+        robot_watcher = RobotWatcher(self, size=size, show_robot=show_robot)
+        self.world.watchers.append(robot_watcher)
+        # Display the widget:
+        display(robot_watcher.get_widget())
 
     def set_max_trace_length(self, seconds):
         """
@@ -467,6 +482,9 @@ class Robot:
         """
         # values between -1 and 1
         # compute target velocities
+        if self.world is not None:
+            if self.world.status != "running":
+                print("This world is not running")
         if translate is not None:
             self.tvx = round(translate * self.vx_max, 1)
         if rotate is not None:

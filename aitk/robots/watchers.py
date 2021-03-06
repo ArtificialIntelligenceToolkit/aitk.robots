@@ -76,11 +76,20 @@ class Watcher:
         """
         raise NotImplementedError("need to implement watcher.reset()")
 
-    def watch(self):
+    def watch(self, **kwargs):
         """
         This method should return the widget associated with
         the watcher.
         """
+        for key in kwargs:
+            setattr(self.widget.layout, key, kwargs[key])
+        css = HTML("<style>img.pixelated {image-rendering: pixelated;}</style>")
+        display(css)
+        display(self.widget)
+
+    def get_widget(self, **kwargs):
+        for key in kwargs:
+            setattr(self.widget.layout, key, kwargs[key])
         return self.widget
 
 
@@ -104,8 +113,6 @@ class RobotWatcher(Watcher):
         ]
         widget = make_attr_widget(self.robot, self.map, None, self.attrs, self.labels)
         if self.show_robot:
-            css = HTML("<style>img.pixelated {image-rendering: pixelated;}</style>")
-            display(css)
             image = Image(layout=Layout(
                 width="-webkit-fill-available",
                 height="auto",
@@ -123,7 +130,7 @@ class RobotWatcher(Watcher):
             return
 
         if self.show_robot:
-            picture = self.robot.world.take_picture()
+            picture = self.robot.world.display(format="image")
             start_x = round(
                 max(self.robot.x * self.robot.world.scale - self.size / 2, 0)
             )
@@ -183,7 +190,7 @@ class AttributesWatcher(Watcher):
         pass
 
 
-class CameraWatcher:
+class CameraWatcher(Watcher):
     def __init__(self, camera, width=None, height=None):
         super().__init__()
         self.camera = camera
@@ -197,8 +204,6 @@ class CameraWatcher:
             )
         )
         self.widget.add_class("pixelated")
-        css = HTML("<style>img.pixelated {image-rendering: pixelated;}</style>")
-        display(css)
         # Update and draw:
         self.draw()
 
@@ -276,9 +281,13 @@ class Recorder(Watcher):
     def reset(self):
         self.states = []
 
-    def watch(self, play_rate=0.0):
+    def get_widget(self, play_rate=0.0):
         self.widget.player.time_wait = play_rate
         return self.widget
+
+    def display(self, play_rate=0.0):
+        self.widget.player.time_wait = play_rate
+        display(self.widget)
 
     def get_trace(self, robot_index, current_index, max_length):
         # return as [Point(x,y), direction]
@@ -329,7 +338,7 @@ class Recorder(Watcher):
             # In case it changed:
             self.world.reset_ground_image()
         self.world.update()
-        picture = self.world.take_picture()
+        picture = self.world.display(format="image")
         return picture
 
     def save_as(

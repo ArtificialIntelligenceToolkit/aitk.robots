@@ -14,6 +14,7 @@ import random
 import re
 import signal
 import time
+from threading import Thread
 from collections.abc import Sequence
 from contextlib import contextmanager
 from itertools import count
@@ -206,7 +207,7 @@ class World:
     def __repr__(self):
         return "<World width=%r, height=%r>" % (self.width, self.height)
 
-    def display(self, index=None, size=100):
+    def display(self, index=None, size=100, format=None):
         """
         Take a picture of the world, or of a robot.
         """
@@ -231,9 +232,14 @@ class World:
                     min(start_y + size, self.height * self.scale),
                 )
                 picture = picture.crop(rectangle)
-                return picture
-        else:
+                if format == "image":
+                    return picture
+                else:
+                    display(picture)
+        elif format == "image":
             return picture
+        else:
+            display(picture)
 
     def info(self):
         """
@@ -282,7 +288,9 @@ class World:
         self.width = 500
         self.height = 250
         self.scale = 3.0
-        self.stop = False  # should stop?
+        self._stop = False  # should stop?
+        self._thread = None
+        self.status = "stopped"
         self.time_step = 0.10  # seconds
         self.time = 0.0  # seconds
         self.boundary_wall = True
@@ -301,6 +309,7 @@ class World:
         Reloads the config from initialization, or from
         last save.
         """
+        self.stop()
         self.initialize()
         self.reset_watchers()
         self.from_json(self.config)
@@ -310,7 +319,8 @@ class World:
             # Re-add the robot's boundaries:
             wall = Wall(robot.color, robot, *robot.bounding_lines)
             self.walls.append(wall)
-        self.stop = False  # should stop?
+        self._stop = False  # should stop?
+        self.status = "stopped"
         self.update(show=False)  # twice to allow robots to see each other
         self.update(show=False)
         self.draw()  # force
@@ -585,9 +595,13 @@ class World:
         self.draw()  # force
 
     def watch(self, width=None, height=None):
+        widget = self.get_widget(width, height)
+        display(widget)
+
+    def get_widget(self, width=None, height=None):
         self.step_display = "notebook"
         self.update()
-        return self.backend.watch(width, height)
+        return self.backend.get_widget(width=width, height=height)
 
     def record(self):
         from .watchers import Recorder
@@ -722,14 +736,14 @@ class World:
         """
         Handler for Control+C.
         """
-        self.stop = True
+        self._stop = True
 
     @contextmanager
     def _no_interrupt(self):
         """
         Suspends signal handling execution
         """
-        self.stop = False
+        self._stop = False
         try:
             signal.signal(signal.SIGINT, self._signal_handler)
         except ValueError:
@@ -745,6 +759,14 @@ class World:
                 # Cannot do this in a thread
                 pass
 
+    def stop(self):
+        self._stop = True
+        self.status = "stopped"
+        if self._thread is not None:
+            print("Stopping thread...")
+            self._thread.join()
+            self._thread = None
+
     def run(
         self,
         function=None,
@@ -753,6 +775,7 @@ class World:
         real_time=True,
         show_progress=True,
         quiet=False,
+        background=False,
     ):
         """
         Run the simulator until one of the control functions returns True
@@ -769,11 +792,29 @@ class World:
             show_progress - (optional) show progress bar
             quiet - (optional) if True, do not show the status message when
                 completed
+            background - (optional) if True, run in the background.
         """
         time_step = time_step if time_step is not None else self.time_step
-        self.steps(
-            float("inf"), function, time_step, show, real_time, show_progress, quiet
-        )
+        if background:
+            if self._thread is None:
+                kwargs = {
+                    "function": function,
+                    "time_step": time_step,
+                    "show": show,
+                    "real_time": real_time,
+                    "show_progress": False,
+                    "quiet": True,
+                    "background": False
+                }
+                print("Starting world.run() in background. Use world.stop()")
+                self._thread = Thread(target=self.run, kwargs=kwargs)
+                self._thread.start()
+            else:
+                print("The world is already running in the background. Use world.stop()")
+        else:
+            self.steps(
+                float("inf"), function, time_step, show, real_time, show_progress, quiet
+            )
 
     def seconds(
         self,
@@ -833,6 +874,7 @@ class World:
             quiet - (optional) if True, do not show the status message when
                 completed
         """
+        self.status = "running"
         time_step = time_step if time_step is not None else self.time_step
         if steps == float("inf"):
             step_iter = count()
@@ -844,7 +886,8 @@ class World:
             for step in progress_bar(
                 step_iter, show_progress and not quiet, self.step_display
             ):
-                if self.stop:
+                if self._stop:
+                    self.status = "stopped"
                     break
                 if function is not None:
                     if isinstance(function, (list, tuple)):
@@ -862,6 +905,7 @@ class World:
                         break
                 self.step(time_step, show=show, real_time=real_time)
 
+        self.status = "stopped"
         stop_real_time = time.monotonic()
         stop_time = self.time
         speed = (stop_time - start_time) / (stop_real_time - start_real_time)

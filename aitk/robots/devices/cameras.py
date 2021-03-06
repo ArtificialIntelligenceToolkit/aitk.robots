@@ -135,19 +135,23 @@ class Camera:
             round(self.angle * ONE80_OVER_PI, 2),
         )
 
-    def watch(self, width=None, height=None):
+    def watch(self, **kwargs):
+        if self.robot is None or self.robot.world is None:
+            raise Exception("can't watch device until added to robot, and robot is in world")
+
+        # Make the watcher if doesn't exist:
+        self.get_widget(**kwargs)
+        self._watcher.watch()
+
+    def get_widget(self, **kwargs):
         from ..watchers import CameraWatcher
 
-        if self.robot is None or self.robot.world is None:
-            print("ERROR: can't watch until added to robot, and robot is in world")
-            return None
-
         if self._watcher is None:
-            self._watcher = CameraWatcher(self, width, height)
+            self._watcher = CameraWatcher(self, **kwargs)
             self.robot.world.watchers.append(self._watcher)
-
-        # Return the widget:
-        return self._watcher.widget
+            return self._watcher.widget
+        else:
+            return self._watcher.get_widget(**kwargs)
 
     def step(self, time_step):
         pass

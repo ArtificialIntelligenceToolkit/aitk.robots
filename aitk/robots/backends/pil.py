@@ -81,7 +81,7 @@ class PILBackend(Backend):
         self.image.save(fp, format=self.format)
         return fp.getvalue()
 
-    def watch(self, width=None, height=None):
+    def get_widget(self, width=None, height=None):
         from ipywidgets import Image
 
         if self.widget is None:

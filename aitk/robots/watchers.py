@@ -416,10 +416,9 @@ class Player(VBox):
         self.function = function
         self.length = length
         self.output = Output()
-        self.position_text = FloatText(value=0.0, layout=Layout(width="100%"))
+        self.position_text = FloatText(value=0.0)
         self.total_text = Label(
-            value="of %s" % round(self.length * 0.1, 1), layout=Layout(width="100px")
-        )
+            value="of %s" % round(self.length * 0.1, 1))
         controls = self.make_controls()
         super().__init__([controls, self.output])
 
@@ -462,18 +461,16 @@ class Player(VBox):
             self.player.pause()
 
     def make_controls(self):
-        button_begin = Button(icon="fast-backward", layout=Layout(width="100%"))
-        button_prev = Button(icon="backward", layout=Layout(width="100%"))
-        button_next = Button(icon="forward", layout=Layout(width="100%"))
-        button_end = Button(icon="fast-forward", layout=Layout(width="100%"))
-        self.button_play = Button(
-            icon="play", description="Play", layout=Layout(width="100%")
-        )
+        button_begin = Button(icon="fast-backward")
+        button_prev = Button(icon="backward")
+        button_next = Button(icon="forward")
+        button_end = Button(icon="fast-forward")
+        self.button_play = Button(icon="play", description="Play")
         self.control_buttons = HBox(
             [
                 button_begin,
                 button_prev,
-                self.position_text,
+                #self.position_text,
                 button_next,
                 button_end,
                 self.button_play,

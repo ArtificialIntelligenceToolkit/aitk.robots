@@ -474,7 +474,7 @@ class Robot:
         }
         return robot_json
 
-    def move(self, translate=None, rotate=None):
+    def move(self, translate=None, rotate=None, quiet=False):
         """
         Set the target translate and rotate velocities.
 
@@ -482,7 +482,7 @@ class Robot:
         """
         # values between -1 and 1
         # compute target velocities
-        if self.world is not None:
+        if not quiet and self.world is not None:
             if self.world.status != "running":
                 print("This world is not running")
         if translate is not None:

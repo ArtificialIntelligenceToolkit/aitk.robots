@@ -595,7 +595,7 @@ class Camera:
         return self.max_range
 
 
-class GroundCamera:
+class GroundCamera(Camera):
     def __init__(self, width=15, height=15, name="ground-camera", **kwargs):
         """
         A downward-facing camera device.
@@ -643,27 +643,6 @@ class GroundCamera:
             self.cameraShape[0],
             self.cameraShape[1],
         )
-
-    def watch(self, width=None, height=None):
-        from ..watchers import CameraWatcher
-
-        if self.robot is None or self.robot.world is None:
-            print("ERROR: can't watch until added to robot, and robot is in world")
-            return None
-
-        if self._watcher is None:
-            self._watcher = CameraWatcher(self, width, height)
-            self.robot.world.watchers.append(self._watcher)
-
-        # Return the widget:
-        return self._watcher.widget
-
-    def step(self, time_step):
-        """
-        Cameras operate in a lazy way: they don't actually update
-        until needed because they are so expensive.
-        """
-        pass
 
     def update(self, draw_list=None):
         """

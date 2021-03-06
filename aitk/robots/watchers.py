@@ -191,16 +191,19 @@ class AttributesWatcher(Watcher):
 
 
 class CameraWatcher(Watcher):
-    def __init__(self, camera, width=None, height=None):
+    def __init__(self, camera, **kwargs):
         super().__init__()
         self.camera = camera
-        width = "-webkit-fill-available" if width is None else width
-        height = "auto" if height is None else height
+        if "max_width" not in kwargs:
+            kwargs["max_width"] = "100%"
+        if "height" not in kwargs:
+            kwargs["height"] = "auto"
+        if "width" not in kwargs:
+            kwargs["width"] = "500px"
 
         self.widget = Image(
             layout=Layout(
-                width=width,
-                height=height,
+                **kwargs
             )
         )
         self.widget.add_class("pixelated")

@@ -76,18 +76,21 @@ class Watcher:
         """
         raise NotImplementedError("need to implement watcher.reset()")
 
+    def _inject_css(self):
+        css = HTML("<style>img.pixelated {image-rendering: pixelated;}</style>")
+        display(css)        
+
     def watch(self, **kwargs):
         """
         This method should return the widget associated with
         the watcher.
         """
-        for key in kwargs:
-            setattr(self.widget.layout, key, kwargs[key])
-        css = HTML("<style>img.pixelated {image-rendering: pixelated;}</style>")
-        display(css)
-        display(self.widget)
+        self._inject_css()
+        widget = self.get_widget(**kwargs)
+        display(widget)
 
     def get_widget(self, **kwargs):
+        self._inject_css()
         for key in kwargs:
             setattr(self.widget.layout, key, kwargs[key])
         return self.widget

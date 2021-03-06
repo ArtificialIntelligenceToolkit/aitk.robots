@@ -149,7 +149,7 @@ class Camera:
         if self._watcher is None:
             self._watcher = CameraWatcher(self, **kwargs)
             self.robot.world.watchers.append(self._watcher)
-            return self._watcher.widget
+            return self._watcher.get_widget()
         else:
             return self._watcher.get_widget(**kwargs)
 

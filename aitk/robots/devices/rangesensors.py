@@ -37,6 +37,7 @@ class RangeSensor:
             "width": width,
             "name": name,
         }
+        self._watcher = None
         self.robot = None
         self.initialize()
         self.from_json(config)
@@ -55,13 +56,17 @@ class RangeSensor:
         self.distance = self.reading * self.max
 
     def watch(self, title="Range Sensor:"):
+        widget = self.get_widget(title=title)
+        return display(widget)
+
+    def get_widget(self, title="Range Sensor:"):
         from ..watchers import AttributesWatcher
 
         if self.robot is None or self.robot.world is None:
             print("ERROR: can't watch until added to robot, and robot is in world")
             return None
 
-        watcher = AttributesWatcher(
+        self._watcher = AttributesWatcher(
             self,
             "name",
             "reading",
@@ -69,8 +74,8 @@ class RangeSensor:
             title=title,
             labels=["Name:", "Reading:", "Distance:"],
         )
-        self.robot.world.watchers.append(watcher)
-        return watcher.widget
+        self.robot.world.watchers.append(self._watcher)
+        return self._watcher.widget
 
     def from_json(self, config):
         if "position" in config:

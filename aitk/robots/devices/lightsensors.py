@@ -20,6 +20,7 @@ class LightSensor:
             "position": position,
             "name": name,
         }
+        self._watcher = None
         self.robot = None
         self.initialize()
         self.from_json(config)
@@ -109,17 +110,23 @@ class LightSensor:
         return self.value
 
     def watch(self, title="Light Sensor:"):
+        widget = self.get_widget(title=title)
+        return display(widget)
+
+    def get_widget(self, title="Light Sensor:"):
         from ..watchers import AttributesWatcher
 
         if self.robot is None or self.robot.world is None:
             print("ERROR: can't watch until added to robot, and robot is in world")
             return None
 
-        watcher = AttributesWatcher(
-            self, "name", "value", title=title, labels=["Name:", "Light:"]
-        )
-        self.robot.world.watchers.append(watcher)
-        return watcher.widget
+        if self._watcher is None:
+            self._watcher = AttributesWatcher(
+                self, "name", "value", title=title, labels=["Name:", "Light:"]
+            )
+            self.robot.world.watchers.append(self._watcher)
+
+        return self._watcher.widget
 
     def set_position(self, position):
         """

@@ -18,6 +18,7 @@ from .utils import (
     Color,
     Line,
     Point,
+    degrees_to_world,
     distance,
     intersect,
     intersect_hit,
@@ -25,14 +26,9 @@ from .utils import (
     PI_OVER_2,
     ONE80_OVER_PI,
     TWO_PI,
+    world_to_degrees,
 )
 
-
-def degrees_to_world(degrees):
-    return (TWO_PI - (degrees * PI_OVER_180))
-
-def world_to_degrees(direction):
-    return (((direction + math.pi) * ONE80_OVER_PI) % 360)
 
 class Robot:
     """
@@ -57,7 +53,7 @@ class Robot:
         config = {
             "x": x,
             "y": y,
-            "direction": direction,
+            "direction": direction, # degrees in the config file
             "color": color,
             "name": name,
             "do_trace": do_trace,
@@ -169,7 +165,7 @@ class Robot:
         self.x = 0  # cm
         self.y = 0  # cm
         self.height = 0.25
-        self.direction = 0  # radians
+        self.direction = degrees_to_world(0)  # radians
         self.vx = 0.0  # velocity in x direction, CM per second
         self.vy = 0.0  # velocity in y direction, degrees per second
         self.va = 0.0  # turn velocity
@@ -1103,7 +1099,7 @@ class Scribbler(Robot):
         config = {
             "x": x,
             "y": y,
-            "direction": direction,
+            "direction": direction, # degrees in config file
             "color": color,
             "name": name,
             "do_trace": do_trace,

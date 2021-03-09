@@ -10,7 +10,13 @@
 
 import math
 
-from ..utils import Color, arange, distance
+from ..utils import (
+    Color,
+    arange,
+    distance,
+    degrees_to_world,
+    world_to_degrees,
+)
 
 
 class RangeSensor:
@@ -32,7 +38,7 @@ class RangeSensor:
         """
         config = {
             "position": position,
-            "direction": direction,
+            "direction": direction, # degrees in the config file
             "max": max,
             "width": width,
             "name": name,
@@ -49,7 +55,7 @@ class RangeSensor:
         self.position = [8, 0]
         self.dist_from_center = distance(0, 0, self.position[0], self.position[1])
         self.dir_from_center = math.atan2(-self.position[0], self.position[1])
-        self.direction = 0  # comes in degrees, save as radians
+        self.direction = degrees_to_world(0)  # comes in degrees, save as radians
         self.max = 20  # CM
         self.width = 1.0  # radians
         self.name = "sensor"
@@ -84,7 +90,7 @@ class RangeSensor:
             self.dist_from_center = distance(0, 0, self.position[0], self.position[1])
             self.dir_from_center = math.atan2(-self.position[0], self.position[1])
         if "direction" in config:
-            self.direction = config["direction"] * math.pi / 180  # save as radians
+            self.direction = degrees_to_world(config["direction"])
         if "max" in config:
             self.max = config["max"]
         if "width" in config:
@@ -99,7 +105,7 @@ class RangeSensor:
         config = {
             "class": self.__class__.__name__,
             "position": self.position,
-            "direction": self.direction * 180 / math.pi,  # save as degrees
+            "direction": world_to_degrees(self.direction),
             "max": self.max,
             "width": self.width * 180 / math.pi,  # save as degrees
             "name": self.name,
@@ -109,7 +115,7 @@ class RangeSensor:
     def __repr__(self):
         return "<RangeSensor %r direction=%r, range=%r, width=%r, position=%r>" % (
             self.name,
-            round(self.direction * 180 / math.pi, 1),
+            round(world_to_degrees(self.direction), 1),
             self.max,
             round(self.width * 180 / math.pi, 1),
             self.position,
@@ -222,7 +228,7 @@ class RangeSensor:
         Get the direction in degrees. Use RangeSensor.direction
         to get the raw radians.
         """
-        return self.direction * 180 / math.pi
+        return world_to_degrees(self.direction)
 
     def get_width(self):
         """
@@ -303,7 +309,7 @@ class RangeSensor:
         Args:
             * direction: (number) the angle of the direction of sensor in degrees
         """
-        self.direction = direction * math.pi / 180  # save as radians
+        self.direction = degrees_to_world(direction)
 
     def set_width(self, width):
         """

@@ -25,6 +25,12 @@ PI_OVER_2 = math.pi / 2
 ONE80_OVER_PI = 180 / math.pi
 TWO_PI = math.pi * 2
 
+def degrees_to_world(degrees):
+    return ((TWO_PI - (degrees * PI_OVER_180)) % TWO_PI)
+
+def world_to_degrees(direction):
+    return (((direction + TWO_PI) * -ONE80_OVER_PI) % 360)
+
 def progress_bar(range, show_progress=True, progress_type="tqdm"):
     """
     Wrap a range/iter in a progress bar (or not).

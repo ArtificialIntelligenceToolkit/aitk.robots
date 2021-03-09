@@ -116,7 +116,7 @@ class Camera:
         if "position" in config:
             self.position = config["position"]
         if "orthographic" in config:
-            self.orthographic = config["orothographic"]
+            self.orthographic = config["orthographic"]
 
     def to_json(self):
         return {

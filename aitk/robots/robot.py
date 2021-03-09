@@ -28,6 +28,12 @@ from .utils import (
 )
 
 
+def degrees_to_world(degrees):
+    return (TWO_PI - (degrees * PI_OVER_180))
+
+def world_to_degrees(direction):
+    return (((direction + math.pi) * ONE80_OVER_PI) % 360)
+
 class Robot:
     """
     The base robot class.
@@ -140,7 +146,7 @@ class Robot:
                 self.name,
                 round(self.x, 2),
                 round(self.y, 2),
-                round(((self.direction + math.pi)* (ONE80_OVER_PI)) % 360, 2),
+                round(world_to_degrees(self.direction), 2),
                 round(self.vx, 2),
                 round(self.vy, 2),
                 round(self.va, 2),
@@ -240,7 +246,7 @@ class Robot:
         if "y" in config:
             self.y = config["y"]
         if "direction" in config:
-            self.direction = config["direction"] * PI_OVER_180
+            self.direction = degrees_to_world(config["direction"])
 
         if "image_data" in config:
             self.image_data = config["image_data"]  # ["dataset", index]
@@ -380,7 +386,7 @@ class Robot:
             )
         else:
             if direction is not None:
-                direction = (TWO_PI - (direction * PI_OVER_180))
+                direction = degrees_to_world(direction)
             self._set_pose(x, y, direction, clear_trace)
             # Save the robot's pose to the config
             self.world.update()
@@ -397,6 +403,7 @@ class Robot:
                 "This robot is not in a world; add robot to world before calling set_random_pose"
             )
         else:
+            # Direction is in radians, in world coordinates:
             x, y, direction = self.world._find_random_pose(self)
             self._set_pose(x, y, direction, clear_trace)
             # Save the robot's pose to the config
@@ -406,6 +413,8 @@ class Robot:
     def _set_pose(self, x=None, y=None, direction=None, clear_trace=True):
         """
         Set the pose of the robot. direction is in radians.
+
+        direction is in radians, in world coordinates.
         """
         if clear_trace:
             self.trace[:] = []
@@ -463,7 +472,7 @@ class Robot:
             "vy_ramp": self.vy_ramp,
             "x": self.x,
             "y": self.y,
-            "direction": self.direction * ONE80_OVER_PI,
+            "direction": world_to_degrees(self.direction),
             "image_data": self.image_data,
             "height": self.height,
             "color": str(self.color),
@@ -592,7 +601,7 @@ class Robot:
         Get the pose of the robot (x, y, direction) where direction
         is in degrees.
         """
-        return (self.x, self.y, ((self.direction + math.pi) * ONE80_OVER_PI) % 360)
+        return (self.x, self.y, world_to_degrees(self.direction))
 
     def cast_ray(self, x1, y1, a, maxRange):
         """

@@ -36,7 +36,7 @@ def get_version(file, name="__version__"):
 
 version = get_version(os.path.join(HERE, "aitk/robots/_version.py"))
 
-with open("README.md", "r") as fh:
+with open(os.path.join(HERE, "README.md"), "r") as fh:
     long_description = fh.read()
 
 setup_args = dict(

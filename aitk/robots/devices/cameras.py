@@ -75,6 +75,8 @@ class Camera:
         self.type = "camera"
         self.time = 0.0
         self.cameraShape = [64, 32]
+        self.position = [0, 0]
+        self.orthographic = True
         self.max_range = 1000
         self.samples = 1
         self.name = "camera"
@@ -111,6 +113,10 @@ class Camera:
             self.samples = config["samples"]
         if "name" in config:
             self.name = config["name"]
+        if "position" in config:
+            self.position = config["position"]
+        if "orthographic" in config:
+            self.orthographic = config["orothographic"]
 
     def to_json(self):
         return {
@@ -125,6 +131,8 @@ class Camera:
             "max_range": self.max_range,
             "samples": self.samples,
             "name": self.name,
+            "position": self.position,
+            "orthographic": self.orthographic,
         }
 
     def __repr__(self):
@@ -315,14 +323,20 @@ class Camera:
             hcolor = None
             if hit:
                 # FIXME: need to figure out what height would actually be at this distance
-                distance_ratio = max(min(1.0 - hit.distance / size, 1.0), 0.0)
-                s = max(
-                    min(1.0 - hit.distance / size * self.sizeFadeWithDistance, 1.0), 0.0
-                )
-                sc = max(
-                    min(1.0 - hit.distance / size * self.colorsFadeWithDistance, 1.0),
-                    0.0,
-                )
+                # The distance from center of camera to object:
+                if self.orthographic:
+                    # The distance from plane of camera to object:
+                    # FIXME: position
+                    angle = math.atan2(self.robot.x + self.position[0] - hit.x,
+                                       self.robot.y + self.position[1] + hit.y)
+                    hit_distance = abs(hit.distance * math.sin(angle))
+                else:
+                    # perspective:
+                    hit_distance = hit.distance
+
+                distance_ratio = 1.0 - hit_distance / size
+                s = distance_ratio * self.sizeFadeWithDistance
+                sc = distance_ratio * self.colorsFadeWithDistance
                 if type == "color":
                     r = hit.color.red * sc
                     g = hit.color.green * sc
@@ -379,14 +393,19 @@ class Camera:
                 if hit.distance > closest_wall_dist:
                     # Behind this wall
                     break
-                distance_ratio = max(min(1.0 - hit.distance / size, 1.0), 0.0)
-                s = max(
-                    min(1.0 - hit.distance / size * self.sizeFadeWithDistance, 1.0), 0.0
-                )
-                sc = max(
-                    min(1.0 - hit.distance / size * self.colorsFadeWithDistance, 1.0),
-                    0.0,
-                )
+                if self.orthographic:
+                    # FIXME: position
+                    # perpendicular to plane:
+                    angle = math.atan2(self.robot.x + self.position[0] - hit.x,
+                                       self.robot.y + self.position[1] + hit.y)
+                    hit_distance = abs(hit.distance * math.sin(angle))
+                else:
+                    # perspective:
+                    hit_distance = hit.distance
+
+                distance_ratio = 1.0 - hit_distance / size
+                s = distance_ratio * self.sizeFadeWithDistance
+                sc = distance_ratio * self.colorsFadeWithDistance
                 distance_to = self.cameraShape[1] / 2 * (1.0 - sc)
                 # scribbler was 30, so 0.23 height ratio
                 # height is ratio, 0 to 1

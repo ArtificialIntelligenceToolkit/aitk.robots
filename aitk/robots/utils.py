@@ -31,6 +31,13 @@ def degrees_to_world(degrees):
 def world_to_degrees(direction):
     return (((direction + TWO_PI) * -ONE80_OVER_PI) % 360)
 
+def rotate_around(x1, y1, length, angle):
+    """
+    Swing a line around a point.
+    """
+    return [x1 + length * math.cos(-angle),
+            y1 - length * math.sin(-angle)]
+
 def progress_bar(range, show_progress=True, progress_type="tqdm"):
     """
     Wrap a range/iter in a progress bar (or not).

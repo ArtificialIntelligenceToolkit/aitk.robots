@@ -11,7 +11,7 @@
 import math
 
 from ..colors import PURPLE, YELLOW
-from ..utils import distance
+from ..utils import distance, rotate_around
 
 
 class LightSensor:
@@ -61,7 +61,7 @@ class LightSensor:
     def update(self, draw_list=None):
         self.value = 0
         # Location of sensor:
-        p = self.robot.rotate_around(
+        p = rotate_around(
             self.robot.x,
             self.robot.y,
             self.dist_from_center,

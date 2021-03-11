@@ -15,6 +15,7 @@ from ..utils import (
     PI_OVER_180,
     PI_OVER_2,
     ONE80_OVER_PI,
+    rotate_around,
 )
 
 
@@ -78,7 +79,6 @@ class Camera:
         self.time = 0.0
         self.cameraShape = [64, 32]
         self.position = [0, 0]
-        self.orthographic = True
         self.max_range = 1000
         self.samples = 1
         self.name = "camera"
@@ -92,7 +92,20 @@ class Camera:
 
     def reset(self):
         self.hits = [[] for i in range(self.cameraShape[0])]
-        self._viewport = None
+        if self.use_viewport:
+            self._viewport = [None for i in range(self.cameraShape[0])]
+            start_pos = rotate_around(0, 0, 10, -self.angle/2)
+            stop_pos = rotate_around(0, 0, 10, self.angle/2)
+
+            # Break into steps:
+            dx = (start_pos[0] - stop_pos[0]) / (self.cameraShape[0] - 1)
+            dy = (start_pos[1] - stop_pos[1]) / (self.cameraShape[0] - 1)
+            for i in range(self.cameraShape[0]):
+                x = start_pos[0] - i * dx
+                y = start_pos[1] - i * dy
+                self._viewport[i] = math.atan2(-x, y)
+        else:
+            self._viewport = None
 
     def from_json(self, config):
         if "width" in config:
@@ -118,8 +131,6 @@ class Camera:
             self.name = config["name"]
         if "position" in config:
             self.position = config["position"]
-        if "orthographic" in config:
-            self.orthographic = config["orthographic"]
 
     def to_json(self):
         return {
@@ -135,7 +146,6 @@ class Camera:
             "samples": self.samples,
             "name": self.name,
             "position": self.position,
-            "orthographic": self.orthographic,
         }
 
     def __repr__(self):
@@ -178,7 +188,7 @@ class Camera:
         all_points = []
         for angle in [self.angle / 2, -self.angle / 2]:
             points = []
-            dx, dy = self.robot.rotate_around(0, 0, step, self.robot.direction + angle)
+            dx, dy = rotate_around(0, 0, step, self.robot.direction + angle)
             cx, cy = self.robot.x, self.robot.y
             x, y = cx, cy
             for i in range(0, self.max_range, step):
@@ -194,30 +204,13 @@ class Camera:
         until needed because they are so expensive.
         """
         pass
-    
+
     def _update(self):
         # Update timestamp:
         self.time = self.robot.world.time
 
         # Not a wide angle lens:
-        if self.angle < (90 * PI_OVER_180) and self.use_viewport:
-            if self._viewport is None:
-                self._viewport = [0 for i in range(self.cameraShape[0])]
-                # First, get row of x,y of viewport:
-                start_pos = self.robot.rotate_around(self.robot.x, self.robot.y,
-                                                     10, self.robot.direction - self.angle/2)
-                stop_pos = self.robot.rotate_around(self.robot.x, self.robot.y,
-                                                    10, self.robot.direction + self.angle/2)
-
-                # Break into steps:
-                dx = (start_pos[0] - stop_pos[0]) / self.cameraShape[0]
-                dy = (start_pos[1] - stop_pos[1]) / self.cameraShape[0]
-                for i in range(self.cameraShape[0]):
-                    x = start_pos[0] - i * dx
-                    y = start_pos[1] - i * dy
-                    angle = math.atan2(-(x - self.robot.x), y - self.robot.y)
-                    self._viewport[i] = angle - self.robot.direction
-
+        if self.use_viewport:
             for i in range(self.cameraShape[0]):
                 self.hits[i] = self.robot.cast_ray(
                     self.robot.x,
@@ -253,9 +246,9 @@ class Camera:
             self.max_range,
         )
         if hits:
-            p = self.robot.rotate_around(0, 0, hits[-1].distance, -self.angle / 2,)
+            p = rotate_around(0, 0, hits[-1].distance, -self.angle / 2,)
         else:
-            p = self.robot.rotate_around(0, 0, self.max_range, -self.angle / 2,)
+            p = rotate_around(0, 0, self.max_range, -self.angle / 2,)
         backend.draw_line(0, 0, p[0], p[1])
 
         # Note angle in sim world is opposite in graphics:
@@ -266,9 +259,9 @@ class Camera:
             self.max_range,
         )
         if hits:
-            p = self.robot.rotate_around(0, 0, hits[-1].distance, self.angle / 2,)
+            p = rotate_around(0, 0, hits[-1].distance, self.angle / 2,)
         else:
-            p = self.robot.rotate_around(0, 0, self.max_range, self.angle / 2,)
+            p = rotate_around(0, 0, self.max_range, self.angle / 2,)
         backend.draw_line(0, 0, p[0], p[1])
 
     def find_closest_wall(self, hits):
@@ -362,15 +355,10 @@ class Camera:
             high = None
             hcolor = None
             if hit:
-                # FIXME: need to figure out what height would actually be at this distance
-                # The distance from center of camera to object:
-                if self.orthographic:
-                    # The distance from plane of camera to object:
-                    # FIXME: position
+                if self.use_viewport:
                     angle = hit.angle
                     hit_distance = abs(hit.distance * math.sin(angle))
-                else:
-                    # perspective:
+                else: # perspective
                     hit_distance = hit.distance
 
                 distance_ratio = 1.0 - hit_distance / size
@@ -432,13 +420,10 @@ class Camera:
                 if hit.distance > closest_wall_dist:
                     # Behind this wall
                     break
-                if self.orthographic:
-                    # FIXME: position
-                    # perpendicular to plane:
+                if self.use_viewport:
                     angle = hit.angle
                     hit_distance = abs(hit.distance * math.sin(angle))
-                else:
-                    # perspective:
+                else: # perspective
                     hit_distance = hit.distance
 
                 distance_ratio = 1.0 - hit_distance / size
@@ -558,6 +543,7 @@ class Camera:
         # given in degrees
         # save in radians
         # scale = min(max(angle / 6.0, 0.0), 1.0)
+        self.use_viewport = (angle < 180)
         self.angle = angle * PI_OVER_180
         # self.sizeFadeWithDistance = scale
         self.reset()

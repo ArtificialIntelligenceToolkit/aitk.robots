@@ -15,6 +15,7 @@ from ..utils import (
     arange,
     distance,
     degrees_to_world,
+    rotate_around,
     world_to_degrees,
 )
 
@@ -128,7 +129,7 @@ class RangeSensor:
         # Update timestamp:
         self.time = self.robot.world.time
         # This changes:
-        p = self.robot.rotate_around(
+        p = rotate_around(
             self.robot.x,
             self.robot.y,
             self.dist_from_center,

@@ -22,6 +22,7 @@ from .utils import (
     distance,
     intersect,
     intersect_hit,
+    rotate_around,
     PI_OVER_180,
     PI_OVER_2,
     ONE80_OVER_PI,
@@ -685,7 +686,7 @@ class Robot:
         ]:
             dist = distance(0, 0, x, y)
             angle = math.atan2(-x, y)
-            p = self.rotate_around(px, py, dist, pdirection + angle + PI_OVER_2)
+            p = rotate_around(px, py, dist, pdirection + angle + PI_OVER_2)
             ps.append(p)
         return ps
 
@@ -890,13 +891,6 @@ class Robot:
         # Alter world:
         self.update_ground_image(self.world.time)
         return
-
-    def rotate_around(self, x1, y1, length, angle):
-        """
-        Swing a line around a point.
-        """
-        return [x1 + length * math.cos(-angle),
-                y1 - length * math.sin(-angle)]
 
     def get_current_text(self, time):
         """

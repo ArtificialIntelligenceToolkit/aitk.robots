@@ -282,6 +282,7 @@ class World:
         Sets the default values.
         """
         self.draw_list = []
+        self.overlay_list = []
         self.filename = None
         self.quiet = False
         self.seed = 0
@@ -980,7 +981,7 @@ class World:
         world.
         """
         ## Update robots:
-        self.draw_list = []
+        self.draw_list = self.overlay_list[:]
         for robot in self._robots:
             robot.update(self.draw_list)
         if show:
@@ -999,6 +1000,12 @@ class World:
             # End of throttle code
 
             self.draw()  # force
+
+    def draw_overlay(self, command, args):
+        self.overlay_list.append((command, args))
+
+    def clear_overlay(self):
+        self.overlay_list.clear()
 
     def draw(self):
         """

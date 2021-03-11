@@ -24,8 +24,8 @@ class DebugBackend(Backend):
     def flush(self):
         print("flush()")
 
-    def take_picture(self, time):
-        print("take_picture()")
+    def get_image(self, time):
+        print("get_image()")
 
     def watch(self):
         print("watch()")

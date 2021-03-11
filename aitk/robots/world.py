@@ -224,18 +224,11 @@ class World:
     def __repr__(self):
         return "<World width=%r, height=%r>" % (self.width, self.height)
 
-    def display(self, index=None, size=100, format=None):
-        """
-        Take a picture of the world, or of a robot.
-        """
-        # FIXME: Make sure it is up to date
+    def get_image(self, index=None, size=100, format=None):
         try:
-            picture = self.backend.take_picture(self.time)
+            picture = self.backend.get_image(self.time)
         except RuntimeError:
             raise Exception("Backend is not ready yet; try again")
-
-        if picture is None:
-            return
 
         if index is not None:
             robot = self.robots[index]
@@ -249,14 +242,16 @@ class World:
                     min(start_y + size, self.height * self.scale),
                 )
                 picture = picture.crop(rectangle)
-                if format == "image":
-                    return picture
-                else:
-                    display(picture)
-        elif format == "image":
-            return picture
+                return picture
         else:
-            display(picture)
+            return picture
+
+    def display(self, index=None, size=100):
+        """
+        Take a picture of the world, or of a robot.
+        """
+        picture = self.get_image(index=index, size=size)
+        display(picture)
 
     def info(self):
         """

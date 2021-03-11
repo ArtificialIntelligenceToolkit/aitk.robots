@@ -27,6 +27,6 @@ def test_soccer_world():
     assert world.ground_image_filename == "soccer-780x496.png"
 
     robot = world.robots[0]
-    picture = robot["camera"].take_picture()
+    picture = robot["camera"].get_image()
 
     assert picture.size == (64, 32)

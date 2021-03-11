@@ -40,7 +40,7 @@ class CanvasBackend(Canvas, Backend):
         # A proxy to figure out how much to throttle
         return world.complexity * 0.005
 
-    def take_picture(self, time):
+    def get_image(self, time):
         """
         returns PIL.Image
         """

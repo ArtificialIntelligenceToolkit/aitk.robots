@@ -214,7 +214,7 @@ class CameraWatcher(Watcher):
         self.draw()
 
     def draw(self):
-        picture = self.camera.take_picture()
+        picture = self.camera.get_image()
         self.widget.value = image_to_png(picture)
 
     def update(self):

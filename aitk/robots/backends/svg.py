@@ -58,11 +58,11 @@ class SVGBackend(Backend):
     def flush(self):
         pass
 
-    def take_picture(self, time):
+    def get_image(self, time):
         try:
             import cairosvg
         except ImportError:
-            print("This backend.take_picture() requires cairosvg")
+            print("This backend.get_image() requires cairosvg")
             return
 
         bytes = cairosvg.svg2png(self.stack[0].tostring(), scale=self._scale)

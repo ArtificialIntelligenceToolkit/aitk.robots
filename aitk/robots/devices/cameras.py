@@ -328,11 +328,11 @@ class Camera:
 
         return self.robot.world.ground_color
 
-    def take_picture(self, type="color"):
+    def get_image(self, type="color"):
         try:
             from PIL import Image
         except ImportError:
-            print("Pillow (PIL) module not available; take_picture() unavailable")
+            print("Pillow (PIL) module not available; get_image() unavailable")
             return
 
         # Lazy; only get the data when we need it:
@@ -511,9 +511,9 @@ class Camera:
         )
 
     def get_point_cloud(self):
-        depth_pic = self.take_picture("depth")
+        depth_pic = self.get_image("depth")
         depth_pixels = depth_pic.load()
-        color_pic = self.take_picture("color")
+        color_pic = self.get_image("color")
         color_pixels = color_pic.load()
         points = []
         for x in range(self.cameraShape[0]):
@@ -705,7 +705,7 @@ class GroundCamera(Camera):
         backend.draw_line(right, lower, left, lower)
         backend.draw_line(left, lower, left, upper)
 
-    def take_picture(self):
+    def get_image(self):
         # FIXME: would be faster to trim image down
         # before rotating
         center = (

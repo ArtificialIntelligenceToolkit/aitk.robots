@@ -137,7 +137,7 @@ class RangeSensor:
         )
 
         if self.robot.world.debug and draw_list is not None:
-            draw_list.append(("draw_ellipse", (p[0], p[1], 2, 2)))
+            draw_list.append(("draw_ellipse", (p[0], p[1], 2, 2), {}))
 
         self.set_reading(1.0)
         if self.width != 0:
@@ -151,7 +151,7 @@ class RangeSensor:
                 if hits:
                     if self.robot.world.debug and draw_list is not None:
                         draw_list.append(
-                            ("draw_ellipse", (hits[-1].x, hits[-1].y, 2, 2))
+                            ("draw_ellipse", (hits[-1].x, hits[-1].y, 2, 2), {})
                         )
                     # Closest hit:
                     if hits[-1].distance < self.get_distance():
@@ -165,7 +165,7 @@ class RangeSensor:
             )
             if hits:
                 if self.robot.world.debug and draw_list is not None:
-                    draw_list.append(("draw_ellipse", (hits[-1].x, hits[-1].y, 2, 2)))
+                    draw_list.append(("draw_ellipse", (hits[-1].x, hits[-1].y, 2, 2), {}))
                 # Closest hit:
                 if hits[-1].distance < self.get_distance():
                     self.set_distance(hits[-1].distance)

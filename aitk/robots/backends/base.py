@@ -68,8 +68,8 @@ class Backend:
         if not self.orig_caching:
             self.caching = False
 
-    def do_command(self, command, *args):
-        getattr(self, command)(*args)
+    def do_command(self, command, *args, **kwargs):
+        getattr(self, command)(*args, **kwargs)
 
     def update_dimensions(self, width, height, scale):
         self._scale = scale

@@ -81,12 +81,12 @@ class LightSensor:
             dist = distance(x, y, p[0], p[1])
             hits = self.robot.cast_ray(p[0], p[1], angle, dist)
             if self.robot.world.debug and draw_list is not None:
-                draw_list.append(("draw_circle", (p[0], p[1], 2)))
-                draw_list.append(("draw_circle", (x, y, 2)))
+                draw_list.append(("draw_circle", (p[0], p[1], 2), {}))
+                draw_list.append(("draw_circle", (x, y, 2), {}))
 
                 for hit in hits:
-                    draw_list.append(("set_fill_style", (PURPLE,)))
-                    draw_list.append(("draw_circle", (hit.x, hit.y, 2)))
+                    draw_list.append(("set_fill_style", (PURPLE,), {}))
+                    draw_list.append(("draw_circle", (hit.x, hit.y, 2), {}))
 
             if len(hits) == 0:  # nothing blocking! we can see the light
                 # Make sure distance not zero:
@@ -96,8 +96,8 @@ class LightSensor:
                     brightness * self.multiplier / (dist ** 2), self.multiplier / 10
                 )
                 if draw_list is not None:
-                    draw_list.append(("strokeStyle", (PURPLE, 1)))
-                    draw_list.append(("draw_line", (x, y, p[0], p[1])))
+                    draw_list.append(("strokeStyle", (PURPLE, 1), {}))
+                    draw_list.append(("draw_line", (x, y, p[0], p[1]), {}))
 
     def draw(self, backend):
         backend.set_fill_style(YELLOW)

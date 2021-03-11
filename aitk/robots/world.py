@@ -126,6 +126,23 @@ class RobotList(Sequence):
     def __repr__(self):
         return repr(self.world._robots)
 
+class CanvasCall:
+    def __init__(self, canvas, command):
+        self.canvas = canvas
+        self.command = command
+
+    def __call__(self, *args, **kwargs):
+        self.canvas.command_list.append((self.command, args, kwargs))
+
+class Canvas:
+    def __init__(self, command_list):
+        self.command_list = command_list
+
+    def __getattr__(self, attr):
+        return CanvasCall(self, attr)
+
+    def clear(self):
+        self.command_list.clear()
 
 class World:
     """
@@ -283,6 +300,7 @@ class World:
         """
         self.draw_list = []
         self.overlay_list = []
+        self.canvas = Canvas(self.overlay_list)
         self.filename = None
         self.quiet = False
         self.seed = 0
@@ -1076,7 +1094,7 @@ class World:
             self.backend.set_fill(WHITE)
             self.backend.text(text, pos_x, pos_y)
 
-            for command, args in self.draw_list:
-                self.backend.do_command(command, *args)
+            for command, args, kwargs in self.draw_list:
+                self.backend.do_command(command, *args, **kwargs)
 
         self.draw_watchers()

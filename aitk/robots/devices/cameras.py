@@ -66,6 +66,7 @@ class Camera:
             "samples": samples,
         }
         self._watcher = None
+        self._viewport = None
         self.robot = None
         self.initialize()
         self.from_json(config)
@@ -90,6 +91,7 @@ class Camera:
 
     def reset(self):
         self.hits = [[] for i in range(self.cameraShape[0])]
+        self._viewport = None
 
     def from_json(self, config):
         if "width" in config:
@@ -190,34 +192,49 @@ class Camera:
         Cameras operate in a lazy way: they don't actually update
         until needed because they are so expensive.
         """
-        if self.robot.world.debug and draw_list is not None:
-            draw_list.append(("set_stroke_style", (Color("white"),)))
-            p = self.robot.rotate_around(
-                self.robot.x,
-                self.robot.y,
-                self.max_range,
-                self.robot.direction + self.angle / 2,
-            )
-            draw_list.append(("draw_line", (self.robot.x, self.robot.y, p[0], p[1])))
-            p = self.robot.rotate_around(
-                self.robot.x,
-                self.robot.y,
-                self.max_range,
-                self.robot.direction - self.angle / 2,
-            )
-            draw_list.append(("draw_line", (self.robot.x, self.robot.y, p[0], p[1])))
-
+        pass
+    
     def _update(self):
         # Update timestamp:
         self.time = self.robot.world.time
-        for i in range(self.cameraShape[0]):
-            angle = i / self.cameraShape[0] * self.angle - self.angle / 2
-            self.hits[i] = self.robot.cast_ray(
-                self.robot.x,
-                self.robot.y,
-                PI_OVER_2 - self.robot.direction - angle,
-                1000,
-            )
+
+        # Not a wide angle lens:
+        if self.angle < 90 * PI_OVER_180:
+            if self._viewport is None:
+                self._viewport = [0 for i in range(self.cameraShape[0])]
+                # First, get row of x,y of viewport:
+                start_pos = self.robot.rotate_around(self.robot.x, self.robot.y,
+                                                     10, self.robot.direction - self.angle/2)
+                stop_pos = self.robot.rotate_around(self.robot.x, self.robot.y,
+                                                    10, self.robot.direction + self.angle/2)
+
+                # Break into steps:
+                dx = (start_pos[0] - stop_pos[0]) / self.cameraShape[0]
+                dy = (start_pos[1] - stop_pos[1]) / self.cameraShape[0]
+                for i in range(self.cameraShape[0]):
+                    x = start_pos[0] - i * dx
+                    y = start_pos[1] - i * dy
+                    angle = math.atan2(-(x - self.robot.x), y - self.robot.y)
+                    self._viewport[i] = angle - self.robot.direction
+
+            for i in range(self.cameraShape[0]):
+                self.hits[i] = self.robot.cast_ray(
+                    self.robot.x,
+                    self.robot.y,
+                    -self._viewport[i] - self.robot.direction,
+                    self.max_range,
+                )
+        else:
+            # Just cast rays by angular steps:
+            for i in range(self.cameraShape[0]):
+                angle = i / self.cameraShape[0] * self.angle - self.angle / 2
+                self.hits[i] = self.robot.cast_ray(
+                    self.robot.x,
+                    self.robot.y,
+                    PI_OVER_2 - self.robot.direction - angle,
+                    self.max_range,
+                )
+
 
     def draw(self, backend):
         """
@@ -226,9 +243,31 @@ class Camera:
         backend.set_fill(Color(0, 64, 0))
         backend.strokeStyle(None, 0)
         backend.draw_rect(5.0, -3.33, 1.33, 6.33)
-        p = self.robot.rotate_around(0, 0, self.max_range, -self.angle / 2,)
+
+        # Note angle in sim world is opposite in graphics:
+        hits = self.robot.cast_ray(
+            self.robot.x,
+            self.robot.y,
+            PI_OVER_2 - self.robot.direction + self.angle / 2,
+            self.max_range,
+        )
+        if hits:
+            p = self.robot.rotate_around(0, 0, hits[-1].distance, -self.angle / 2,)
+        else:
+            p = self.robot.rotate_around(0, 0, self.max_range, -self.angle / 2,)
         backend.draw_line(0, 0, p[0], p[1])
-        p = self.robot.rotate_around(0, 0, self.max_range, self.angle / 2,)
+
+        # Note angle in sim world is opposite in graphics:
+        hits = self.robot.cast_ray(
+            self.robot.x,
+            self.robot.y,
+            PI_OVER_2 - self.robot.direction - self.angle / 2,
+            self.max_range,
+        )
+        if hits:
+            p = self.robot.rotate_around(0, 0, hits[-1].distance, self.angle / 2,)
+        else:
+            p = self.robot.rotate_around(0, 0, self.max_range, self.angle / 2,)
         backend.draw_line(0, 0, p[0], p[1])
 
     def find_closest_wall(self, hits):
@@ -327,8 +366,7 @@ class Camera:
                 if self.orthographic:
                     # The distance from plane of camera to object:
                     # FIXME: position
-                    angle = math.atan2(self.robot.x + self.position[0] - hit.x,
-                                       self.robot.y + self.position[1] + hit.y)
+                    angle = hit.angle
                     hit_distance = abs(hit.distance * math.sin(angle))
                 else:
                     # perspective:
@@ -396,8 +434,7 @@ class Camera:
                 if self.orthographic:
                     # FIXME: position
                     # perpendicular to plane:
-                    angle = math.atan2(self.robot.x + self.position[0] - hit.x,
-                                       self.robot.y + self.position[1] + hit.y)
+                    angle = hit.angle
                     hit_distance = abs(hit.distance * math.sin(angle))
                 else:
                     # perspective:

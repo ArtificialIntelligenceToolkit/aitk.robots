@@ -634,6 +634,7 @@ class Robot:
                             x1,
                             y1,
                             boundary,
+                            a,
                         )
                     )
 
@@ -815,6 +816,7 @@ class Robot:
         Update the robot, and devices.
         """
         self.init_boundingbox()
+
         if self.world.debug and draw_list is not None:
             draw_list.append(("strokeStyle", (Color(255), 1)))
             draw_list.append(

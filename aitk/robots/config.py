@@ -29,7 +29,7 @@ def get_aitk_search_paths():
         paths = [custom]
     else:
         paths = []
-    paths += ["./worlds/", os.path.join(here, "worlds/")]
+    paths += ["./", "./worlds/", os.path.join(here, "worlds/")]
     return paths
 
 

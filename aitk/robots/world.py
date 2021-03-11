@@ -558,9 +558,12 @@ class World:
             color, radius = pen
             for i in range(-radius, radius + 1, 1):
                 for j in range(-radius, radius + 1, 1):
-                    self.ground_image_pixels[
-                        ((x * self.scale) + i, (y * self.scale) + j)
-                    ] = color.to_tuple()
+                    try:
+                        self.ground_image_pixels[
+                            ((x * self.scale) + i, (y * self.scale) + j)
+                        ] = color.to_tuple()
+                    except Exception:
+                        pass
 
     def get_ground_color_at(self, x, y, radius=1):
         """

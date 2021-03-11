@@ -11,7 +11,7 @@
 
 class Hit:
     def __init__(
-        self, robot, height, x, y, distance, color, start_x, start_y, boundary
+            self, robot, height, x, y, distance, color, start_x, start_y, boundary, angle
     ):
         self.robot = robot
         self.height = height
@@ -22,6 +22,7 @@ class Hit:
         self.start_x = start_x
         self.start_y = start_y
         self.boundary = boundary
+        self.angle = angle
 
     def __repr__(self):
         return "<Hit(%s,%s) distance=%s, height=%s>" % (

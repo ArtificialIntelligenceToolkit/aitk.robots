@@ -67,6 +67,7 @@ class Camera:
         }
         self._watcher = None
         self._viewport = None
+        self.use_viewport = False
         self.robot = None
         self.initialize()
         self.from_json(config)
@@ -199,7 +200,7 @@ class Camera:
         self.time = self.robot.world.time
 
         # Not a wide angle lens:
-        if self.angle < 90 * PI_OVER_180:
+        if self.angle < (90 * PI_OVER_180) and self.use_viewport:
             if self._viewport is None:
                 self._viewport = [0 for i in range(self.cameraShape[0])]
                 # First, get row of x,y of viewport:

@@ -740,7 +740,7 @@ class World:
         """
         if robot not in self._robots:
             if robot.x == 0 and robot.y == 0:
-                robot.x, robot.y, robot.direction = self._find_random_pose(robot)
+                robot.x, robot.y, robot.a = self._find_random_pose(robot)
             self._robots.append(robot)
             robot.world = self
             # Bounding lines form a wall:

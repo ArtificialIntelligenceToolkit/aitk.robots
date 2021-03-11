@@ -66,7 +66,7 @@
             [
                 {
                     "class": "RangeSensor",
-                    "direction": 0,
+                    "a": 0,
                     "max": 20,
                     "name": "left-ir",
                     "position": 
@@ -75,7 +75,7 @@
                 }, 
                 {
                     "class": "RangeSensor",
-                    "direction": 0,
+                    "a": 0,
                     "max": 20,
                     "name": "right-ir",
                     "position": 
@@ -95,7 +95,7 @@
                     [6, 6]
                 }
             ],
-            "direction": 340.0561,
+            "a": 340.0561,
             "do_trace": true,
             "height": 0.25,
             "image_data": [],

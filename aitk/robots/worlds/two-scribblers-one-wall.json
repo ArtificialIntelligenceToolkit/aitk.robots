@@ -58,7 +58,7 @@
                     "width": 64
                 }, 
                 {
-                    "direction": 0,
+                    "a": 0,
                     "max": 100,
                     "position": 
                     [6, 0],
@@ -66,7 +66,7 @@
                     "width": 0
                 }, 
                 {
-                    "direction": 0,
+                    "a": 0,
                     "max": 20,
                     "position": 
                     [6, 6],
@@ -74,7 +74,7 @@
                     "width": 57.3
                 }, 
                 {
-                    "direction": 0,
+                    "a": 0,
                     "max": 20,
                     "position": 
                     [6, -6],
@@ -82,7 +82,7 @@
                     "width": 57.3
                 }
             ],
-            "direction": 180,
+            "a": 180,
             "height": 0.23,
             "image_data": [],
             "name": "Red",
@@ -152,7 +152,7 @@
                     "width": 64
                 }, 
                 {
-                    "direction": 0,
+                    "a": 0,
                     "max": 100,
                     "position": 
                     [6, 0],
@@ -160,7 +160,7 @@
                     "width": 0
                 }, 
                 {
-                    "direction": 0,
+                    "a": 0,
                     "max": 20,
                     "position": 
                     [6, 6],
@@ -168,7 +168,7 @@
                     "width": 57.3
                 }, 
                 {
-                    "direction": 0,
+                    "a": 0,
                     "max": 20,
                     "position": 
                     [6, -6],
@@ -176,7 +176,7 @@
                     "width": 57.3
                 }
             ],
-            "direction": 0,
+            "a": 0,
             "height": 0.23,
             "image_data": [],
             "name": "Blue",

@@ -67,7 +67,7 @@
                     "sizeFadeWithDistance": 3,
                     "width": 64
                 }],
-            "direction": 0,
+            "a": 0,
             "do_trace": true,
             "height": 0.25,
             "image_data": [],

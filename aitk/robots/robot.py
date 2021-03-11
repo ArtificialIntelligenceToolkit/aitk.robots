@@ -40,7 +40,7 @@ class Robot:
         self,
         x=0,
         y=0,
-        direction=0,
+        a=0,
         color="red",
         name="Robbie",
         do_trace=True,
@@ -54,7 +54,7 @@ class Robot:
         config = {
             "x": x,
             "y": y,
-            "direction": direction, # degrees in the config file
+            "a": a, # degrees in the config file
             "color": color,
             "name": name,
             "do_trace": do_trace,
@@ -143,7 +143,7 @@ class Robot:
                 self.name,
                 round(self.x, 2),
                 round(self.y, 2),
-                round(world_to_degrees(self.direction), 2),
+                round(world_to_degrees(self.a), 2),
                 round(self.vx, 2),
                 round(self.vy, 2),
                 round(self.va, 2),
@@ -166,7 +166,7 @@ class Robot:
         self.x = 0  # cm
         self.y = 0  # cm
         self.height = 0.25
-        self.direction = degrees_to_world(0)  # radians
+        self.a = degrees_to_world(0)  # radians
         self.vx = 0.0  # velocity in x direction, CM per second
         self.vy = 0.0  # velocity in y direction, degrees per second
         self.va = 0.0  # turn velocity
@@ -242,8 +242,8 @@ class Robot:
             self.x = config["x"]
         if "y" in config:
             self.y = config["y"]
-        if "direction" in config:
-            self.direction = degrees_to_world(config["direction"])
+        if "a" in config:
+            self.a = degrees_to_world(config["a"])
 
         if "image_data" in config:
             self.image_data = config["image_data"]  # ["dataset", index]
@@ -371,9 +371,9 @@ class Robot:
             self.color.red * 0.75, self.color.green * 0.75, self.color.blue * 0.75,
         )
 
-    def set_pose(self, x=None, y=None, direction=None, clear_trace=True):
+    def set_pose(self, x=None, y=None, a=None, clear_trace=True):
         """
-        Set the pose of the robot. direction is in degrees.
+        Set the pose of the robot. a is in degrees.
 
         Note: the robot must be in a world.
         """
@@ -382,9 +382,9 @@ class Robot:
                 "This robot is not in a world; add to world before setting pose"
             )
         else:
-            if direction is not None:
-                direction = degrees_to_world(direction)
-            self._set_pose(x, y, direction, clear_trace)
+            if a is not None:
+                a = degrees_to_world(a)
+            self._set_pose(x, y, a, clear_trace)
             # Save the robot's pose to the config
             self.world.update()
             self.world.save()
@@ -401,17 +401,17 @@ class Robot:
             )
         else:
             # Direction is in radians, in world coordinates:
-            x, y, direction = self.world._find_random_pose(self)
-            self._set_pose(x, y, direction, clear_trace)
+            x, y, a = self.world._find_random_pose(self)
+            self._set_pose(x, y, a, clear_trace)
             # Save the robot's pose to the config
             self.world.update()
             self.world.save()
 
-    def _set_pose(self, x=None, y=None, direction=None, clear_trace=True):
+    def _set_pose(self, x=None, y=None, a=None, clear_trace=True):
         """
-        Set the pose of the robot. direction is in radians.
+        Set the pose of the robot. direction (a) is in radians.
 
-        direction is in radians, in world coordinates.
+        a: direction is in radians, in world coordinates.
         """
         if clear_trace:
             self.trace[:] = []
@@ -421,8 +421,8 @@ class Robot:
             self.x = x
         if y is not None:
             self.y = y
-        if direction is not None:
-            self.direction = direction
+        if a is not None:
+            self.a = a
 
     def del_device(self, device):
         """
@@ -469,7 +469,7 @@ class Robot:
             "vy_ramp": self.vy_ramp,
             "x": self.x,
             "y": self.y,
-            "direction": world_to_degrees(self.direction),
+            "a": world_to_degrees(self.a),
             "image_data": self.image_data,
             "height": self.height,
             "color": str(self.color),
@@ -595,10 +595,10 @@ class Robot:
 
     def get_pose(self):
         """
-        Get the pose of the robot (x, y, direction) where direction
+        Get the pose of the robot (x, y, a) where a (direction)
         is in degrees.
         """
-        return (self.x, self.y, world_to_degrees(self.direction))
+        return (self.x, self.y, world_to_degrees(self.a))
 
     def cast_ray(self, x1, y1, a, maxRange):
         """
@@ -671,11 +671,11 @@ class Robot:
 
         self.boundingbox = [min_x, min_y, max_x, max_y]
         self.radius = max_dist
-        ps = self.compute_boundingbox(self.x, self.y, self.direction)
+        ps = self.compute_boundingbox(self.x, self.y, self.a)
         self.update_boundingbox(*ps)
 
-    def compute_boundingbox(self, px, py, pdirection):
-        # Compute position in real world with respect to x, y, direction:
+    def compute_boundingbox(self, px, py, pa):
+        # Compute position in real world with respect to x, y, a:
         min_x, min_y, max_x, max_y = self.boundingbox
         ps = []
         for x, y in [
@@ -686,7 +686,7 @@ class Robot:
         ]:
             dist = distance(0, 0, x, y)
             angle = math.atan2(-x, y)
-            p = rotate_around(px, py, dist, pdirection + angle + PI_OVER_2)
+            p = rotate_around(px, py, dist, pa + angle + PI_OVER_2)
             ps.append(p)
         return ps
 
@@ -754,21 +754,21 @@ class Robot:
         # graphics offset:
         offset = PI_OVER_2
         # proposed positions:
-        pdirection = self.direction - va * time_step
+        pa = self.a - va * time_step
         tvx = (
-            vx * math.sin(-pdirection + offset)
-            + vy * math.cos(-pdirection + offset) * time_step
+            vx * math.sin(-pa + offset)
+            + vy * math.cos(-pa + offset) * time_step
         )
         tvy = (
-            vx * math.cos(-pdirection + offset)
-            - vy * math.sin(-pdirection + offset) * time_step
+            vx * math.cos(-pa + offset)
+            - vy * math.sin(-pa + offset) * time_step
         )
         px = self.x + tvx
         py = self.y + tvy
 
         # check to see if collision
         # bounding box:
-        p1, p2, p3, p4 = self.compute_boundingbox(px, py, pdirection)
+        p1, p2, p3, p4 = self.compute_boundingbox(px, py, pa)
         # Set wall bounding boxes for collision detection:
         self.update_boundingbox(p1, p2, p3, p4)
 
@@ -796,7 +796,7 @@ class Robot:
             self.vy = vy
             self.x = px
             self.y = py
-            self.direction = pdirection
+            self.a = pa
         else:
             self.restore_boundingbox()
             # Adjust actual velocity
@@ -810,7 +810,7 @@ class Robot:
 
         # Update history:
         if self.do_trace:
-            self.trace.append((Point(self.x, self.y), self.direction))
+            self.trace.append((Point(self.x, self.y), self.a))
 
     def update(self, draw_list=None):
         """
@@ -939,7 +939,7 @@ class Robot:
 
         backend.pushMatrix()
         backend.translate(self.x, self.y)
-        backend.rotate(self.direction)
+        backend.rotate(self.a)
 
         # body:
 
@@ -1058,7 +1058,7 @@ class Scribbler(Robot):
         self,
         x=0,
         y=0,
-        direction=0,
+        a=0,
         color="red",
         name="Scribbie",
         do_trace=True,
@@ -1075,7 +1075,7 @@ class Scribbler(Robot):
                 place in a random location.
             * y: (int) starting location in the horizontal direction. Leave 0 to
                 place in a random location.
-            * direction: (number) starting angle in degrees.
+            * a: (number) starting angle in degrees.
             * color:
             * name: (str) a name to give your robot
             * do_trace: (bool) should the robot leave a trace?
@@ -1095,7 +1095,7 @@ class Scribbler(Robot):
         config = {
             "x": x,
             "y": y,
-            "direction": direction, # degrees in config file
+            "a": a, # degrees in config file
             "color": color,
             "name": name,
             "do_trace": do_trace,

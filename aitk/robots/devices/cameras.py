@@ -188,7 +188,7 @@ class Camera:
         all_points = []
         for angle in [self.angle / 2, -self.angle / 2]:
             points = []
-            dx, dy = rotate_around(0, 0, step, self.robot.direction + angle)
+            dx, dy = rotate_around(0, 0, step, self.robot.a + angle)
             cx, cy = self.robot.x, self.robot.y
             x, y = cx, cy
             for i in range(0, self.max_range, step):
@@ -215,7 +215,7 @@ class Camera:
                 self.hits[i] = self.robot.cast_ray(
                     self.robot.x,
                     self.robot.y,
-                    -self._viewport[i] - self.robot.direction,
+                    -self._viewport[i] - self.robot.a,
                     self.max_range,
                 )
         else:
@@ -225,7 +225,7 @@ class Camera:
                 self.hits[i] = self.robot.cast_ray(
                     self.robot.x,
                     self.robot.y,
-                    PI_OVER_2 - self.robot.direction - angle,
+                    PI_OVER_2 - self.robot.a - angle,
                     self.max_range,
                 )
 
@@ -242,7 +242,7 @@ class Camera:
         hits = self.robot.cast_ray(
             self.robot.x,
             self.robot.y,
-            PI_OVER_2 - self.robot.direction + self.angle / 2,
+            PI_OVER_2 - self.robot.a + self.angle / 2,
             self.max_range,
         )
         if hits:
@@ -255,7 +255,7 @@ class Camera:
         hits = self.robot.cast_ray(
             self.robot.x,
             self.robot.y,
-            PI_OVER_2 - self.robot.direction - self.angle / 2,
+            PI_OVER_2 - self.robot.a - self.angle / 2,
             self.max_range,
         )
         if hits:
@@ -473,7 +473,7 @@ class Camera:
                         data["robot"].x - self.robot.x, data["robot"].y - self.robot.y
                     )
                     + PI_OVER_2
-                    + data["robot"].direction
+                    + data["robot"].a
                 )
                 degrees = round(radians * ONE80_OVER_PI)
                 picture = data["robot"].get_image(degrees)  # degrees
@@ -713,7 +713,7 @@ class GroundCamera(Camera):
             self.robot.y * self.robot.world.scale,
         )
         rotated_image = self.robot.world.ground_image.rotate(
-            (self.robot.direction - math.pi / 4 * 6) * (ONE80_OVER_PI), center=center,
+            (self.robot.a - math.pi / 4 * 6) * (ONE80_OVER_PI), center=center,
         )
         left = center[0] - self.cameraShape[0] // 2
         right = center[0] + self.cameraShape[0] // 2

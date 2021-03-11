@@ -22,7 +22,7 @@ from ..utils import (
 
 class RangeSensor:
     def __init__(
-        self, position=(8, 0), direction=0, max=20, width=1.0, name="sensor", **kwargs
+        self, position=(8, 0), a=0, max=20, width=1.0, name="sensor", **kwargs
     ):
         """
         A range sensor that reads "reading" when no obstacle has been
@@ -31,7 +31,7 @@ class RangeSensor:
 
         Args:
             * position: (int, int) the location on the robot in (x, y)
-            * direction: (number) the direction in degrees the sensor is
+            * a: (number) the direction in degrees the sensor is
                 facing.
             * max: (number) max distance in CM that the range sensor can sense
             * width: (number) 0 for laser, or wider for sonar
@@ -39,7 +39,7 @@ class RangeSensor:
         """
         config = {
             "position": position,
-            "direction": direction, # degrees in the config file
+            "a": a, # degrees in the config file
             "max": max,
             "width": width,
             "name": name,
@@ -56,7 +56,7 @@ class RangeSensor:
         self.position = [8, 0]
         self.dist_from_center = distance(0, 0, self.position[0], self.position[1])
         self.dir_from_center = math.atan2(-self.position[0], self.position[1])
-        self.direction = degrees_to_world(0)  # comes in degrees, save as radians
+        self.a = degrees_to_world(0)  # comes in degrees, save as radians
         self.max = 20  # CM
         self.width = 1.0  # radians
         self.name = "sensor"
@@ -90,8 +90,8 @@ class RangeSensor:
             # Get location of sensor, doesn't change once position is set:
             self.dist_from_center = distance(0, 0, self.position[0], self.position[1])
             self.dir_from_center = math.atan2(-self.position[0], self.position[1])
-        if "direction" in config:
-            self.direction = degrees_to_world(config["direction"])
+        if "a" in config:
+            self.a = degrees_to_world(config["a"])
         if "max" in config:
             self.max = config["max"]
         if "width" in config:
@@ -106,7 +106,7 @@ class RangeSensor:
         config = {
             "class": self.__class__.__name__,
             "position": self.position,
-            "direction": world_to_degrees(self.direction),
+            "a": world_to_degrees(self.a),
             "max": self.max,
             "width": self.width * 180 / math.pi,  # save as degrees
             "name": self.name,
@@ -114,9 +114,9 @@ class RangeSensor:
         return config
 
     def __repr__(self):
-        return "<RangeSensor %r direction=%r, range=%r, width=%r, position=%r>" % (
+        return "<RangeSensor %r a=%r, range=%r, width=%r, position=%r>" % (
             self.name,
-            round(world_to_degrees(self.direction), 1),
+            round(world_to_degrees(self.a), 1),
             self.max,
             round(self.width * 180 / math.pi, 1),
             self.position,
@@ -133,7 +133,7 @@ class RangeSensor:
             self.robot.x,
             self.robot.y,
             self.dist_from_center,
-            self.robot.direction + self.dir_from_center + math.pi / 2,
+            self.robot.a + self.dir_from_center + math.pi / 2,
         )
 
         if self.robot.world.debug and draw_list is not None:
@@ -145,7 +145,7 @@ class RangeSensor:
                 hits = self.robot.cast_ray(
                     p[0],
                     p[1],
-                    -self.robot.direction + math.pi / 2.0 + incr - self.direction,
+                    -self.robot.a + math.pi / 2.0 + incr - self.a,
                     self.max,
                 )
                 if hits:
@@ -160,7 +160,7 @@ class RangeSensor:
             hits = self.robot.cast_ray(
                 p[0],
                 p[1],
-                -self.robot.direction + math.pi / 2.0 - self.direction,
+                -self.robot.a + math.pi / 2.0 - self.a,
                 self.max,
             )
             if hits:
@@ -184,8 +184,8 @@ class RangeSensor:
                 self.position[1],
                 dist,
                 dist,
-                self.direction - self.width / 2,
-                self.direction + self.width / 2,
+                self.a - self.width / 2,
+                self.a + self.width / 2,
             )
         else:
             if self.get_reading() < 1.0:
@@ -224,12 +224,12 @@ class RangeSensor:
         """
         return self.position
 
-    def get_direction(self):
+    def get_angle(self):
         """
-        Get the direction in degrees. Use RangeSensor.direction
+        Get the direction in degrees. Use RangeSensor.a
         to get the raw radians.
         """
-        return world_to_degrees(self.direction)
+        return world_to_degrees(self.a)
 
     def get_width(self):
         """
@@ -303,14 +303,14 @@ class RangeSensor:
         self.dist_from_center = distance(0, 0, self.position[0], self.position[1])
         self.dir_from_center = math.atan2(-self.position[0], self.position[1])
 
-    def set_direction(self, direction):
+    def set_angle(self, a):
         """
         Set the direction of the sensor.
 
         Args:
-            * direction: (number) the angle of the direction of sensor in degrees
+            * a: (number) the angle of the direction of sensor in degrees
         """
-        self.direction = degrees_to_world(direction)
+        self.a = degrees_to_world(a)
 
     def set_width(self, width):
         """

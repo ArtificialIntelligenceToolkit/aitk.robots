@@ -16,7 +16,7 @@ import aitk.robots
 def test_AvoidObstacles():
     world = aitk.robots.World(width=200, height=200, scale=5.0)
     world.add_wall("blue", 80, 50, 100, 150)
-    robot = aitk.robots.Scribbler(x=50, y=100, direction=0)
+    robot = aitk.robots.Scribbler(x=50, y=100, a=0)
     robot.add_device(
         aitk.robots.RangeSensor(
             position=(6, -6), width=57.3, max=20, angle=90, name="left-ir"
@@ -70,7 +70,7 @@ def test_AvoidObstacles():
     world.reset()
     world.seconds(20, [avoid], show=False, show_progress=False, quiet=True)
 
-    assert (robot.x, robot.y, robot.direction) == (
+    assert (robot.x, robot.y, robot.a) == (
         24.074561524568203,
         146.0688331276382,
         4.695530995059226,
@@ -79,15 +79,15 @@ def test_AvoidObstacles():
 
 def test_Coverage():
     world = aitk.robots.World(width=200, height=200, scale=5.0, seed=12345)
-    robot = aitk.robots.Scribbler(x=100, y=100, direction=87, max_trace_length=60)
+    robot = aitk.robots.Scribbler(x=100, y=100, a=90, max_trace_length=60)
     robot.add_device(
         aitk.robots.RangeSensor(
-            position=(6, -6), max=20, angle=90, width=57.3, name="left-ir"
+            position=(6, -6), max=20, a=0, width=57.3, name="left-ir"
         )
     )
     robot.add_device(
         aitk.robots.RangeSensor(
-            position=(6, 6), max=20, angle=90, width=57.3, name="right-ir"
+            position=(6, 6), max=20, a=0, width=57.3, name="right-ir"
         )
     )
     world.add_robot(robot)
@@ -140,7 +140,7 @@ def test_Coverage():
     def wander(robot):
         left = robot[0].get_distance()
         right = robot[1].get_distance()
-        x, y, direction = robot.get_pose()
+        x, y, a = robot.get_pose()
         robot.state["grid"].update(x, y)
         # Save the robot's location only once per second
         if (
@@ -149,10 +149,10 @@ def test_Coverage():
             and robot.state["timer"] == 0
         ):
             # front clear, move random direction
-            direction = 1
+            rotate = 1
             if random() < 0.5:
-                direction = -1
-            robot.move(0.5, direction * random())
+                rotate = -1
+            robot.move(0.5, rotate * random())
             if robot.state["debug"]:
                 robot.speak("F")
         elif robot.state["timer"] > 0 and robot.state["timer"] < 5:
@@ -185,13 +185,13 @@ def test_Coverage():
     world.reset()
 
     world.seconds(
-        60, [wander], real_time=False, show=False, show_progress=False, quiet=False
+        20, [wander], real_time=False, show=False, show_progress=False, quiet=False
     )
 
-    assert (robot.x, robot.y, robot.direction) == (
-        44.81505543854781,
-        148.69008371957017,
-        3.3152504788797055,
+    assert (robot.x, robot.y, robot.a) == (
+        30.656653293840662,
+        72.00201171758178,
+        7.551282672853182,
     )
 
     g = robot.state["grid"]
@@ -263,7 +263,7 @@ def test_SeekLight():
 
     world.seconds(120, [seekLight], real_time=False)
 
-    assert (robot.x, robot.y, robot.direction) == (
+    assert (robot.x, robot.y, robot.a) == (
         94.3013170828803,
         57.43618704593252,
         7.67892160132764,

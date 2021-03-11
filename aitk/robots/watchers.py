@@ -103,12 +103,12 @@ class RobotWatcher(Watcher):
         self.size = size
         self.show_robot = show_robot
         self.map = {}
-        self.attrs = ["name", "x", "y", "direction", "stalled", "tvx", "tva", "state"]
+        self.attrs = ["name", "x", "y", "a", "stalled", "tvx", "tva", "state"]
         self.labels = [
             "Name:",
             "X:",
             "Y:",
-            "Direction:",
+            "A:",
             "Stalled:",
             "Trans vel:",
             "Rotate vel:",
@@ -275,7 +275,7 @@ class Recorder(Watcher):
                 (
                     robot.x,
                     robot.y,
-                    robot.direction,
+                    robot.a,
                     robot.vx,
                     robot.vy,
                     robot.va,
@@ -314,7 +314,7 @@ class Recorder(Watcher):
                 x, y, a, vx, vy, va, stalled = (
                     orig_robot.x,
                     orig_robot.y,
-                    orig_robot.direction,
+                    orig_robot.a,
                     orig_robot.vx,
                     orig_robot.vy,
                     orig_robot.va,

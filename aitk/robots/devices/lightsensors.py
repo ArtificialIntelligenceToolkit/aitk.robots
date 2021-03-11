@@ -65,7 +65,7 @@ class LightSensor:
             self.robot.x,
             self.robot.y,
             self.dist_from_center,
-            self.robot.direction + self.dir_from_center + math.pi / 2,
+            self.robot.a + self.dir_from_center + math.pi / 2,
         )
         for bulb in self.robot.world.bulbs:  # for each light source:
             x, y, z, brightness, light_color = (  # noqa: F841

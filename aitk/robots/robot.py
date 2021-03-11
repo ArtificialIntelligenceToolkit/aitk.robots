@@ -496,6 +496,15 @@ class Robot:
         if rotate is not None:
             self.tva = round(rotate * self.va_max, 1)
 
+    def translate(self, translate):
+        """
+        Set the target translate velocity.
+
+        Arg should be between -1 and 1.
+        """
+        # values between -1 and 1
+        self.tvx = round(translate * self.vx_max, 1)
+
     def forward(self, translate):
         """
         Set the target translate velocity.
@@ -516,12 +525,22 @@ class Robot:
 
     def reverse(self):
         """
-        Flip the target x velocity from negative to
+        Flip the target x and a velocities from negative to
         positive or from positive to negative.
         """
         self.tvx = -self.tvx
+        self.tva = -self.tva
 
     def turn(self, rotate):
+        """
+        Set the target rotate velocity.
+
+        Arg should be between -1 and 1.
+        """
+        # values between -1 and 1
+        self.tva = rotate * self.va_max
+
+    def rotate(self, rotate):
         """
         Set the target rotate velocity.
 

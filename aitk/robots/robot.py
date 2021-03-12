@@ -619,6 +619,16 @@ class Robot:
         """
         return (self.x, self.y, world_to_degrees(self.a))
 
+    def get_velocity(self, target=False):
+        """
+        Get the current (or target) translate and rotate velocities
+        of the robot.
+        """
+        if not target:
+            return (self.vx / self.vx_max, self.va / self.va_max)
+        else:
+            return (self.tvx / self.vx_max, self.tva / self.va_max)
+
     def cast_ray(self, x1, y1, a, maxRange):
         """
         Cast a ray into this world and see what it hits.

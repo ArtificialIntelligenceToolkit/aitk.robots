@@ -966,14 +966,14 @@ class Robot:
             shape_name, color, args = shape
 
             if self.stalled:
-                backend.set_fill(Color(128, 128, 128))
                 backend.strokeStyle(Color(255), 1)
-            elif color is None:
-                backend.set_fill(self.color)
+            else:
                 backend.noStroke()
+
+            if color is None:
+                backend.set_fill(self.color)
             else:
                 backend.set_fill(Color(color))
-                backend.noStroke()
 
             if shape_name == "polygon":
                 backend.draw_polygon(args)
@@ -983,6 +983,8 @@ class Robot:
                 backend.draw_ellipse(*args)
             elif shape_name == "circle":
                 backend.draw_circle(*args)
+
+            backend.noStroke()
 
         for device in self._devices:
             device.draw(backend)

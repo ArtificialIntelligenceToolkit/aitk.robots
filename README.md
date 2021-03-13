@@ -81,7 +81,6 @@ For the full set of options, you will need:
 * Pillow - Python Image Library (PIL)
 * ipywidgets
 * IPython
-* bqplot
 
 To use the Jupyter enhancements, you'll also need the browser-based
 extensions. You can install those with:

@@ -82,6 +82,9 @@ class RobotList(Sequence):
     def __init__(self, world):
         self.world = world
 
+    def __getattr__(self, attr):
+        return getattr(self.world._robots, attr)
+
     def __getitem__(self, item):
         if isinstance(item, int):
             return self.world._robots[item]
@@ -206,18 +209,18 @@ class World:
             raise AttributeError(
                 "unknown arguments for World: %s" % list(kwargs.keys())
             )
-        self.show_throttle_percentage = 0.40
-        self.time_decimal_places = 1
-        self.throttle_period = 0.1
-        self.time_of_last_call = 0
-        self.step_display = "tqdm"
+        self._show_throttle_percentage = 0.40
+        self._time_decimal_places = 1
+        self._throttle_period = 0.1
+        self._time_of_last_call = 0
+        self._step_display = "tqdm"
         self.debug = False
-        self.watchers = []
+        self._watchers = []
         self._robots = []
-        self.backend = None
-        self.recording = False
+        self._backend = None
+        self._recording = False
         self.config = config.copy()
-        self.initialize()  # default values
+        self._initialize()  # default values
         self.reset()  # from config
         self.robots = RobotList(self)
 
@@ -226,7 +229,7 @@ class World:
 
     def get_image(self, index=None, size=100, format=None):
         try:
-            picture = self.backend.get_image(self.time)
+            picture = self._backend.get_image(self.time)
         except RuntimeError:
             raise Exception("Backend is not ready yet; try again")
 
@@ -286,16 +289,16 @@ class World:
             * "svg"
             * "debug"
         """
-        self.backend = make_backend(self.width, self.height, self.scale)
-        self.backend.update_dimensions(self.width, self.height, self.scale)
+        self._backend = make_backend(self.width, self.height, self.scale)
+        self._backend.update_dimensions(self.width, self.height, self.scale)
 
-    def initialize(self):
+    def _initialize(self):
         """
         Sets the default values.
         """
-        self.draw_list = []
-        self.overlay_list = []
-        self.canvas = Canvas(self.overlay_list)
+        self._draw_list = []
+        self._overlay_list = []
+        self.canvas = Canvas(self._overlay_list)
         self.filename = None
         self.quiet = False
         self.seed = 0
@@ -312,11 +315,11 @@ class World:
         self.boundary_wall_color = Color(128, 0, 128)
         self.ground_color = Color(0, 128, 0)
         self.ground_image_filename = None
-        self.ground_image = None
-        self.ground_image_pixels = None
-        self.walls = []
-        self.bulbs = []
-        self.complexity = 0
+        self._ground_image = None
+        self._ground_image_pixels = None
+        self._walls = []
+        self._bulbs = []
+        self._complexity = 0
 
     def reset(self):
         """
@@ -324,15 +327,15 @@ class World:
         last save.
         """
         self.stop()
-        self.initialize()
-        self.reset_watchers()
+        self._initialize()
+        self._reset_watchers()
         self.from_json(self.config)
         self.time = 0.0
         for robot in self._robots:
             robot.reset()
             # Re-add the robot's boundaries:
-            wall = Wall(robot.color, robot, *robot.bounding_lines)
-            self.walls.append(wall)
+            wall = Wall(robot.color, robot, *robot._bounding_lines)
+            self._walls.append(wall)
         self._stop = False  # should stop?
         self.status = "stopped"
         self.update(show=False)  # twice to allow robots to see each other
@@ -383,7 +386,7 @@ class World:
         if "ground_image_filename" in config:
             self.set_ground_image(config["ground_image_filename"], show=False)
 
-        self.add_boundary_walls()
+        self._add_boundary_walls()
 
         for wall in config.get("walls", []):
             # Walls are "boxes"... 4 lines:
@@ -410,19 +413,12 @@ class World:
                 robot = Robot(**robotConfig)
                 self.add_robot(robot)
         # Create the backend if first time:
-        if self.backend is None:
-            self.backend = make_backend(self.width, self.height, self.scale)
+        if self._backend is None:
+            self._backend = make_backend(self.width, self.height, self.scale)
         # Update the backend if it already existed, but differs in config
-        self.backend.update_dimensions(self.width, self.height, self.scale)
+        self._backend.update_dimensions(self.width, self.height, self.scale)
 
-    def clear_boundary_walls(self):
-        """
-        Remove any boundary walls.
-        """
-        self.walls[:] = [wall for wall in self.walls if len(wall.lines) > 1]
-        self.complexity = self.compute_complexity()
-
-    def add_boundary_walls(self):
+    def _add_boundary_walls(self):
         """
         Add boundary walls around world.
         """
@@ -432,7 +428,7 @@ class World:
             p3 = Point(self.width, self.height)
             p4 = Point(self.width, 0)
             ## Not a box, but surround area with four boundaries:
-            self.walls.extend(
+            self._walls.extend(
                 [
                     Wall(self.boundary_wall_color, None, Line(p1, p2)),
                     Wall(self.boundary_wall_color, None, Line(p2, p3)),
@@ -440,7 +436,7 @@ class World:
                     Wall(self.boundary_wall_color, None, Line(p4, p1)),
                 ]
             )
-            self.complexity = self.compute_complexity()
+            self._complexity = self._compute_complexity()
 
     def to_json(self):
         """
@@ -461,7 +457,7 @@ class World:
             "bulbs": [],
             "robots": [],
         }
-        for wall in self.walls:
+        for wall in self._walls:
             if len(wall.lines) == 4 and wall.robot is None:
                 w = {
                     "color": str(wall.color),
@@ -470,7 +466,7 @@ class World:
                 }
                 config["walls"].append(w)
 
-        for bulb in self.bulbs:
+        for bulb in self._bulbs:
             config["bulbs"].append(
                 {
                     "color": str(bulb.color),
@@ -524,26 +520,26 @@ class World:
         Set the background image
         """
         self.ground_image_filename = filename
-        self.reset_ground_image()
+        self._reset_ground_image()
         if show:
             self.update(show=False)
             self.draw()  # force
 
-    def reset_ground_image(self):
+    def _reset_ground_image(self):
         """
         Reset the ground image, in case it changed.
         """
         if self.ground_image_filename is not None:
-            self.ground_image = load_image(
+            self._ground_image = load_image(
                 self.ground_image_filename,
                 round(self.width * self.scale),
                 round(self.height * self.scale),
             )
         else:
-            self.ground_image = None
+            self._ground_image = None
 
-        if self.ground_image is not None:
-            self.ground_image_pixels = self.ground_image.load()
+        if self._ground_image is not None:
+            self._ground_image_pixels = self._ground_image.load()
 
     def paste_ground_image(self, image, x, y):
         """
@@ -555,8 +551,8 @@ class World:
             * x: (int) the x coordinate of upper lefthand corner
             * y: (int) the y coordinate of upper lefthand corner
         """
-        if self.ground_image:
-            self.ground_image.paste(image, (x, y))
+        if self._ground_image:
+            self._ground_image.paste(image, (x, y))
 
     def set_ground_color_at(self, x, y, pen):
         """
@@ -568,12 +564,12 @@ class World:
             * y: (int) the y coordinate
             * pen: (tuple) the (color, radius) to draw with
         """
-        if self.ground_image:
+        if self._ground_image:
             color, radius = pen
             for i in range(-radius, radius + 1, 1):
                 for j in range(-radius, radius + 1, 1):
                     try:
-                        self.ground_image_pixels[
+                        self._ground_image_pixels[
                             ((x * self.scale) + i, (y * self.scale) + j)
                         ] = color.to_tuple()
                     except Exception:
@@ -589,12 +585,12 @@ class World:
             * y: (int) the y coordinate
             * radius: (int) size of area
         """
-        if self.ground_image:
+        if self._ground_image:
             results = []
             for i in range(-radius, radius + 1, 1):
                 for j in range(-radius, radius + 1, 1):
                     results.append(
-                        self.ground_image_pixels[
+                        self._ground_image_pixels[
                             ((x + i) * self.scale, (y + j) * self.scale)
                         ]
                     )
@@ -605,7 +601,7 @@ class World:
         Change the scale of the rendered world.
         """
         self.scale = scale
-        self.backend.update_dimensions(self.width, self.height, self.scale)
+        self._backend.update_dimensions(self.width, self.height, self.scale)
         # Save with config
         self.config["scale"] = self.scale
         self.update(show=False)
@@ -616,57 +612,45 @@ class World:
         display(widget)
 
     def get_widget(self, width=None, height=None):
-        self.step_display = "notebook"
+        self._step_display = "notebook"
         self.update()
-        return self.backend.get_widget(width=width, height=height)
+        return self._backend.get_widget(width=width, height=height)
 
     def record(self):
         from .watchers import Recorder
 
         recorder = Recorder(self)
-        self.watchers.append(recorder)
-        self.recording = True
+        self._watchers.append(recorder)
+        self._recording = True
         return recorder
 
-    def plot(
-        self, function, x_label="x", y_label="y", title=None,
-    ):
-        from .plots import Plot
-
-        if title is None:
-            title = "Jyrobot World"
-
-        plot = Plot(self, function, x_label, y_label, title)
-        self.watchers.append(plot)
-        return plot
-
-    def draw_watchers(self):
-        if self.backend is not None:
-            self.backend.draw_watcher()
-        for watcher in self.watchers:
+    def _draw_watchers(self):
+        if self._backend is not None:
+            self._backend.draw_watcher()
+        for watcher in self._watchers:
             watcher.draw()
 
-    def reset_watchers(self):
-        if self.backend is not None:
-            self.backend.reset_watcher()
-        for watcher in self.watchers:
+    def _reset_watchers(self):
+        if self._backend is not None:
+            self._backend.reset_watcher()
+        for watcher in self._watchers:
             watcher.reset()
 
-    def update_watchers(self):
-        if self.backend is not None:
-            self.backend.update_watcher()
-        for watcher in self.watchers:
+    def _update_watchers(self):
+        if self._backend is not None:
+            self._backend.update_watcher()
+        for watcher in self._watchers:
             watcher.update()
 
-    def del_watchers(self):
-        self.watchers[:] = []
+    def clear_watchers(self):
+        self._watchers[:] = []
 
     def add_bulb(self, color, x, y, z, brightness):
         """
         Add a bulb to the world.
         """
         bulb = Bulb(color, x, y, z, brightness)
-        self.bulbs.append(bulb)
+        self._bulbs.append(bulb)
         self.update()  # request draw
 
     def add_wall(self, color, x1, y1, x2, y2):
@@ -681,8 +665,8 @@ class World:
         wall = Wall(
             Color(color), None, Line(p1, p2), Line(p2, p3), Line(p3, p4), Line(p4, p1)
         )
-        self.walls.append(wall)
-        self.complexity = self.compute_complexity()
+        self._walls.append(wall)
+        self._complexity = self._compute_complexity()
         self.update()  # request draw
 
     def del_robot(self, robot):
@@ -692,13 +676,13 @@ class World:
         if not isinstance(robot, Robot):
             # Then look it up by index/name/type:
             robot = self.robots[robot]
-        for wall in list(self.walls):
+        for wall in list(self._walls):
             if wall.robot is robot:
-                self.walls.remove(wall)
+                self._walls.remove(wall)
         if robot in self._robots:
             robot.world = None
             self._robots.remove(robot)
-        self.complexity = self.compute_complexity()
+        self._complexity = self._compute_complexity()
         self.update()  # request draw
 
     def _find_random_pose(self, robot):
@@ -717,7 +701,7 @@ class World:
                     too_close = True
                     break
 
-            for wall in self.walls:
+            for wall in self._walls:
                 for line in wall.lines:
                     dist, location = distance_point_to_line((px, py), line.p1, line.p2)
                     if dist < robot.radius:
@@ -739,11 +723,11 @@ class World:
             self._robots.append(robot)
             robot.world = self
             # Bounding lines form a wall:
-            if len(robot.bounding_lines) == 0:
+            if len(robot._bounding_lines) == 0:
                 print("WARNING: adding a robot with no body")
-            wall = Wall(robot.color, robot, *robot.bounding_lines)
-            self.walls.append(wall)
-            self.complexity = self.compute_complexity()
+            wall = Wall(robot.color, robot, *robot._bounding_lines)
+            self._walls.append(wall)
+            self._complexity = self._compute_complexity()
             self.update()
             self.save()
         else:
@@ -901,7 +885,7 @@ class World:
             start_real_time = time.monotonic()
             start_time = self.time
             for step in progress_bar(
-                step_iter, show_progress and not quiet, self.step_display
+                step_iter, show_progress and not quiet, self._step_display
             ):
                 if self._stop:
                     self.status = "stopped"
@@ -934,9 +918,9 @@ class World:
         if show:
             self.draw()  # force to update any displays
 
-    def compute_complexity(self):
+    def _compute_complexity(self):
         # Proxy for how much drawing
-        return sum([len(wall.lines) for wall in self.walls])
+        return sum([len(wall.lines) for wall in self._walls])
 
     def step(self, time_step=None, show=True, real_time=True):
         """
@@ -961,17 +945,17 @@ class World:
         # So as not to overwhelm the system. We give 0.1 time
         # per robot. This can be optimized to reduce the load.
 
-        if self.backend.is_async():
-            self.throttle_period = self.backend.get_dynamic_throttle(self)
+        if self._backend.is_async():
+            self._throttle_period = self._backend.get_dynamic_throttle(self)
 
         time_step = time_step if time_step is not None else self.time_step
         start_time = time.monotonic()
         for robot in self._robots:
             robot.step(time_step)
         self.time += time_step
-        self.time = round(self.time, self.time_decimal_places)
+        self.time = round(self.time, self._time_decimal_places)
         self.update(show)
-        self.update_watchers()
+        self._update_watchers()
         if show:
             now = time.monotonic()
             time_passed = now - start_time
@@ -983,10 +967,10 @@ class World:
                     # Sleep even more for slow-motion:
                     time.sleep(sleep_time)
                 # else it is already running slower than real time
-            elif not self.backend.is_async():
+            elif not self._backend.is_async():
                 # Goal is to keep time_passed less than % of throttle period:
-                if time_passed > self.throttle_period * self.show_throttle_percentage:
-                    self.throttle_period += time_step
+                if time_passed > self._throttle_period * self._show_throttle_percentage:
+                    self._throttle_period += time_step
 
     def update(self, show=True):
         """
@@ -994,102 +978,96 @@ class World:
         world.
         """
         ## Update robots:
-        self.draw_list = self.overlay_list[:]
+        self._draw_list = self._overlay_list[:]
         for robot in self._robots:
-            robot.update(self.draw_list)
+            robot.update(self._draw_list)
         if show:
-            self.request_draw()
+            self._request_draw()
 
-    def request_draw(self):
+    def _request_draw(self):
         """
         Draw the world. This function is throttled
         """
         # Throttle:
         now = time.monotonic()
-        time_since_last_call = now - self.time_of_last_call
+        time_since_last_call = now - self._time_of_last_call
 
-        if time_since_last_call > self.throttle_period:
-            self.time_of_last_call = now
+        if time_since_last_call > self._throttle_period:
+            self._time_of_last_call = now
             # End of throttle code
 
             self.draw()  # force
-
-    def draw_overlay(self, command, args):
-        self.overlay_list.append((command, args))
-
-    def clear_overlay(self):
-        self.overlay_list.clear()
 
     def draw(self):
         """
         Force a redraw of the world.
         """
-        if self.backend is None:
+        if self._backend is None:
             return
 
-        with self.backend:
-            self.backend.clear()
-            self.backend.noStroke()
-            if self.ground_image is not None:
-                self.backend.draw_image(self.ground_image, 0, 0)
+        with self._backend:
+            self._backend.clear()
+            self._backend.noStroke()
+            if self._ground_image is not None:
+                self._backend.draw_image(self._ground_image, 0, 0)
             else:
-                self.backend.set_fill(self.ground_color)
-                self.backend.draw_rect(0, 0, self.width, self.height)
+                self._backend.set_fill(self.ground_color)
+                self._backend.draw_rect(0, 0, self.width, self.height)
             ## Draw walls:
-            for wall in self.walls:
+            for wall in self._walls:
                 if len(wall.lines) >= 1 and wall.robot is None:
                     c = wall.color
-                    self.backend.noStroke()
-                    self.backend.set_fill(c)
-                    self.backend.beginShape()
+                    self._backend.noStroke()
+                    self._backend.set_fill(c)
+                    self._backend.beginShape()
                     for line in wall.lines:
-                        self.backend.vertex(line.p1.x, line.p1.y)
-                        self.backend.vertex(line.p2.x, line.p2.y)
+                        self._backend.vertex(line.p1.x, line.p1.y)
+                        self._backend.vertex(line.p2.x, line.p2.y)
 
-                    self.backend.endShape()
+                    self._backend.endShape()
 
             ## Draw bulbs:
-            for bulb in self.bulbs:
+            for bulb in self._bulbs:
                 c = bulb.color
-                self.backend.noStroke()
-                self.backend.set_fill(c)
-                self.backend.draw_circle(bulb.x, bulb.y, bulb.brightness * 5)
+                self._backend.noStroke()
+                self._backend.set_fill(c)
+                self._backend.draw_circle(bulb.x, bulb.y, bulb.brightness * 5)
 
             ## Draw borders:
-            for wall in self.walls:
+            for wall in self._walls:
                 c = wall.color
                 if len(wall.lines) == 1:
-                    self.backend.strokeStyle(c, 3)
-                    self.backend.draw_line(
+                    self._backend.strokeStyle(c, 3)
+                    self._backend.draw_line(
                         wall.lines[0].p1.x,
                         wall.lines[0].p1.y,
                         wall.lines[0].p2.x,
                         wall.lines[0].p2.y,
                     )
-                    self.backend.lineWidth(1)
-                    self.backend.noStroke()
+                    self._backend.lineWidth(1)
+                    self._backend.noStroke()
 
             ## Draw robots:
             for robot in self._robots:
-                robot.draw(self.backend)
+                robot.draw(self._backend)
 
             text = format_time(self.time)
             pos_x, pos_y = (
-                self.backend.char_height,
-                self.height - self.backend.char_height * 2,
+                self._backend.char_height,
+                self.height - self._backend.char_height * 2,
             )
 
-            self.backend.set_fill(BLACK_50)
-            self.backend.draw_rect(
+            self._backend.set_fill(BLACK_50)
+            self._backend.draw_rect(
                 pos_x,
                 pos_y,
-                self.backend.char_width * len(text),
-                self.backend.char_height + 1,
+                self._backend.char_width * len(text),
+                self._backend.char_height + 1,
             )
-            self.backend.set_fill(WHITE)
-            self.backend.text(text, pos_x, pos_y)
+            self._backend.set_fill(WHITE)
+            self._backend.text(text, pos_x, pos_y)
 
-            for command, args, kwargs in self.draw_list:
-                self.backend.do_command(command, *args, **kwargs)
+            for command, args, kwargs in self._draw_list:
+                self._backend.do_command(command, *args, **kwargs)
 
-        self.draw_watchers()
+        self._draw_watchers()

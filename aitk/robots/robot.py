@@ -159,7 +159,7 @@ class Robot:
         self.stalled = False
         # Slight box around center, in case no
         # body:
-        self.bounding_lines = [
+        self._bounding_lines = [
             Line(Point(-1, -1), Point(1, -1)),
             Line(Point(1, -1), Point(1, 1)),
             Line(Point(1, 1), Point(-1, 1)),
@@ -168,10 +168,10 @@ class Robot:
         self.state = {}
         self.image_data = []
         self.get_dataset_image = None
-        self.boundingbox = []
+        self._boundingbox = []
         self.radius = 0.0
         self._watcher = None
-        self.init_boundingbox()
+        self._init_boundingbox()
 
     def from_json(self, config):
         """
@@ -253,7 +253,7 @@ class Robot:
 
         if "body" in config:
             self.body[:] = config["body"]
-            self.init_boundingbox()
+            self._init_boundingbox()
 
         if "devices" in config:
             # FIXME: raise if lengths/types don't match
@@ -308,7 +308,7 @@ class Robot:
         if self._watcher is None:
             self._watcher = RobotWatcher(self, size=size,
                                          show_robot=show_robot)
-            self.world.watchers.append(self._watcher)
+            self.world._watchers.append(self._watcher)
         else:
             self._watcher.set_arguments(size=size,
                                         show_robot=show_robot)
@@ -588,7 +588,7 @@ class Robot:
         Note: not for use in a robot in a recorder.
         """
         if self.world:
-            if self.world.recording:
+            if self.world._recording:
                 if len(self.text_trace) > 0:
                     # If same as last, don't add again
                     if self.text_trace[-1][1] != text:
@@ -654,7 +654,7 @@ class Robot:
         x2 = math.sin(a) * maxRange + x1
         y2 = math.cos(a) * maxRange + y1
 
-        for wall in self.world.walls:
+        for wall in self.world._walls:
             # never detect hit with yourself
             if wall.robot is self:
                 continue
@@ -687,7 +687,7 @@ class Robot:
         )  # further away first, back to front
         return hits
 
-    def init_boundingbox(self):
+    def _init_boundingbox(self):
         # First, find min/max points around robot (assumes box):
         min_x = float("inf")
         max_x = float("-inf")
@@ -712,15 +712,15 @@ class Robot:
         ):
             return
 
-        self.boundingbox = [min_x, min_y, max_x, max_y]
+        self._boundingbox = [min_x, min_y, max_x, max_y]
         self.radius = max_dist
-        ps = self.compute_boundingbox(self.x, self.y, self.a)
-        self.update_boundingbox(*ps)
+        ps = self._compute_boundingbox(self.x, self.y, self.a)
+        self._update_boundingbox(*ps)
 
-    def compute_boundingbox(self, px, py, pa):
+    def _compute_boundingbox(self, px, py, pa):
         # Compute position in real world with respect to x, y, a:
-        if len(self.boundingbox) == 4:
-            min_x, min_y, max_x, max_y = self.boundingbox
+        if len(self._boundingbox) == 4:
+            min_x, min_y, max_x, max_y = self._boundingbox
             ps = []
             for x, y in [
                 (min_x, max_y),  # 4
@@ -744,35 +744,35 @@ class Robot:
         self.text_trace[:] = []
         self.pen_trace[:] = []
 
-    def restore_boundingbox(self):
-        self.update_boundingbox(*self.last_boundingbox)
+    def _restore_boundingbox(self):
+        self._update_boundingbox(*self._last_boundingbox)
 
-    def update_boundingbox(self, p1, p2, p3, p4):
-        self.last_boundingbox = [
-            self.bounding_lines[0].p1.copy(),  # p1
-            self.bounding_lines[0].p2.copy(),  # p2
-            self.bounding_lines[1].p2.copy(),  # p3
-            self.bounding_lines[2].p2.copy(),  # p4
+    def _update_boundingbox(self, p1, p2, p3, p4):
+        self._last_boundingbox = [
+            self._bounding_lines[0].p1.copy(),  # p1
+            self._bounding_lines[0].p2.copy(),  # p2
+            self._bounding_lines[1].p2.copy(),  # p3
+            self._bounding_lines[2].p2.copy(),  # p4
         ]
-        self.bounding_lines[0].p1.x = p1[0]
-        self.bounding_lines[0].p1.y = p1[1]
-        self.bounding_lines[0].p2.x = p2[0]
-        self.bounding_lines[0].p2.y = p2[1]
+        self._bounding_lines[0].p1.x = p1[0]
+        self._bounding_lines[0].p1.y = p1[1]
+        self._bounding_lines[0].p2.x = p2[0]
+        self._bounding_lines[0].p2.y = p2[1]
 
-        self.bounding_lines[1].p1.x = p2[0]
-        self.bounding_lines[1].p1.y = p2[1]
-        self.bounding_lines[1].p2.x = p3[0]
-        self.bounding_lines[1].p2.y = p3[1]
+        self._bounding_lines[1].p1.x = p2[0]
+        self._bounding_lines[1].p1.y = p2[1]
+        self._bounding_lines[1].p2.x = p3[0]
+        self._bounding_lines[1].p2.y = p3[1]
 
-        self.bounding_lines[2].p1.x = p3[0]
-        self.bounding_lines[2].p1.y = p3[1]
-        self.bounding_lines[2].p2.x = p4[0]
-        self.bounding_lines[2].p2.y = p4[1]
+        self._bounding_lines[2].p1.x = p3[0]
+        self._bounding_lines[2].p1.y = p3[1]
+        self._bounding_lines[2].p2.x = p4[0]
+        self._bounding_lines[2].p2.y = p4[1]
 
-        self.bounding_lines[3].p1.x = p4[0]
-        self.bounding_lines[3].p1.y = p4[1]
-        self.bounding_lines[3].p2.x = p1[0]
-        self.bounding_lines[3].p2.y = p1[1]
+        self._bounding_lines[3].p1.x = p4[0]
+        self._bounding_lines[3].p1.y = p4[1]
+        self._bounding_lines[3].p2.x = p1[0]
+        self._bounding_lines[3].p2.y = p1[1]
 
     def _deltav(self, tv, v, maxv, ramp, time_step):
         # max change occurs in how long:
@@ -814,13 +814,13 @@ class Robot:
 
         # check to see if collision
         # bounding box:
-        p1, p2, p3, p4 = self.compute_boundingbox(px, py, pa)
+        p1, p2, p3, p4 = self._compute_boundingbox(px, py, pa)
         # Set wall bounding boxes for collision detection:
-        self.update_boundingbox(p1, p2, p3, p4)
+        self._update_boundingbox(p1, p2, p3, p4)
 
         self.stalled = False
         # if intersection, can't move:
-        for wall in self.world.walls:
+        for wall in self.world._walls:
             if wall.robot is self:  # if yourself, don't check for collision
                 continue
             for line in wall.lines:
@@ -844,7 +844,7 @@ class Robot:
             self.y = py
             self.a = pa
         else:
-            self.restore_boundingbox()
+            self._restore_boundingbox()
             # Adjust actual velocity
             self.va = 0
             self.vx = 0
@@ -862,7 +862,7 @@ class Robot:
         """
         Update the robot, and devices.
         """
-        self.init_boundingbox()
+        self._init_boundingbox()
 
         if self.world.debug and draw_list is not None:
             draw_list.append(("strokeStyle", (Color(255), 1)))
@@ -870,10 +870,10 @@ class Robot:
                 (
                     "draw_line",
                     (
-                        self.bounding_lines[0].p1.x,
-                        self.bounding_lines[0].p1.y,
-                        self.bounding_lines[0].p2.x,
-                        self.bounding_lines[0].p2.y,
+                        self._bounding_lines[0].p1.x,
+                        self._bounding_lines[0].p1.y,
+                        self._bounding_lines[0].p2.x,
+                        self._bounding_lines[0].p2.y,
                     ),
                 )
             )
@@ -882,10 +882,10 @@ class Robot:
                 (
                     "draw_line",
                     (
-                        self.bounding_lines[1].p1.x,
-                        self.bounding_lines[1].p1.y,
-                        self.bounding_lines[1].p2.x,
-                        self.bounding_lines[1].p2.y,
+                        self._bounding_lines[1].p1.x,
+                        self._bounding_lines[1].p1.y,
+                        self._bounding_lines[1].p2.x,
+                        self._bounding_lines[1].p2.y,
                     ),
                 )
             )
@@ -894,10 +894,10 @@ class Robot:
                 (
                     "draw_line",
                     (
-                        self.bounding_lines[2].p1.x,
-                        self.bounding_lines[2].p1.y,
-                        self.bounding_lines[2].p2.x,
-                        self.bounding_lines[2].p2.y,
+                        self._bounding_lines[2].p1.x,
+                        self._bounding_lines[2].p1.y,
+                        self._bounding_lines[2].p2.x,
+                        self._bounding_lines[2].p2.y,
                     ),
                 )
             )
@@ -906,10 +906,10 @@ class Robot:
                 (
                     "draw_line",
                     (
-                        self.bounding_lines[3].p1.x,
-                        self.bounding_lines[3].p1.y,
-                        self.bounding_lines[3].p2.x,
-                        self.bounding_lines[3].p2.y,
+                        self._bounding_lines[3].p1.x,
+                        self._bounding_lines[3].p1.y,
+                        self._bounding_lines[3].p2.x,
+                        self._bounding_lines[3].p2.y,
                     ),
                 )
             )
@@ -919,7 +919,7 @@ class Robot:
             device.update(draw_list)
 
         # Update recording info:
-        if self.world.recording:
+        if self.world._recording:
             if len(self.pen_trace) > 0:
                 # color of pen:
                 if self.pen_trace[-1][1][0] != self.pen[0]:
@@ -935,10 +935,10 @@ class Robot:
                 self.pen_trace[:] = [(self.world.time, self.pen)]
 
         # Alter world:
-        self.update_ground_image(self.world.time)
+        self._update_ground_image(self.world.time)
         return
 
-    def get_current_text(self, time):
+    def _get_current_text(self, time):
         """
         Get the text for the specific time.
         """
@@ -950,7 +950,7 @@ class Robot:
                 if curr_time <= time:
                     return curr_text
 
-    def get_current_pen_color(self, time):
+    def _get_current_pen_color(self, time):
         # FIXME: rewrite as binary search
         if len(self.pen_trace) > 0:
             # find the last color that is after time
@@ -960,8 +960,8 @@ class Robot:
                 if data[0] <= time:
                     return data
 
-    def update_ground_image(self, world_time):
-        data = self.get_current_pen_color(world_time)
+    def _update_ground_image(self, world_time):
+        data = self._get_current_pen_color(world_time)
         # time, (color, radius)
         if data is not None and data[1][0] is not None:
             self.world.set_ground_color_at(self.x, self.y, data[1])
@@ -1018,7 +1018,7 @@ class Robot:
 
         backend.popMatrix()
 
-        text = self.get_current_text(self.world.time)
+        text = self._get_current_text(self.world.time)
         if text:
             backend.set_fill_style(Color(255))
             pad = 10

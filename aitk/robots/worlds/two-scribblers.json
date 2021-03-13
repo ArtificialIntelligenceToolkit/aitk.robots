@@ -50,11 +50,11 @@
                 {
                     "angle": 30,
                     "class": "Camera",
-                    "colorsFadeWithDistance": 0.9,
+                    "colorsFadeWithDistance": 1.0,
                     "height": 32,
                     "reflectGround": true,
                     "reflectSky": false,
-                    "sizeFadeWithDistance": 1,
+                    "sizeFadeWithDistance": 0.8,
                     "width": 64
                 }, 
                 {
@@ -148,11 +148,11 @@
                 {
                     "angle": 30,
                     "class": "Camera",
-                    "colorsFadeWithDistance": 0.9,
+                    "colorsFadeWithDistance": 1.0,
                     "height": 32,
                     "reflectGround": true,
                     "reflectSky": false,
-                    "sizeFadeWithDistance": 1,
+                    "sizeFadeWithDistance": 0.8,
                     "width": 64
                 }, 
                 {

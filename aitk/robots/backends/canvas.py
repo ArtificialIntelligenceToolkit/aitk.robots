@@ -38,7 +38,7 @@ class CanvasBackend(Canvas, Backend):
 
     def get_dynamic_throttle(self, world):
         # A proxy to figure out how much to throttle
-        return world.complexity * 0.005
+        return world._complexity * 0.005
 
     def get_image(self, time):
         """

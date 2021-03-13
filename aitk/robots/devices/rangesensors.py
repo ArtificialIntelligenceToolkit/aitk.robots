@@ -83,7 +83,7 @@ class RangeSensor:
                 title=title,
                 labels=["Name:", "Reading:", "Distance:"],
             )
-            self.robot.world.watchers.append(self._watcher)
+            self.robot.world._watchers.append(self._watcher)
         return self._watcher.widget
 
     def from_json(self, config):

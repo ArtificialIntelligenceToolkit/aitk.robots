@@ -67,7 +67,7 @@ class LightSensor:
             self.dist_from_center,
             self.robot.a + self.dir_from_center + math.pi / 2,
         )
-        for bulb in self.robot.world.bulbs:  # for each light source:
+        for bulb in self.robot.world._bulbs:  # for each light source:
             x, y, z, brightness, light_color = (  # noqa: F841
                 bulb.x,
                 bulb.y,
@@ -124,7 +124,7 @@ class LightSensor:
             self._watcher = AttributesWatcher(
                 self, "name", "value", title=title, labels=["Name:", "Light:"]
             )
-            self.robot.world.watchers.append(self._watcher)
+            self.robot.world._watchers.append(self._watcher)
 
         return self._watcher.widget
 

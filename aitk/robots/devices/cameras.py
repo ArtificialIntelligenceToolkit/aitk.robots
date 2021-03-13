@@ -26,8 +26,8 @@ class Camera:
         width=64,
         height=32,
         angle=30,
-        colorsFadeWithDistance=0.9,
-        sizeFadeWithDistance=1.0,
+        colorsFadeWithDistance=1.0,
+        sizeFadeWithDistance=0.8,
         reflectGround=True,
         reflectSky=False,
         max_range=1000,
@@ -154,7 +154,7 @@ class Camera:
 
         if self._watcher is None:
             self._watcher = CameraWatcher(self, **kwargs)
-            self.robot.world.watchers.append(self._watcher)
+            self.robot.world._watchers.append(self._watcher)
             return self._watcher.get_widget()
         else:
             return self._watcher.get_widget(**kwargs)
@@ -246,7 +246,7 @@ class Camera:
         return float("inf")
 
     def get_ground_color(self, area, i, j):
-        if self.robot.world.ground_image is not None and area is not None:
+        if self.robot.world._ground_image is not None and area is not None:
             # i is width ray (camera width),
             # j is distance (height of camera/2, 64 to 128)
             dist = round(
@@ -283,8 +283,8 @@ class Camera:
             if (0 <= x < (self.robot.world.width - 1) * self.robot.world.scale) and (
                 0 <= y < (self.robot.world.height - 1) * self.robot.world.scale
             ):
-                # c = Color(*self.robot.world.ground_image_pixels[(x, y)])
-                # self.robot.world.ground_image_pixels[(x, y)] = (0, 0, 0)
+                # c = Color(*self.robot.world._ground_image_pixels[(x, y)])
+                # self.robot.world._ground_image_pixels[(x, y)] = (0, 0, 0)
                 # return c
 
                 sum = Color(0)
@@ -292,8 +292,8 @@ class Camera:
                 # Need more sampling as distance increases:
                 for j in range(self.samples):
                     try:
-                        c = Color(*self.robot.world.ground_image_pixels[(x + j, y)])
-                        # self.robot.world.ground_image_pixels[(x + j, y)] = (0, 0, 0)
+                        c = Color(*self.robot.world._ground_image_pixels[(x + j, y)])
+                        # self.robot.world._ground_image_pixels[(x + j, y)] = (0, 0, 0)
                         count += 1
                     except Exception:
                         continue
@@ -315,7 +315,7 @@ class Camera:
 
         # Lazy; only get the data when we need it:
         self._update()
-        if self.robot.world.ground_image is not None:
+        if self.robot.world._ground_image is not None:
             area = list(self._get_visible_area())
         else:
             area = None
@@ -691,7 +691,7 @@ class GroundCamera(Camera):
             self.robot.x * self.robot.world.scale,
             self.robot.y * self.robot.world.scale,
         )
-        rotated_image = self.robot.world.ground_image.rotate(
+        rotated_image = self.robot.world._ground_image.rotate(
             (self.robot.a - math.pi / 4 * 6) * (ONE80_OVER_PI), center=center,
         )
         left = center[0] - self.cameraShape[0] // 2

@@ -68,8 +68,6 @@ class Camera:
             "samples": samples,
         }
         self._watcher = None
-        self._viewport = None
-        self.use_viewport = False
         self.robot = None
         self.initialize()
         self.from_json(config)
@@ -93,20 +91,6 @@ class Camera:
 
     def reset(self):
         self.hits = [[] for i in range(self.cameraShape[0])]
-        if self.use_viewport:
-            self._viewport = [None for i in range(self.cameraShape[0])]
-            start_pos = rotate_around(0, 0, 10, -self.angle/2)
-            stop_pos = rotate_around(0, 0, 10, self.angle/2)
-
-            # Break into steps:
-            dx = (start_pos[0] - stop_pos[0]) / (self.cameraShape[0] - 1)
-            dy = (start_pos[1] - stop_pos[1]) / (self.cameraShape[0] - 1)
-            for i in range(self.cameraShape[0]):
-                x = start_pos[0] - i * dx
-                y = start_pos[1] - i * dy
-                self._viewport[i] = math.atan2(-x, y)
-        else:
-            self._viewport = None
 
     def from_json(self, config):
         if "width" in config:
@@ -210,25 +194,14 @@ class Camera:
         # Update timestamp:
         self.time = self.robot.world.time
 
-        # Not a wide angle lens:
-        if self.use_viewport:
-            for i in range(self.cameraShape[0]):
-                self.hits[i] = self.robot.cast_ray(
-                    self.robot.x,
-                    self.robot.y,
-                    -self._viewport[i] - self.robot.a,
-                    self.max_range,
-                )
-        else:
-            # Just cast rays by angular steps:
-            for i in range(self.cameraShape[0]):
-                angle = i / self.cameraShape[0] * self.angle - self.angle / 2
-                self.hits[i] = self.robot.cast_ray(
-                    self.robot.x,
-                    self.robot.y,
-                    PI_OVER_2 - self.robot.a - angle,
-                    self.max_range,
-                )
+        for i in range(self.cameraShape[0]):
+            angle = i / self.cameraShape[0] * self.angle - self.angle / 2
+            self.hits[i] = self.robot.cast_ray(
+                self.robot.x,
+                self.robot.y,
+                PI_OVER_2 - self.robot.a - angle,
+                self.max_range,
+            )
 
 
     def draw(self, backend):
@@ -360,10 +333,11 @@ class Camera:
             high = None
             hcolor = None
             if hit:
-                if self.use_viewport:
+                if self.angle < PI_OVER_2:
+                    # Orthoginal distance to camera:
                     angle = hit.angle
                     hit_distance = abs(hit.distance * math.sin(angle))
-                else: # perspective
+                else:
                     hit_distance = hit.distance
 
                 distance_ratio = 1.0 - hit_distance / size
@@ -425,7 +399,8 @@ class Camera:
                 if hit.distance > closest_wall_dist:
                     # Behind this wall
                     break
-                if self.use_viewport:
+
+                if self.angle < PI_OVER_2:
                     angle = hit.angle
                     hit_distance = abs(hit.distance * math.sin(angle))
                 else: # perspective
@@ -548,7 +523,6 @@ class Camera:
         # given in degrees
         # save in radians
         # scale = min(max(angle / 6.0, 0.0), 1.0)
-        self.use_viewport = (angle < 180)
         self.angle = angle * PI_OVER_180
         # self.sizeFadeWithDistance = scale
         self.reset()

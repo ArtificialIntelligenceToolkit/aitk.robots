@@ -97,13 +97,17 @@ class Watcher:
 
 
 class RobotWatcher(Watcher):
-    def __init__(self, robot, size=100, show_robot=True):
+    def __init__(self, robot, size=100, show_robot=True, attributes="all"):
         super().__init__()
         self.robot = robot
         self.size = size
         self.show_robot = show_robot
         self.map = {}
-        self.attrs = ["name", "x", "y", "a", "stalled", "tvx", "tva", "state"]
+        self.all_attrs = ["name", "x", "y", "a", "stalled", "tvx", "tva", "state"]
+        if attributes == "all":
+            self.visible = self.all_attrs[:]
+        else:
+            self.visible = attributes[:]
         self.labels = [
             "Name:",
             "X:",
@@ -114,7 +118,7 @@ class RobotWatcher(Watcher):
             "Rotate vel:",
             "State:",
         ]
-        widget = make_attr_widget(self.robot, self.map, None, self.attrs, self.labels)
+        widget = make_attr_widget(self.robot, self.map, None, self.all_attrs, self.labels)
         self.image = Image(layout=Layout(
             width="-webkit-fill-available",
             height="auto",
@@ -128,15 +132,23 @@ class RobotWatcher(Watcher):
         self.update()
         self.draw()
 
-    def set_arguments(self, size=None, show_robot=None):
+    def set_arguments(self, size=None, show_robot=None, attributes=None):
         if size is not None:
             self.size = size
         if show_robot is not None:
             self.show_robot = show_robot
-        if not self.show_robot:
-            self.image.layout.display = "none"
-        else:
-            self.image.layout.display = "block"
+
+        if show_robot is not None:
+            if not self.show_robot:
+                self.image.layout.display = "none"
+            else:
+                self.image.layout.display = "block"
+
+        if attributes is not None:
+            if attributes == "all":
+                self.visible = self.all_attrs[:]
+            else:
+                self.visible = attributes[:]
 
     def draw(self):
         if self.robot.world is None:
@@ -146,13 +158,18 @@ class RobotWatcher(Watcher):
         if self.show_robot:
             image = self.robot.get_image(size=self.size)
             self.image.value = image_to_png(image)
-        for i in range(len(self.attrs)):
-            attr = getattr(self.robot, self.attrs[i])
+        for i in range(len(self.all_attrs)):
+            attr_name = self.all_attrs[i]
+            attr = getattr(self.robot, attr_name)
             if isinstance(attr, dict):
                 string = json.dumps(attr, sort_keys=True, indent=2)
             else:
                 string = str(attr)
-            self.map[self.labels[i]].value = string
+            if attr_name in self.visible:
+                self.map[self.labels[i]].value = string
+                self.map[self.labels[i]].layout.display = "flex"
+            else:
+                self.map[self.labels[i]].layout.display = "none"
 
     def update(self):
         pass
@@ -162,11 +179,15 @@ class RobotWatcher(Watcher):
 
 
 class AttributesWatcher(Watcher):
-    def __init__(self, obj, *attrs, title=None, labels=None):
+    def __init__(self, obj, *attrs, title=None, labels=None, attributes="all"):
         super().__init__()
         self.obj = obj
         self.map = {}
-        self.attrs = attrs
+        self.all_attrs = attrs
+        if attributes == "all":
+            self.visible = self.all_attrs[:]
+        else:
+            self.visible = attributes[:]
         self.title = title
         self.labels = labels
         if self.labels is None:
@@ -176,8 +197,29 @@ class AttributesWatcher(Watcher):
         self.draw()
 
     def draw(self):
-        for i in range(len(self.attrs)):
-            self.map[self.labels[i]].value = str(getattr(self.obj, self.attrs[i]))
+        for i in range(len(self.all_attrs)):
+            attr_name = self.all_attrs[i]
+            attr = getattr(self.obj, attr_name)
+            if isinstance(attr, dict):
+                string = json.dumps(attr, sort_keys=True, indent=2)
+            else:
+                string = str(attr)
+            if attr_name in self.visible:
+                self.map[self.labels[i]].value = string
+                self.map[self.labels[i]].layout.display = "flex"
+            else:
+                self.map[self.labels[i]].layout.display = "none"
+
+    def set_arguments(self, title=None, attributes=None):
+        if title is not None:
+            self.title = title
+            self.widget.children[0].value = title
+
+        if attributes is not None:
+            if attributes == "all":
+                self.visible = self.all_attrs[:]
+            else:
+                self.visible = attributes[:]
 
     def update(self):
         pass

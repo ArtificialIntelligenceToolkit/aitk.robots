@@ -295,35 +295,47 @@ class Robot:
                 )
             print("  " + ("-" * 25))
 
-    def get_widget(self, size=100, show_robot=True):
+    def get_widget(self, size=None, show_robot=None, attributes=None):
         """
         Get the robot widget.
 
         Args:
             * size: (int) size in pixels around robot
             * show_robot: (bool) show picture of robot
+            * attributes: (list) items to include, or "all"
         """
         from .watchers import RobotWatcher
 
         if self._watcher is None:
+            size = size if size is not None else 100
+            show_robot = show_robot if show_robot is not None else True
+            attributes = attributes if attributes is not None else "all"
             self._watcher = RobotWatcher(self, size=size,
-                                         show_robot=show_robot)
+                                         show_robot=show_robot,
+                                         attributes=attributes)
             self.world._watchers.append(self._watcher)
         else:
             self._watcher.set_arguments(size=size,
-                                        show_robot=show_robot)
+                                        show_robot=show_robot,
+                                        attributes=attributes)
+            self._watcher.draw()
 
         return self._watcher.get_widget()
 
-    def watch(self, size=100, show_robot=True):
+    def watch(self, size=None, show_robot=None, attributes=None):
         """
         Watch the robot stats with live updates.
 
         Args:
             * size: (int) size in pixels around robot
             * show_robot: (bool) show picture of robot
+            * attributes: (list) items to include, or "all"
         """
-        widget = self.get_widget(size=size, show_robot=show_robot)
+        widget = self.get_widget(
+            size=size,
+            show_robot=show_robot,
+            attributes=attributes,
+        )
         display(widget)
 
     def get_image(self, size=100):
@@ -1023,7 +1035,7 @@ class Robot:
             backend.set_fill_style(Color(255))
             pad = 10
             box_pad = 5
-            width = self.world.backend.char_width * len(text)
+            width = self.world._backend.char_width * len(text)
             height = 20
             if self.x - pad - width < 0:
                 side = 1  # put on right
@@ -1053,7 +1065,7 @@ class Robot:
                     backend.text(
                         text,
                         self.x + (pad + box_pad),
-                        self.y - self.world.backend.char_height - box_pad,
+                        self.y - self.world._backend.char_height - box_pad,
                     )
             else:  # left
                 if half == 1:  # bottom
@@ -1062,7 +1074,7 @@ class Robot:
                     backend.text(
                         text,
                         self.x - pad - width - box_pad,
-                        self.y - self.world.backend.char_height - box_pad,
+                        self.y - self.world._backend.char_height - box_pad,
                     )
 
 

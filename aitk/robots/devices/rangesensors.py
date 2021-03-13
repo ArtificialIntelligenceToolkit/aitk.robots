@@ -67,7 +67,7 @@ class RangeSensor:
         widget = self.get_widget(title=title)
         return display(widget)
 
-    def get_widget(self, title="Range Sensor:"):
+    def get_widget(self, title=None, attributes=None):
         from ..watchers import AttributesWatcher
 
         if self.robot is None or self.robot.world is None:
@@ -75,6 +75,8 @@ class RangeSensor:
             return None
 
         if self._watcher is None:
+            title = title if title is not None else "Range Sensor:"
+            attributes = attributes if attributes is not None else "all"
             self._watcher = AttributesWatcher(
                 self,
                 "name",
@@ -82,8 +84,12 @@ class RangeSensor:
                 "distance",
                 title=title,
                 labels=["Name:", "Reading:", "Distance:"],
+                attributes=attributes,
             )
             self.robot.world._watchers.append(self._watcher)
+        else:
+            self._watcher.set_arguments(title=title, attributes=attributes)
+            self._watcher.update()
         return self._watcher.widget
 
     def from_json(self, config):

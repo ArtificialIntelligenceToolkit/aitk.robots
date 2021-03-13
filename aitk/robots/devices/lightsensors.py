@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
-# *************************************
+# ************************************************************
 # aitk.robots: Python robot simulator
 #
-# Copyright (c) 2020 Calysto Developers
+# Copyright (c) 2021 AITK Developers
 #
 # https://github.com/ArtificialIntelligenceToolkit/aitk.robots
-#
-# *************************************
+# ************************************************************
 
 import math
 
-from ..colors import PURPLE, YELLOW
+from ..colors import PURPLE, YELLOW, BLACK
 from ..utils import distance, rotate_around
 
 
@@ -100,6 +99,7 @@ class LightSensor:
                     draw_list.append(("draw_line", (x, y, p[0], p[1]), {}))
 
     def draw(self, backend):
+        backend.set_stroke_style(BLACK)
         backend.set_fill_style(YELLOW)
         backend.draw_circle(self.position[0], self.position[1], 2)
 

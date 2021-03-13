@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-# *************************************
+# ************************************************************
 # aitk.robots: Python robot simulator
 #
-# Copyright (c) 2020 Calysto Developers
+# Copyright (c) 2021 AITK Developers
 #
 # https://github.com/ArtificialIntelligenceToolkit/aitk.robots
-#
-# *************************************
+# ************************************************************
 
 import math
 import os
@@ -48,6 +47,9 @@ class Wall:
     """
 
     def __init__(self, color, robot, *lines):
+        """
+        Create a wall consisting of one or more lines.
+        """
         self.color = color
         self.robot = robot
         self.lines = lines
@@ -62,6 +64,9 @@ class Bulb:
     """
 
     def __init__(self, color, x, y, z, brightness):
+        """
+        Create a lightbulb.
+        """
         self.color = Color(color)
         self.x = x
         self.y = y
@@ -227,7 +232,14 @@ class World:
     def __repr__(self):
         return "<World width=%r, height=%r>" % (self.width, self.height)
 
-    def get_image(self, index=None, size=100, format=None):
+    def get_image(self, index=None, size=100):
+        """
+        Get a PIL image of the world, or of a robot.
+
+        Args:
+            index: (str or int, optional) - index of robot
+            size: (int, optional) - size of robot picture
+        """
         try:
             picture = self._backend.get_image(self.time)
         except RuntimeError:
@@ -251,7 +263,11 @@ class World:
 
     def display(self, index=None, size=100):
         """
-        Take a picture of the world, or of a robot.
+        Display a picture of the world, or of a robot.
+
+        Args:
+            index: (str or int, optional) - index of robot
+            size: (int, optional) - size of robot picture
         """
         picture = self.get_image(index=index, size=size)
         display(picture)
@@ -282,16 +298,6 @@ class World:
         """
         return self.robots[item]
 
-    def switch_backend(self, backend):
-        """
-        Switch graphic backends. Valid choices are:
-            * "jupyter"
-            * "svg"
-            * "debug"
-        """
-        self._backend = make_backend(self.width, self.height, self.scale)
-        self._backend.update_dimensions(self.width, self.height, self.scale)
-
     def _initialize(self):
         """
         Sets the default values.
@@ -319,6 +325,7 @@ class World:
         self._ground_image_pixels = None
         self._walls = []
         self._bulbs = []
+        self._bulb_rings = 7 # rings around bulb light
         self._complexity = 0
 
     def reset(self):
@@ -1013,6 +1020,19 @@ class World:
             else:
                 self._backend.set_fill(self.ground_color)
                 self._backend.draw_rect(0, 0, self.width, self.height)
+
+            ## Draw bulbs:
+            for bulb in self._bulbs:
+                color = bulb.color
+                self._backend.line_width = 0
+                self._backend.noStroke()
+                for i in range(self._bulb_rings):
+                    radius = (self._bulb_rings - i) * 2
+                    color.alpha = (i + 1)/self._bulb_rings * 255
+                    self._backend.set_fill_style(color)
+                    self._backend.draw_circle(bulb.x, bulb.y, bulb.brightness * radius)
+                self._backend.line_width = 1
+
             ## Draw walls:
             for wall in self._walls:
                 if len(wall.lines) >= 1 and wall.robot is None:
@@ -1025,13 +1045,6 @@ class World:
                         self._backend.vertex(line.p2.x, line.p2.y)
 
                     self._backend.endShape()
-
-            ## Draw bulbs:
-            for bulb in self._bulbs:
-                c = bulb.color
-                self._backend.noStroke()
-                self._backend.set_fill(c)
-                self._backend.draw_circle(bulb.x, bulb.y, bulb.brightness * 5)
 
             ## Draw borders:
             for wall in self._walls:

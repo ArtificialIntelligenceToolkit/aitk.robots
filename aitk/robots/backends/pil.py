@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-# *************************************
+# ************************************************************
 # aitk.robots: Python robot simulator
 #
-# Copyright (c) 2020 Calysto Developers
+# Copyright (c) 2021 AITK Developers
 #
 # https://github.com/ArtificialIntelligenceToolkit/aitk.robots
-#
-# *************************************
+# ************************************************************
 
 import io
 import math
@@ -198,7 +197,7 @@ class PILBackend(Backend):
         self.draw.polygon(
             (p1x, p1y, p2x, p2y, p3x, p3y, p4x, p4y),
             fill=self.get_style("fill"),
-            outline=self.get_style("outline"),
+            outline=self.get_style("stroke"),
         )
 
     def draw_ellipse(self, x, y, radiusX, radiusY):
@@ -218,6 +217,7 @@ class PILBackend(Backend):
                 (minx, miny, maxx, maxy),
                 fill=self.get_style("fill"),
                 outline=self.get_style("stroke"),
+                width=self.get_line_width(),
             )
         else:
             self.draw_arc(x, y, radiusX, radiusY, 0, math.pi * 2, 12)

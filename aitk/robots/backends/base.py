@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-# *************************************
+# ************************************************************
 # aitk.robots: Python robot simulator
 #
-# Copyright (c) 2020 Calysto Developers
+# Copyright (c) 2021 AITK Developers
 #
 # https://github.com/ArtificialIntelligenceToolkit/aitk.robots
-#
-# *************************************
+# ************************************************************
 
 import math
 
@@ -135,7 +134,7 @@ class Backend:
         self.stroke()
 
     def noStroke(self):
-        self.set_stroke_style(BLACK)
+        self.stroke_style = None
 
     def set_fill(self, color):
         if color is not None:

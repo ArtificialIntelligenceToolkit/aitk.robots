@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-# *************************************
+# ************************************************************
 # aitk.robots: Python robot simulator
 #
-# Copyright (c) 2020 Calysto Developers
+# Copyright (c) 2021 AITK Developers
 #
 # https://github.com/ArtificialIntelligenceToolkit/aitk.robots
-#
-# *************************************
+# ************************************************************
 
 import importlib
 import math
@@ -1007,7 +1006,7 @@ class Robot:
             if self.stalled:
                 backend.strokeStyle(Color(255), 1)
             else:
-                backend.noStroke()
+                backend.strokeStyle(Color(0), 1)
 
             if color is None:
                 backend.set_fill(self.color)

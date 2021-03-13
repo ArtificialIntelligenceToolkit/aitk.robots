@@ -26,7 +26,7 @@ TWO_PI = math.pi * 2
 
 try:
     from IPython.display import display
-except ImportException:
+except ImportError:
     display = print
 
 def degrees_to_world(degrees):

@@ -39,13 +39,13 @@ class LightSensor:
 
     def from_json(self, config):
         valid_keys = set([
-            "position", "name"
+            "position", "name", "class"
         ])
         config_keys = set(list(config.keys()))
         extra_keys = config_keys - valid_keys
 
         if len(extra_keys) > 0:
-            raise TypeError("invalid key(s) for rangesensor config: %r" % extra_keys)
+            raise TypeError("invalid key(s) for lightsensor config: %r" % extra_keys)
 
         if "name" in config:
             self.name = config["name"]

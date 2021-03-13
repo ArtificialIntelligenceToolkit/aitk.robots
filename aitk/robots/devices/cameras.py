@@ -95,7 +95,7 @@ class Camera:
         valid_keys = set([
             "width", "name", "height", "colorsFadeWithDistance",
             "sizeFadeWithDistance", "reflectGround", "reflectSky",
-            "a", "max_range", "samples", "position",
+            "a", "max_range", "samples", "position", "class"
         ])
         config_keys = set(list(config.keys()))
         extra_keys = config_keys - valid_keys

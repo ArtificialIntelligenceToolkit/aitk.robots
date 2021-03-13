@@ -57,7 +57,7 @@
             "devices": 
             [
                 {
-                    "angle": 30,
+                    "a": 30,
                     "class": "Camera",
                     "colorsFadeWithDistance": 0.9,
                     "height": 32,

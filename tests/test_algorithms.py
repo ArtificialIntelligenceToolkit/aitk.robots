@@ -19,12 +19,12 @@ def test_AvoidObstacles():
     robot = aitk.robots.Scribbler(x=50, y=100, a=0)
     robot.add_device(
         aitk.robots.RangeSensor(
-            position=(6, -6), width=57.3, max=20, angle=90, name="left-ir"
+            position=(6, -6), width=57.3, max=20, a=90, name="left-ir"
         )
     )
     robot.add_device(
         aitk.robots.RangeSensor(
-            position=(6, 6), width=57.3, max=20, angle=90, name="right-ir"
+            position=(6, 6), width=57.3, max=20, a=90, name="right-ir"
         )
     )
     world.add_robot(robot)
@@ -71,9 +71,9 @@ def test_AvoidObstacles():
     world.seconds(20, [avoid], show=False, show_progress=False, quiet=True)
 
     assert (robot.x, robot.y, robot.a) == (
-        24.074561524568203,
-        146.0688331276382,
-        4.695530995059226,
+        66.81695517040795,
+        86.31424688270995,
+        9.189646003293854,
     )
 
 

@@ -48,7 +48,7 @@
             "devices": 
             [
                 {
-                    "angle": 30,
+                    "a": 30,
                     "class": "Camera",
                     "colorsFadeWithDistance": 1.0,
                     "height": 32,
@@ -146,7 +146,7 @@
             "devices": 
             [
                 {
-                    "angle": 30,
+                    "a": 30,
                     "class": "Camera",
                     "colorsFadeWithDistance": 1.0,
                     "height": 32,

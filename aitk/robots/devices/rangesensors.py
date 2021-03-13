@@ -92,6 +92,15 @@ class RangeSensor:
         return self._watcher.widget
 
     def from_json(self, config):
+        valid_keys = set([
+            "position", "a", "max", "width", "name", "class"
+        ])
+        config_keys = set(list(config.keys()))
+        extra_keys = config_keys - valid_keys
+
+        if len(extra_keys) > 0:
+            raise TypeError("invalid key(s) for rangesensor config: %r" % extra_keys)
+
         if "position" in config:
             self.position = config["position"]
             # Get location of sensor, doesn't change once position is set:

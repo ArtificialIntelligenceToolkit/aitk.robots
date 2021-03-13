@@ -25,6 +25,11 @@ PI_OVER_2 = math.pi / 2
 ONE80_OVER_PI = 180 / math.pi
 TWO_PI = math.pi * 2
 
+try:
+    from IPython.display import display
+except ImportException:
+    display = print
+
 def degrees_to_world(degrees):
     return ((TWO_PI - (degrees * PI_OVER_180)) % TWO_PI)
 

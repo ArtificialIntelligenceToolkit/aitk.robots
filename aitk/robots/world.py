@@ -404,7 +404,7 @@ class World:
             # FIXME: raise if lengths don't match
             if i < len(self._robots):  # already a robot; let's reuse it:
                 robot = self._robots[i]
-                robot.initialize()
+                robot._initialize()
                 robot.from_json(robotConfig)
             else:
                 robot = Robot(**robotConfig)

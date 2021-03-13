@@ -11,6 +11,7 @@
 import aitk.robots
 from aitk.robots import Color, Robot, Scribbler, World
 
+from PIL import Image
 
 def test_robot():
     robot = Robot()
@@ -77,3 +78,16 @@ def test_robot_pen():
     pixels = world.get_ground_color_at(x, y, 1)
     assert len(pixels) == 3 ** 2
     assert pixels == [Color("blue").to_tuple() for i in range(9)]
+
+def test_display_functions():
+    robot = Scribbler()
+    world = World()
+    world.add_robot(robot)
+
+    image = robot.get_image()
+    robot.display()
+    widget = robot.get_widget()
+    robot.watch()
+
+    assert isinstance(image, Image.Image)
+    assert widget is not None

@@ -78,7 +78,7 @@ class Watcher:
 
     def _inject_css(self):
         css = HTML("<style>img.pixelated {image-rendering: pixelated;}</style>")
-        display(css)        
+        display(css)
 
     def watch(self, **kwargs):
         """
@@ -115,17 +115,28 @@ class RobotWatcher(Watcher):
             "State:",
         ]
         widget = make_attr_widget(self.robot, self.map, None, self.attrs, self.labels)
-        if self.show_robot:
-            image = Image(layout=Layout(
-                width="-webkit-fill-available",
-                height="auto",
-            ))
-            image.add_class("pixelated")
-            widget.children = [image] + list(widget.children)
+        self.image = Image(layout=Layout(
+            width="-webkit-fill-available",
+            height="auto",
+        ))
+        self.image.add_class("pixelated")
+        if not self.show_robot:
+            self.image.layout.display = "none"
+        widget.children = [self.image] + list(widget.children)
 
         self.widget = widget
         self.update()
         self.draw()
+
+    def set_arguments(self, size=None, show_robot=None):
+        if size is not None:
+            self.size = size
+        if show_robot is not None:
+            self.show_robot = show_robot
+        if not self.show_robot:
+            self.image.layout.display = "none"
+        else:
+            self.image.layout.display = "block"
 
     def draw(self):
         if self.robot.world is None:
@@ -133,26 +144,8 @@ class RobotWatcher(Watcher):
             return
 
         if self.show_robot:
-            picture = self.robot.world.display(format="image")
-            start_x = round(
-                max(self.robot.x * self.robot.world.scale - self.size / 2, 0)
-            )
-            start_y = round(
-                max(self.robot.y * self.robot.world.scale - self.size / 2, 0)
-            )
-            rectangle = (
-                start_x,
-                start_y,
-                min(
-                    start_x + self.size, self.robot.world.width * self.robot.world.scale
-                ),
-                min(
-                    start_y + self.size,
-                    self.robot.world.height * self.robot.world.scale,
-                ),
-            )
-            picture = picture.crop(rectangle)
-            self.widget.children[0].value = image_to_png(picture)
+            image = self.robot.get_image(size=self.size)
+            self.image.value = image_to_png(image)
         for i in range(len(self.attrs)):
             attr = getattr(self.robot, self.attrs[i])
             if isinstance(attr, dict):

@@ -11,6 +11,7 @@
 import math
 
 from ..utils import (
+    display,
     Color,
     arange,
     distance,
@@ -73,15 +74,16 @@ class RangeSensor:
             print("ERROR: can't watch until added to robot, and robot is in world")
             return None
 
-        self._watcher = AttributesWatcher(
-            self,
-            "name",
-            "reading",
-            "distance",
-            title=title,
-            labels=["Name:", "Reading:", "Distance:"],
-        )
-        self.robot.world.watchers.append(self._watcher)
+        if self._watcher is None:
+            self._watcher = AttributesWatcher(
+                self,
+                "name",
+                "reading",
+                "distance",
+                title=title,
+                labels=["Name:", "Reading:", "Distance:"],
+            )
+            self.robot.world.watchers.append(self._watcher)
         return self._watcher.widget
 
     def from_json(self, config):

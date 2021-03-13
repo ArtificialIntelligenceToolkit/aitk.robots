@@ -15,6 +15,7 @@ import re
 from .datasets import get_dataset
 from .hit import Hit
 from .utils import (
+    display,
     Color,
     Line,
     Point,
@@ -29,7 +30,6 @@ from .utils import (
     TWO_PI,
     world_to_degrees,
 )
-
 
 class Robot:
     """
@@ -51,6 +51,7 @@ class Robot:
         """
         Base robot class. You'll need to define a body.
         """
+        # Get the args:
         config = {
             "x": x,
             "y": y,
@@ -61,35 +62,11 @@ class Robot:
             "height": height,
             "max_trace_length": max_trace_length,
         }
-        for item in [
-            "state",
-            "va",
-            "vx",
-            "vy",
-            "tva",
-            "tvx",
-            "tvy",
-            "va_max",
-            "vx_max",
-            "vy_max",
-            "va_ramp",
-            "vx_ramp",
-            "vy_ramp",
-            "image_data",
-            "body",
-            "devices",
-        ]:
-            arg = kwargs.pop(item, None)
-            if arg is not None:
-                config[item] = arg
-        if len(kwargs) != 0:
-            raise AttributeError(
-                "unknown arguments for Robot: %s" % list(kwargs.keys())
-            )
-
+        # Update from the kwargs:
+        config.update(kwargs)
         self.world = None
         self._devices = []
-        self.initialize()
+        self._initialize()
         self.from_json(config)
 
     def __getitem__(self, item):
@@ -149,7 +126,7 @@ class Robot:
                 round(self.va, 2),
             )
 
-    def initialize(self):
+    def _initialize(self):
         """
         Initialize the robot properties.
         """
@@ -193,6 +170,7 @@ class Robot:
         self.get_dataset_image = None
         self.boundingbox = []
         self.radius = 0.0
+        self._watcher = None
         self.init_boundingbox()
 
     def from_json(self, config):
@@ -200,6 +178,18 @@ class Robot:
         Load a robot from a JSON config dict.
         """
         DEVICES = importlib.import_module("aitk.robots.devices")
+        valid_keys = set([
+            "name", "state", "do_trace", "va", "vx", "vy",
+            "tva", "tvx", "tvy", "x", "y", "a", "va_max",
+            "vx_max", "vy_max", "va_ramp", "vx_ramp", "vy_ramp",
+            "image_data", "height", "color", "max_trace_length",
+            "body", "devices",
+        ])
+        config_keys = set(list(config.keys()))
+        extra_keys = config_keys - valid_keys
+
+        if len(extra_keys) > 0:
+            raise TypeError("invalid key(s) for robot config: %r" % extra_keys)
 
         if "name" in config:
             self.name = config["name"]
@@ -305,21 +295,9 @@ class Robot:
                 )
             print("  " + ("-" * 25))
 
-    def plot(
-        self, function, x_label="x", y_label="y", title=None,
-    ):
-        from .plots import Plot
-
-        if title is None:
-            title = "%r Robot" % self.name
-
-        plot = Plot(self, function, x_label, y_label, title)
-        self.world.watchers.append(plot)
-        return plot
-
     def get_widget(self, size=100, show_robot=True):
         """
-        Watch the robot stats with live updates.
+        Get the robot widget.
 
         Args:
             * size: (int) size in pixels around robot
@@ -327,12 +305,17 @@ class Robot:
         """
         from .watchers import RobotWatcher
 
-        robot_watcher = RobotWatcher(self, size=size, show_robot=show_robot)
-        self.world.watchers.append(robot_watcher)
-        # Return the widget:
-        return robot_watcher.get_widget()
+        if self._watcher is None:
+            self._watcher = RobotWatcher(self, size=size,
+                                         show_robot=show_robot)
+            self.world.watchers.append(self._watcher)
+        else:
+            self._watcher.set_arguments(size=size,
+                                        show_robot=show_robot)
 
-    def display(self, size=100, show_robot=True):
+        return self._watcher.get_widget()
+
+    def watch(self, size=100, show_robot=True):
         """
         Watch the robot stats with live updates.
 
@@ -340,12 +323,43 @@ class Robot:
             * size: (int) size in pixels around robot
             * show_robot: (bool) show picture of robot
         """
-        from .watchers import RobotWatcher
+        widget = self.get_widget(size=size, show_robot=show_robot)
+        display(widget)
 
-        robot_watcher = RobotWatcher(self, size=size, show_robot=show_robot)
-        self.world.watchers.append(robot_watcher)
-        # Display the widget:
-        display(robot_watcher.get_widget())
+    def get_image(self, size=100):
+        """
+        Get an image of the robot.
+
+        Args:
+            * size: (int) size in pixels around robot
+        """
+        picture = self.world.get_image()
+        start_x = round(
+            max(self.x * self.world.scale - size / 2, 0)
+        )
+        start_y = round(
+            max(self.y * self.world.scale - size / 2, 0)
+        )
+        rectangle = (
+            start_x,
+            start_y,
+            min(
+                start_x + size, self.world.width * self.world.scale
+            ),
+            min(
+                start_y + size,
+                self.world.height * self.world.scale,
+            ),
+        )
+        picture = picture.crop(rectangle)
+        return picture
+
+    def display(self, size=100):
+        """
+        Display the robot's image.
+        """
+        image = self.get_image(size=size)
+        display(image)
 
     def set_max_trace_length(self, seconds):
         """
@@ -606,7 +620,7 @@ class Robot:
         """
         return self.max_trace_length
 
-    def get_image(self, degrees):
+    def get_image_3d(self, degrees):
         """
         Return the 3D image in the proper angle.
         """
@@ -705,19 +719,22 @@ class Robot:
 
     def compute_boundingbox(self, px, py, pa):
         # Compute position in real world with respect to x, y, a:
-        min_x, min_y, max_x, max_y = self.boundingbox
-        ps = []
-        for x, y in [
-            (min_x, max_y),  # 4
-            (min_x, min_y),  # 1
-            (max_x, min_y),  # 2
-            (max_x, max_y),  # 3
-        ]:
-            dist = distance(0, 0, x, y)
-            angle = math.atan2(-x, y)
-            p = rotate_around(px, py, dist, pa + angle + PI_OVER_2)
-            ps.append(p)
-        return ps
+        if len(self.boundingbox) == 4:
+            min_x, min_y, max_x, max_y = self.boundingbox
+            ps = []
+            for x, y in [
+                (min_x, max_y),  # 4
+                (min_x, min_y),  # 1
+                (max_x, min_y),  # 2
+                (max_x, max_y),  # 3
+            ]:
+                dist = distance(0, 0, x, y)
+                angle = math.atan2(-x, y)
+                p = rotate_around(px, py, dist, pa + angle + PI_OVER_2)
+                ps.append(p)
+            return ps
+        else:
+            raise ValueError("robot %r does not have a body" % self.name)
 
     def reset(self):
         """
@@ -1133,27 +1150,10 @@ class Scribbler(Robot):
             "height": height,
             "max_trace_length": max_trace_length,
         }
-        for item in [
-            "state",
-            "va",
-            "vx",
-            "vy",
-            "tva",
-            "tvx",
-            "tvy",
-            "va_max",
-            "vx_max",
-            "vy_max",
-            "va_ramp",
-            "vx_ramp",
-            "vy_ramp",
-            "image_data",
-            "body",
-            "devices",
-        ]:
-            arg = kwargs.pop(item, None)
-            if arg is not None:
-                config[item] = arg
+        # First, get Scribbler defaults:
         defaults = SCRIBBLER_CONFIG.copy()
+        # Then update from args:
         defaults.update(config)
+        # Then update from kwargs:
+        defaults.update(kwargs)
         super().__init__(**defaults)

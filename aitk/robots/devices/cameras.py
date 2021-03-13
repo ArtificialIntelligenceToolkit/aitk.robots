@@ -11,6 +11,7 @@
 import math
 
 from ..utils import (
+    display,
     Color,
     PI_OVER_180,
     PI_OVER_2,
@@ -328,6 +329,10 @@ class Camera:
 
         return self.robot.world.ground_color
 
+    def display(self, type="color"):
+        image = self.get_image(type=type)
+        display(image)
+
     def get_image(self, type="color"):
         try:
             from PIL import Image
@@ -476,7 +481,7 @@ class Camera:
                     + data["robot"].a
                 )
                 degrees = round(radians * ONE80_OVER_PI)
-                picture = data["robot"].get_image(degrees)  # degrees
+                picture = data["robot"].get_image_3d(degrees)  # degrees
                 x1, y1 = data["min_x"], data["min_y"]  # noqa: F841
                 x2, y2 = data["max_x"], data["max_y"]
                 try:  # like too small
@@ -705,7 +710,7 @@ class GroundCamera(Camera):
         backend.draw_line(right, lower, left, lower)
         backend.draw_line(left, lower, left, upper)
 
-    def get_image(self):
+    def get_image(self, type=None):
         # FIXME: would be faster to trim image down
         # before rotating
         center = (

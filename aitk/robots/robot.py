@@ -965,7 +965,7 @@ class Robot:
         if len(self.pen_trace) > 0:
             # find the last color that is after time
             if len(self.pen_trace) == 1:
-                return data
+                return self.pen_trace[0]
             for index in range(-1, -len(self.pen_trace) - 1, -1):
                 data = self.pen_trace[index]
                 # time, (color, radius)

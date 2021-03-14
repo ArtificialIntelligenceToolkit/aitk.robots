@@ -615,10 +615,18 @@ class World:
         self.draw()  # force
 
     def watch(self, width=None, height=None):
+        # Force update:
+        self.update(show=True)
+        # Force draw:
+        self.draw()
         widget = self.get_widget(width, height)
         display(widget)
 
     def get_widget(self, width=None, height=None):
+        if isinstance(width, int):
+            width = "%spx" % width
+        if isinstance(height, int):
+            height = "%spx" % height
         self._step_display = "notebook"
         self.update()
         return self._backend.get_widget(width=width, height=height)

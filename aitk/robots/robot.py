@@ -115,14 +115,11 @@ class Robot:
         if self.world is None:
             return "<Robot(name=%r, unconnected)>" % (self.name,)
         else:
-            return "<Robot(name=%r, position=%s,%s,%s v=%s,%s,%s)>" % (
+            return "<Robot(name=%r, x=%s, y=%s, a=%s)>" % (
                 self.name,
                 round(self.x, 2),
                 round(self.y, 2),
                 round(world_to_degrees(self.a), 2),
-                round(self.vx, 2),
-                round(self.vy, 2),
-                round(self.va, 2),
             )
 
     def _initialize(self):
@@ -956,6 +953,8 @@ class Robot:
         # FIXME: rewrite as binary search
         if len(self.text_trace) > 0:
             # find the last text that is after time
+            if len(self.text_trace) == 1:
+                return self.text_trace[0][1]
             for index in range(-1, -len(self.text_trace) - 1, -1):
                 curr_time, curr_text = self.text_trace[index]
                 if curr_time <= time:
@@ -965,6 +964,8 @@ class Robot:
         # FIXME: rewrite as binary search
         if len(self.pen_trace) > 0:
             # find the last color that is after time
+            if len(self.pen_trace) == 1:
+                return data
             for index in range(-1, -len(self.pen_trace) - 1, -1):
                 data = self.pen_trace[index]
                 # time, (color, radius)

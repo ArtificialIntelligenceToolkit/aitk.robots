@@ -13,6 +13,7 @@ import math
 from PIL import Image, ImageDraw, ImageFont
 
 from ..utils import Color, arange, distance
+from ..colors import BLACK, WHITE
 from .base import Backend
 
 DEFAULT_FONT_NAMES = (
@@ -53,9 +54,10 @@ class PILBackend(Backend):
             self.mode = "RGB"
             kwargs["mode"] = "RGB"
 
+        self.status_height = 11
         self.image = Image.new(
             self.mode,
-            size=(int(self.width * self._scale), int(self.height * self._scale)),
+            size=(int(self.width * self._scale), int((self.height  + self.status_height) * self._scale)),
         )
         self.draw = ImageDraw.Draw(self.image, "RGBA")
         if self.font:
@@ -74,6 +76,17 @@ class PILBackend(Backend):
             self.initialize(**self.kwargs)
 
     # Canvas API:
+
+    def draw_status(self, text):
+        self.set_fill(BLACK)
+        self.draw_rect(
+            0,
+            self.height,
+            self.width,
+            self.status_height,
+        )
+        self.set_fill(WHITE)
+        self.text(text, 1, self.height - 0.5)
 
     def to_png(self):
         fp = io.BytesIO()

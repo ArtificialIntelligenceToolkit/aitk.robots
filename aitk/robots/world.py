@@ -1073,20 +1073,7 @@ class World:
                 robot.draw(self._backend)
 
             text = format_time(self.time)
-            pos_x, pos_y = (
-                self._backend.char_height,
-                self.height - self._backend.char_height * 2,
-            )
-
-            self._backend.set_fill(BLACK_50)
-            self._backend.draw_rect(
-                pos_x,
-                pos_y,
-                self._backend.char_width * len(text),
-                self._backend.char_height + 1,
-            )
-            self._backend.set_fill(WHITE)
-            self._backend.text(text, pos_x, pos_y)
+            self._backend.draw_status(text)
 
             for command, args, kwargs in self._draw_list:
                 self._backend.do_command(command, *args, **kwargs)

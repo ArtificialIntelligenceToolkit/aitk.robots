@@ -9,7 +9,7 @@
 # *************************************
 
 import aitk.robots
-from aitk.robots import World
+from aitk.robots import World, Scribbler
 
 
 def test_world():
@@ -30,3 +30,24 @@ def test_soccer_world():
     picture = robot["camera"].get_image()
 
     assert picture.size == (64, 32)
+
+def test_recorder():
+    world = World()
+    robot = Scribbler()
+    world.add_robot(robot)
+
+    recorder = world.record()
+
+    def wander(robot):
+        if robot.get_time() == 0:
+            robot.forward(1)
+        if robot.stalled:
+            robot.reverse()
+
+    world.seconds(60, [wander], real_time=False)
+
+    recorder.watch()
+
+    widget = recorder.get_widget()
+
+    recorder.goto(0)

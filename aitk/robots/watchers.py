@@ -379,7 +379,7 @@ class Recorder(Watcher):
             # In case it changed:
             self.world._reset_ground_image()
         self.world.update()
-        picture = self.world.display(format="image")
+        picture = self.world.get_image()
         return picture
 
     def save_as(

@@ -634,6 +634,13 @@ class Robot:
         """
         return self.get_dataset_image(self.image_data[1], degrees)
 
+    def get_time(self):
+        """
+        Get the clock time of the world.
+        """
+        if self.world:
+            return self.world.time
+
     def get_pose(self):
         """
         Get the pose of the robot (x, y, a) where a (direction)

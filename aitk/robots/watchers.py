@@ -390,7 +390,6 @@ class Recorder(Watcher):
         step=0.1,
         loop=0,
         duration=100,
-        embed=False,
         mp4=True,
     ):
         """
@@ -418,9 +417,7 @@ class Recorder(Watcher):
                 loop=loop,
                 duration=duration,
             )
-            if not mp4:
-                return display_Image(url=movie_name + ".gif", embed=embed)
-            else:
+            if mp4:
                 if os.path.exists(movie_name + ".mp4"):
                     os.remove(movie_name + ".mp4")
                 retval = os.system(
@@ -428,15 +425,9 @@ class Recorder(Watcher):
                         movie_name
                     )
                 )
-                if retval == 0:
-                    return display_HTML(
-                        """<video src='{0}.mp4' controls style="width: 100%"></video>""".format(
-                            movie_name
-                        )
-                    )
-                else:
+                if retval != 0:
                     print(
-                        "error running ffmpeg; see console log message or use mp4=False"
+                        "created animated gif, but error running ffmpeg; see console log message or use mp4=False in the future"
                     )
 
 

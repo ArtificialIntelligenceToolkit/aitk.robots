@@ -502,7 +502,16 @@ class Robot:
         }
         return robot_json
 
-    def move(self, translate=None, rotate=None, quiet=False):
+    def motors(self, left, right):
+        """
+        A move function that takes desired motor values
+        and converts to trans and rotate.
+        """
+        trans = (right + left) / 2.0
+        rotate = (right - left) / 2.0
+        self.move(trans, rotate)
+
+    def move(self, translate, rotate):
         """
         Set the target translate and rotate velocities.
 
@@ -510,7 +519,7 @@ class Robot:
         """
         # values between -1 and 1
         # compute target velocities
-        if not quiet and self.world is not None:
+        if self.world is not None:
             if self.world.status != "running":
                 print("This world is not running")
         if translate is not None:
@@ -531,19 +540,23 @@ class Robot:
         """
         Set the target translate velocity.
 
-        Arg should be between -1 and 1.
+        Arg should be between 0 and 1, inclusive.
         """
-        # values between -1 and 1
-        self.tvx = round(translate * self.vx_max, 1)
+        if 0 <= translate <= 1:
+            self.tvx = round(translate * self.vx_max, 1)
+        else:
+            print("forward value is out of range; should be between 0 and 1, inclusive")
 
     def backward(self, translate):
         """
         Set the target translate velocity.
 
-        Arg should be between -1 and 1.
+        translate should be between 0 and 1, inclusive.
         """
-        # values between -1 and 1
-        self.tvx = round(-translate * self.vx_max, 1)
+        if 0 <= translate <= 1:
+            self.tvx = round(-translate * self.vx_max, 1)
+        else:
+            print("backward value is out of range; should be between 0 and 1, inclusive")
 
     def reverse(self):
         """
@@ -552,15 +565,6 @@ class Robot:
         """
         self.tvx = -self.tvx
         self.tva = -self.tva
-
-    def turn(self, rotate):
-        """
-        Set the target rotate velocity.
-
-        Arg should be between -1 and 1.
-        """
-        # values between -1 and 1
-        self.tva = rotate * self.va_max
 
     def rotate(self, rotate):
         """
@@ -797,7 +801,7 @@ class Robot:
         dv = maxv / spt  # change in one time step
         return min(max(tv - v, -dv), dv)  # keep in limit
 
-    def step(self, time_step):
+    def _step(self, time_step):
         """
         Have the robot make one step in time. Check to see if it hits
         any obstacles.
@@ -867,7 +871,7 @@ class Robot:
 
         # Devices:
         for device in self._devices:
-            device.step(time_step)
+            device._step(time_step)
 
         # Update history:
         if self.do_trace:

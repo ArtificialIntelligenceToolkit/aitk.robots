@@ -112,9 +112,9 @@ class LightSensor:
         backend.set_fill_style(YELLOW)
         backend.draw_circle(self.position[0], self.position[1], 2)
 
-    def get_reading(self):
+    def get_brightness(self):
         """
-        Get the light reading from the sensor.
+        Get the light brightness reading from the sensor.
         """
         return self.value
 

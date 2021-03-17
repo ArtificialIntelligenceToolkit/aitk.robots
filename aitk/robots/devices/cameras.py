@@ -24,7 +24,7 @@ class Camera:
         self,
         width=64,
         height=32,
-        a=30,
+        fov=30,
         colorsFadeWithDistance=1.0,
         sizeFadeWithDistance=0.8,
         reflectGround=True,
@@ -40,7 +40,7 @@ class Camera:
         Args:
             * width: (int) width of camera in pixels
             * height: (int) height of camera in pixels
-            * a: (number) width of camera field of view in degrees. Can be
+            * fov: (number) width of camera field of view in degrees. Can be
                 180 or even 360 for wide angle cameras.
             * colorsFadeWithDistance: (float) colors get darker
                 faster with larger value
@@ -57,7 +57,7 @@ class Camera:
         config = {
             "width": width,
             "height": height,
-            "a": a,
+            "fov": fov,
             "colorsFadeWithDistance": colorsFadeWithDistance,
             "sizeFadeWithDistance": sizeFadeWithDistance,
             "reflectGround": reflectGround,
@@ -95,7 +95,7 @@ class Camera:
         valid_keys = set([
             "width", "name", "height", "colorsFadeWithDistance",
             "sizeFadeWithDistance", "reflectGround", "reflectSky",
-            "a", "max_range", "samples", "position", "class"
+            "fov", "max_range", "samples", "position", "class"
         ])
         config_keys = set(list(config.keys()))
         extra_keys = config_keys - valid_keys
@@ -113,8 +113,8 @@ class Camera:
             self.reflectGround = config["reflectGround"]
         if "reflectSky" in config:
             self.reflectSky = config["reflectSky"]
-        if "a" in config:
-            self.set_fov(config["a"])  # degrees
+        if "fov" in config:
+            self.set_fov(config["fov"])  # degrees
         if "max_range" in config:
             self.max_range = config["max_range"]
         if "samples" in config:
@@ -133,7 +133,7 @@ class Camera:
             "sizeFadeWithDistance": self.sizeFadeWithDistance,
             "reflectGround": self.reflectGround,
             "reflectSky": self.reflectSky,
-            "a": self.a * ONE80_OVER_PI,  # save in degrees
+            "fov": self.fov * ONE80_OVER_PI,  # save in degrees
             "max_range": self.max_range,
             "samples": self.samples,
             "name": self.name,
@@ -141,11 +141,11 @@ class Camera:
         }
 
     def __repr__(self):
-        return "<Camera %r size=(%r,%r), a=%r>" % (
+        return "<Camera %r size=(%r,%r), fov=%r>" % (
             self.name,
             self.cameraShape[0],
             self.cameraShape[1],
-            round(self.a * ONE80_OVER_PI, 2),
+            round(self.fov * ONE80_OVER_PI, 2),
         )
 
     def watch(self, **kwargs):
@@ -178,7 +178,7 @@ class Camera:
         """
         step = 1
         all_points = []
-        for angle in [self.a / 2, -self.a / 2]:
+        for angle in [self.fov / 2, -self.fov / 2]:
             points = []
             dx, dy = rotate_around(0, 0, step, self.robot.a + angle)
             cx, cy = self.robot.x, self.robot.y
@@ -202,7 +202,7 @@ class Camera:
         self.time = self.robot.world.time
 
         for i in range(self.cameraShape[0]):
-            angle = i / self.cameraShape[0] * self.a - self.a / 2
+            angle = i / self.cameraShape[0] * self.fov - self.fov / 2
             self.hits[i] = self.robot.cast_ray(
                 self.robot.x,
                 self.robot.y,
@@ -223,26 +223,26 @@ class Camera:
         hits = self.robot.cast_ray(
             self.robot.x,
             self.robot.y,
-            PI_OVER_2 - self.robot.a + self.a / 2,
+            PI_OVER_2 - self.robot.a + self.fov / 2,
             self.max_range,
         )
         if hits:
-            p = rotate_around(0, 0, hits[-1].distance, -self.a / 2,)
+            p = rotate_around(0, 0, hits[-1].distance, -self.fov / 2,)
         else:
-            p = rotate_around(0, 0, self.max_range, -self.a / 2,)
+            p = rotate_around(0, 0, self.max_range, -self.fov / 2,)
         backend.draw_line(0, 0, p[0], p[1])
 
         # Note angle in sim world is opposite in graphics:
         hits = self.robot.cast_ray(
             self.robot.x,
             self.robot.y,
-            PI_OVER_2 - self.robot.a - self.a / 2,
+            PI_OVER_2 - self.robot.a - self.fov / 2,
             self.max_range,
         )
         if hits:
-            p = rotate_around(0, 0, hits[-1].distance, self.a / 2,)
+            p = rotate_around(0, 0, hits[-1].distance, self.fov / 2,)
         else:
-            p = rotate_around(0, 0, self.max_range, self.a / 2,)
+            p = rotate_around(0, 0, self.max_range, self.fov / 2,)
         backend.draw_line(0, 0, p[0], p[1])
 
     def find_closest_wall(self, hits):
@@ -340,7 +340,7 @@ class Camera:
             high = None
             hcolor = None
             if hit:
-                if self.a < PI_OVER_2:
+                if self.fov < PI_OVER_2:
                     # Orthoginal distance to camera:
                     angle = hit.angle
                     hit_distance = abs(hit.distance * math.sin(angle))
@@ -407,7 +407,7 @@ class Camera:
                     # Behind this wall
                     break
 
-                if self.a < PI_OVER_2:
+                if self.fov < PI_OVER_2:
                     angle = hit.angle
                     hit_distance = abs(hit.distance * math.sin(angle))
                 else: # perspective
@@ -520,6 +520,12 @@ class Camera:
                     )
         return points
 
+    def get_fov(self):
+        """
+        Get the field of view angle in degrees.
+        """
+        return self.fov * ONE80_OVER_PI
+
     def set_fov(self, angle):
         """
         Set the field of view angle in degrees of the camera.
@@ -530,7 +536,7 @@ class Camera:
         # given in degrees
         # save in radians
         # scale = min(max(angle / 6.0, 0.0), 1.0)
-        self.a = angle * PI_OVER_180
+        self.fov = angle * PI_OVER_180
         # self.sizeFadeWithDistance = scale
         self.reset()
 
@@ -545,15 +551,6 @@ class Camera:
         self.cameraShape[0] = width
         self.cameraShape[1] = height
         self.reset()
-
-    def set_angle(self, angle):
-        """
-        Set the field of view angle of the camera.
-
-        Args:
-            * angle: (number) angle in degrees of field of view
-        """
-        self.set_fov(angle)
 
     def set_max(self, max_range):
         """
@@ -610,12 +607,6 @@ class Camera:
         Get the height in pixels of the camera.
         """
         return self.cameraShape[1]
-
-    def get_angle(self):
-        """
-        Get the field of view angle in degrees.
-        """
-        return self.a * ONE80_OVER_PI
 
     def get_max(self):
         """

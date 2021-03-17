@@ -48,7 +48,7 @@
             "devices": 
             [
                 {
-                    "a": 30,
+                    "fov": 30,
                     "colorsFadeWithDistance": 1.0,
                     "height": 32,
                     "reflectGround": true,

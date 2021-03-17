@@ -57,7 +57,7 @@
             "devices": 
             [
                 {
-                    "a": 30,
+                    "fov": 30,
                     "class": "Camera",
                     "colorsFadeWithDistance": 0.9,
                     "height": 32,

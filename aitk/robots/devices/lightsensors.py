@@ -9,7 +9,7 @@
 
 import math
 
-from ..colors import PURPLE, YELLOW, BLACK
+from ..colors import PURPLE, WHITE, BLACK
 from ..utils import distance, rotate_around
 
 
@@ -108,8 +108,9 @@ class LightSensor:
                     draw_list.append(("draw_line", (x, y, p[0], p[1]), {}))
 
     def draw(self, backend):
+        backend.lineWidth(1)
         backend.set_stroke_style(BLACK)
-        backend.set_fill_style(YELLOW)
+        backend.set_fill_style(WHITE)
         backend.draw_circle(self.position[0], self.position[1], 2)
 
     def get_brightness(self):

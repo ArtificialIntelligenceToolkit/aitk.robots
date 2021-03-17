@@ -377,7 +377,7 @@ class Recorder(Watcher):
         self.world.time = time
         if self.world.time == 0:
             # In case it changed:
-            self.world.reset_ground_image()
+            self.world._reset_ground_image()
         self.world.update()
         picture = self.world.display(format="image")
         return picture

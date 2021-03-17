@@ -907,6 +907,8 @@ class World:
                     break
                 if function is not None:
                     if isinstance(function, (list, tuple)):
+                        if len(function) < len(self._robots):
+                            print("WARNING: you have not provided a controller function for every robot")
                         # Deterministically run robots round-robin:
                         stop = any(
                             [

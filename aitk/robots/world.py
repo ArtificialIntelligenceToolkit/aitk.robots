@@ -919,7 +919,7 @@ class World:
                         stop = function(self)
                     if stop:
                         break
-                self.step(time_step, show=show, real_time=real_time)
+                self._step(time_step, show=show, real_time=real_time)
 
         self.status = "stopped"
         stop_real_time = time.monotonic()
@@ -937,7 +937,7 @@ class World:
         # Proxy for how much drawing
         return sum([len(wall.lines) for wall in self._walls])
 
-    def step(self, time_step=None, show=True, real_time=True):
+    def _step(self, time_step=None, show=True, real_time=True):
         """
         Run the simulator for 1 step.
 
@@ -966,7 +966,7 @@ class World:
         time_step = time_step if time_step is not None else self.time_step
         start_time = time.monotonic()
         for robot in self._robots:
-            robot.step(time_step)
+            robot._step(time_step)
         self.time += time_step
         self.time = round(self.time, self._time_decimal_places)
         self.update(show)

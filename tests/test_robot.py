@@ -73,7 +73,7 @@ def test_robot_pen():
     assert pixels != [Color("blue").to_tuple() for i in range(9)]
 
     robot.pen_down("blue", 3)
-    world.step(real_time=False)
+    world._step(real_time=False)
 
     pixels = world.get_ground_color_at(x, y, 1)
     assert len(pixels) == 3 ** 2

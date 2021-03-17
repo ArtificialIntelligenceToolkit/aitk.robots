@@ -166,7 +166,7 @@ class Camera:
         else:
             return self._watcher.get_widget(**kwargs)
 
-    def step(self, time_step):
+    def _step(self, time_step):
         pass
 
     def _get_visible_area(self):

@@ -138,7 +138,7 @@ class RangeSensor:
             self.position,
         )
 
-    def step(self, time_step):
+    def _step(self, time_step):
         pass
 
     def update(self, draw_list=None):

@@ -209,8 +209,8 @@ def test_SeekLight():
     def seekLight(robot):
         left_ir = robot["left-ir"].get_distance()
         right_ir = robot["right-ir"].get_distance()
-        left_light = robot["left-light"].get_reading()
-        right_light = robot["right-light"].get_reading()
+        left_light = robot["left-light"].get_brightness()
+        right_light = robot["right-light"].get_brightness()
         total_light = left_light + right_light
         diff_light = left_light - right_light
         if total_light > 2.5:

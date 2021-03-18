@@ -14,8 +14,10 @@ from ..utils import (
     Color,
     PI_OVER_180,
     PI_OVER_2,
+    TWO_PI,
     ONE80_OVER_PI,
     rotate_around,
+    uniform_angle,
 )
 
 
@@ -446,12 +448,45 @@ class Camera:
                         pic_pixels[
                             i, self.cameraShape[1] - j - 1 - round(distance_to)
                         ] = hcolor.to_tuple()
+        self.show_bulbs(pic)
         self.show_obstacles(pic)
         return pic
+
+    def show_bulbs(self, image):
+        from PIL import ImageDraw
+
+        draw_list = []
+        for bulb in self.robot.world._bulbs:
+            # cast a ray, see if it hits this robot
+            # if so, we can see it
+            hits = self.robot.cast_ray(bulb.x, bulb.y, 0, self.max_range,
+                                       self.robot.x, self.robot.y)
+            if len(hits) == 0:
+                draw_list.append(bulb)
+
+        if len(draw_list) > 0:
+            drawing = ImageDraw.Draw(image, "RGBA")
+            for bulb in draw_list:
+                angle = uniform_angle(math.pi * 3/2 - math.atan2(self.robot.x - bulb.x,
+                                                                 self.robot.y - bulb.y))
+                min_angle = uniform_angle(self.robot.a - self.fov/2)
+                max_angle = uniform_angle(self.robot.a + self.fov/2)
+                if max_angle < min_angle:
+                    max_angle += TWO_PI
+                if min_angle < angle < max_angle:
+                    span = max_angle - min_angle
+                    x = int((angle - min_angle)/span * self.cameraShape[0])
+                    y = int(self.cameraShape[1] / 2)
+                    radius = 5
+                    color = bulb.color
+                    color.alpha = 128
+                    drawing.ellipse((x - radius, y - radius,
+                                     x + radius, y + radius), fill=color.to_tuple())
 
     def show_obstacles(self, image):
         # FIXME: show back to front
         # FIXME: how to show when partially behind wall?
+        # data = {"robot": obj.has_image(), "min_x", "min_y", "max_x", "max_y"}
         for data in self.obstacles.values():
             if data["robot"].has_image():
                 # the angle to me + offset for graphics + the robot angle:

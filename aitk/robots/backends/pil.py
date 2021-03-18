@@ -45,7 +45,7 @@ class PILBackend(Backend):
             except OSError:
                 continue
 
-        self.mode = kwargs.get("mode", "RGB")  # "RGBA" or "RGB"
+        self.mode = kwargs.get("mode", "RGBA")  # "RGBA" or "RGB"
         self.format = kwargs.get(
             "format", "jpeg"
         )  # "png", "gif", or "jpeg" # png,gif doesn't do opacity?!

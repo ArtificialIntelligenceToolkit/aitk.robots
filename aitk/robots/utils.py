@@ -29,6 +29,9 @@ try:
 except ImportError:
     display = print
 
+def uniform_angle(angle):
+    return angle % TWO_PI
+
 def degrees_to_world(degrees):
     return ((TWO_PI - (degrees * PI_OVER_180)) % TWO_PI)
 

@@ -883,6 +883,24 @@ class Robot:
         """
         Update the robot, and devices.
         """
+        # Wrapped worlds:
+        wrapped = False
+        if self.x < 0:
+            self.x = self.world.width
+            wrapped = True
+        elif self.x > self.world.width:
+            self.x = 0
+            wrapped = True
+        if self.y < 0:
+            self.y = self.world.height
+            wrapped = True
+        elif self.y > self.world.height:
+            self.y = 0
+            wrapped = True
+
+        if wrapped:
+            self.trace.append(None)
+
         self._init_boundingbox()
 
         if self.world.debug and draw_list is not None:
@@ -999,13 +1017,29 @@ class Robot:
             time_step = self.world.time_step if self.world is not None else 0.1
             max_trace_length = int(1.0 / time_step * self.max_trace_length)
 
-            backend.draw_lines(
-                [
-                    (point[0], point[1])
-                    for (point, direction) in self.trace[-max_trace_length:]
-                ],
-                stroke_style=self.trace_color,
-            )
+            data = self.trace[-max_trace_length:]
+
+            # None indicates a segment break
+            if all(data): # no segments
+                segments = [[(point[0], point[1]) for (point, direction) in data]]
+            else:
+                segments = []
+                current = []
+                for item in data:
+                    if item is None:
+                        segments.append(current)
+                        current = []
+                    else:
+                        point, direction = item
+                        current.append((point[0], point[1]))
+                if current:
+                    segments.append(current)
+
+            for segment in segments:
+                backend.draw_lines(
+                    segment,
+                    stroke_style=self.trace_color,
+                )
             self.trace = self.trace[-max_trace_length:]
 
         backend.pushMatrix()

@@ -54,7 +54,7 @@ class PILBackend(Backend):
             self.mode = "RGB"
             kwargs["mode"] = "RGB"
 
-        self.status_height = 11
+        self.status_height = 14
         self.image = Image.new(
             self.mode,
             size=(int(self.width * self._scale), int((self.height  + self.status_height) * self._scale)),
@@ -86,7 +86,7 @@ class PILBackend(Backend):
             self.status_height,
         )
         self.set_fill(WHITE)
-        self.text(text, 1, self.height - 0.5)
+        self.text(text, 1, self.height - 1)
 
     def to_png(self):
         fp = io.BytesIO()

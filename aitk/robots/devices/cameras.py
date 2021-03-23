@@ -10,6 +10,7 @@
 import math
 
 from ..utils import (
+    distance,
     display,
     Color,
     PI_OVER_180,
@@ -453,7 +454,7 @@ class Camera:
         return pic
 
     def show_bulbs(self, image):
-        from PIL import ImageDraw
+        from PIL import ImageDraw, Image
 
         draw_list = []
         for bulb in self.robot.world._bulbs:
@@ -465,7 +466,9 @@ class Camera:
                 draw_list.append(bulb)
 
         if len(draw_list) > 0:
-            drawing = ImageDraw.Draw(image, "RGBA")
+            layer = Image.new('RGBA', self.cameraShape, (0, 0, 0, 0))
+            drawing = ImageDraw.Draw(layer, "RGBA")
+            size = max(self.robot.world.width, self.robot.world.height)
             for bulb in draw_list:
                 angle = uniform_angle(math.pi * 3/2 - math.atan2(self.robot.x - bulb.x,
                                                                  self.robot.y - bulb.y))
@@ -476,12 +479,18 @@ class Camera:
                 if min_angle < angle < max_angle:
                     span = max_angle - min_angle
                     x = int((angle - min_angle)/span * self.cameraShape[0])
-                    y = int(self.cameraShape[1] / 2)
+                    hit_distance = distance(self.robot.x, self.robot.y, bulb.x, bulb.y)
+                    distance_ratio = 1.0 - hit_distance / size
+                    s = distance_ratio * self.sizeFadeWithDistance
+                    high = (1.0 - s) * self.cameraShape[1]
+                    y = (self.cameraShape[1] / 2) + high / 2
                     radius = 5
                     color = bulb.color
                     color.alpha = 128
                     drawing.ellipse((x - radius, y - radius,
-                                     x + radius, y + radius), fill=color.to_tuple())
+                                     x + radius, y + radius),
+                                    fill=color.to_tuple())
+            image.paste(Image.alpha_composite(image, layer))
 
     def show_obstacles(self, image):
         # FIXME: show back to front

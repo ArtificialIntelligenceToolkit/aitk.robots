@@ -406,8 +406,8 @@ class Camera:
             hits = [hit for hit in self.hits[i] if hit.height < 1.0]  # obstacles
             for hit in hits:
                 if hit.distance > closest_wall_dist:
-                    # Behind this wall
-                    break
+                    # Behind wall, try next
+                    continue
 
                 if self.fov < PI_OVER_2:
                     angle = hit.angle
@@ -415,10 +415,10 @@ class Camera:
                 else: # perspective
                     hit_distance = hit.distance
 
-                distance_ratio = 1.0 - hit_distance / size
+                distance_ratio = 4.0 - hit_distance / size
                 s = distance_ratio * self.sizeFadeWithDistance
                 sc = distance_ratio * self.colorsFadeWithDistance
-                distance_to = self.cameraShape[1] / 2 * (1.0 - sc)
+                distance_to = self.cameraShape[1] / 2 * (4.0 - sc)
                 # scribbler was 30, so 0.23 height ratio
                 # height is ratio, 0 to 1
                 height = round(hit.height * self.cameraShape[1] / 2.0 * s)

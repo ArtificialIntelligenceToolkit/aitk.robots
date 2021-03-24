@@ -1069,6 +1069,8 @@ class Robot:
                 backend.draw_ellipse(*args)
             elif shape_name == "circle":
                 backend.draw_circle(*args)
+            elif shape_name == "line":
+                backend.draw_line(*args)
 
             backend.noStroke()
 
@@ -1159,7 +1161,6 @@ SCRIBBLER_CONFIG = {
     ],
 }
 
-
 class Scribbler(Robot):
     def __init__(
         self,
@@ -1211,6 +1212,83 @@ class Scribbler(Robot):
         }
         # First, get Scribbler defaults:
         defaults = SCRIBBLER_CONFIG.copy()
+        # Then update from args:
+        defaults.update(config)
+        # Then update from kwargs:
+        defaults.update(kwargs)
+        super().__init__(**defaults)
+
+
+VEHICLE_CONFIG = {
+    "body": [
+        [
+            "polygon",
+            None,
+            [
+                [5, 3.25],
+                [5, -3.25],
+                [-5, -3.25],
+                [-5, 3.25],
+            ],
+        ],
+        ["rectangle", "black", [-6, -3.25 - 1.5, 2.75, 1.5]],
+        ["rectangle", "black", [-6, 3.25, 2.75, 1.5]],
+        ["line", "black", [5, 3, 8, 3]],
+        ["line", "black", [5,-3, 8,-3]],
+    ],
+}
+
+class Vehicle(Robot):
+    def __init__(
+        self,
+        x=0,
+        y=0,
+        a=0,
+        color="white",
+        name="Vickie",
+        do_trace=True,
+        height=0.25,
+        max_trace_length=10,
+        **kwargs
+    ):
+        """
+        A small little two-wheeled robot. x,y should fit in the world that
+        you will place the robot into (or use x=0, y=0 to put in a random place).
+
+        Args:
+            * x: (int) starting location in the horizontal direction. Leave 0 to
+                place in a random location.
+            * y: (int) starting location in the horizontal direction. Leave 0 to
+                place in a random location.
+            * a: (number) starting angle in degrees.
+            * color:
+            * name: (str) a name to give your robot
+            * do_trace: (bool) should the robot leave a trace?
+            * height: (number) height of robot (use number < 1)
+            * max_trace_length: (number) max length of trace, in seconds
+
+        Any of the other valid config settings can also be passed in, including:
+            * state: (dict) serializable memory for a robot
+            * va, vx, vy: (numbers) velocities
+            * tva, tvx, tvy: (numbers) target velocities
+            * va_max, vx_max, vy_max: (numbers) max velocities
+            * va_ramp, vx_ramp, vy_ramp: (numbers) linear accelerations
+            * image_data: ["dataset-name", index] to use a 3D set of images
+            * body: data structure that defines a robot body
+            * devices: list of serialized devices
+        """
+        config = {
+            "x": x,
+            "y": y,
+            "a": a, # degrees in config file
+            "color": color,
+            "name": name,
+            "do_trace": do_trace,
+            "height": height,
+            "max_trace_length": max_trace_length,
+        }
+        # First, get Scribbler defaults:
+        defaults = VEHICLE_CONFIG.copy()
         # Then update from args:
         defaults.update(config)
         # Then update from kwargs:

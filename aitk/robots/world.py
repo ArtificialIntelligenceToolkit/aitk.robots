@@ -668,18 +668,23 @@ class World:
         self._bulbs.append(bulb)
         self.update()  # request draw
 
-    def add_wall(self, color, x1, y1, x2, y2):
+    def add_wall(self, color, x1, y1, x2, y2, box=True):
         """
-        Add a box of walls.
+        Add a wall line or box of wall lines.
         """
         p1 = Point(x1, y1)
-        p2 = Point(x2, y1)
         p3 = Point(x2, y2)
-        p4 = Point(x1, y2)
-        ## Pairs of points make Line:
-        wall = Wall(
-            Color(color), None, Line(p1, p2), Line(p2, p3), Line(p3, p4), Line(p4, p1)
-        )
+        if box:
+            ## Pairs of points make Line:
+            p2 = Point(x2, y1)
+            p4 = Point(x1, y2)
+            wall = Wall(
+                Color(color), None, Line(p1, p2), Line(p2, p3), Line(p3, p4), Line(p4, p1)
+            )
+        else:
+            wall = Wall(
+                Color(color), None, Line(p1, p3)
+            )
         self._walls.append(wall)
         self._complexity = self._compute_complexity()
         self.update()  # request draw

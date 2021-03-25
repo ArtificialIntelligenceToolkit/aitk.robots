@@ -1016,6 +1016,9 @@ class World:
                     bulbs.append(device)
         return bulbs
 
+    def _get_light_sources(self):
+        return self._bulbs + self._get_robot_bulbs()
+
     def draw(self):
         """
         Force a redraw of the world.
@@ -1033,7 +1036,7 @@ class World:
                 self._backend.draw_rect(0, 0, self.width, self.height)
 
             ## Draw bulbs in world and on robots:
-            for bulb in self._bulbs + self._get_robot_bulbs():
+            for bulb in self._get_light_sources():
                 color = bulb.color
                 self._backend.line_width = 0
                 self._backend.noStroke()

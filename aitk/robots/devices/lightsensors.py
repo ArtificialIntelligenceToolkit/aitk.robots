@@ -75,7 +75,7 @@ class LightSensor:
             self.dist_from_center,
             self.robot.a + self.dir_from_center + math.pi / 2,
         )
-        for bulb in self.robot.world._bulbs:  # for each light source:
+        for bulb in self.robot.world._get_light_sources():  # for each light source:
             if bulb.robot is self.robot:
                 # You can't sense your own bulbs
                 continue
@@ -91,7 +91,7 @@ class LightSensor:
 
             angle = math.atan2(x - p[0], y - p[1])
             dist = distance(x, y, p[0], p[1])
-            hits = self.robot.cast_ray(p[0], p[1], angle, dist)
+            hits = self.robot.cast_ray(p[0], p[1], angle, dist, ignore_robot=bulb.robot)
             if self.robot.world.debug and draw_list is not None:
                 draw_list.append(("draw_circle", (p[0], p[1], 2), {}))
                 draw_list.append(("draw_circle", (x, y, 2), {}))

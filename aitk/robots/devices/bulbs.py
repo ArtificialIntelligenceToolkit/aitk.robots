@@ -17,7 +17,7 @@ class Bulb:
     Class representing lights in the world.
     """
 
-    def __init__(self, color, x=0, y=0, z=0, brightness=1, name=None):
+    def __init__(self, color, x=0, y=0, z=0, brightness=1, name=None, **kwargs):
         """
         Create a lightbulb.
         """
@@ -109,6 +109,7 @@ class Bulb:
             self.color = Color(config["color"])
         if "brightness" in config:
             self.brightness = config["brightness"]
+        self.initialize()
 
     def _step(self, time_step):
         pass
@@ -117,11 +118,8 @@ class Bulb:
         pass
 
     def draw(self, backend):
+        # World draws the lights? Pro: draws first
         pass
-        #backend.lineWidth(1)
-        #backend.set_stroke_style(BLACK)
-        #backend.set_fill_style(WHITE)
-        #backend.draw_circle(self.position[0], self.position[1], 2)
 
     def watch(self, title="Light Sensor:"):
         widget = self.get_widget(title=title)

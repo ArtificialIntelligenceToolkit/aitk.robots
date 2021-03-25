@@ -14,6 +14,7 @@ import re
 from .datasets import get_dataset
 from .hit import Hit
 from .utils import (
+    arange,
     display,
     Color,
     Line,
@@ -469,6 +470,33 @@ class Robot:
                 self.world.update()  # request draw
         else:
             raise Exception("Can't add the same device to a robot more than once.")
+
+    def add_device_ring(self, device_class, distance_from_center,
+                        start_degree, stop_degree, count, **kwargs):
+        """
+        Adds a ring of devices at a given distance from the center of
+        the robot.
+
+        Args:
+            device_class: a class or function that receives position,
+                a, and kwargs, and returns a device
+            distance_from_center: in CM
+            start_degree: angle of first device (0 points right)
+            stop_degree: angle of stop degree (counter clockwise)
+            count: number of sensors to add
+            kwargs: additional args to pass to device_class
+
+        Example:
+
+        ```python
+        >>> robot.add_device_ring(RangeSensor, 10, 0, 359, 6, width=20)
+        ```
+        """
+        span = stop_degree - start_degree
+        step_angle = span / count
+        for angle in arange(start_degree, stop_degree, step_angle):
+            x, y = rotate_around(0, 0, 7, -angle * PI_OVER_180)
+            self.add_device(device_class(position=(x, y), a=angle, **kwargs))
 
     def to_json(self):
         """

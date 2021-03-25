@@ -457,11 +457,16 @@ class Camera:
         from PIL import ImageDraw, Image
 
         draw_list = []
-        for bulb in self.robot.world._bulbs:
+        for bulb in self.robot.world._get_light_sources():
+            if bulb.robot is self.robot:
+                # You can't sense your own bulbs
+                continue
+
             # cast a ray, see if it hits this robot
             # if so, we can see it
+            # ignore boundary boxes around robots that contain the bulb
             hits = self.robot.cast_ray(bulb.x, bulb.y, 0, self.max_range,
-                                       self.robot.x, self.robot.y)
+                                       self.robot.x, self.robot.y, ignore_robot=bulb.robot)
             if len(hits) == 0:
                 draw_list.append(bulb)
 

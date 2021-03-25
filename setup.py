@@ -50,7 +50,7 @@ setup_args = dict(
     packages=setuptools.find_namespace_packages(include=['aitk.*']),
     package_data={"aitk.robots": ["worlds/*.json", "worlds/*.png"]},
     install_requires=["setuptools", "Pillow", "aitk.utils>=0.1.0"],
-    extras_require={"jupyter": ["ipywidgets", "IPython", "bqplot"]},
+    extras_require={"jupyter": ["ipywidgets", "IPython"]},
     python_requires=">=3.6",
     license="BSD-3-Clause",
     platforms="Linux, Mac OS X, Windows",

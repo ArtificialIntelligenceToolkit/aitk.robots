@@ -1017,7 +1017,7 @@ class World:
         return bulbs
 
     def _get_light_sources(self):
-        return self._bulbs + self._get_robot_bulbs()
+        return [bulb for bulb in (self._bulbs + self._get_robot_bulbs()) if bulb.state == "on"]
 
     def draw(self):
         """

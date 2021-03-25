@@ -22,6 +22,7 @@ class Bulb:
         Create a lightbulb.
         """
         self.color = Color(color)
+        self.state = "on"
         self._x = x
         self._y = y
         self._z = z
@@ -31,6 +32,12 @@ class Bulb:
         self._watcher = None
         self.robot = None
         self.initialize()
+
+    def on(self):
+        self.state = "on"
+
+    def off(self):
+        self.state = "off"
 
     @property
     def x(self):
@@ -81,6 +88,7 @@ class Bulb:
 
     def initialize(self):
         self.type = "bulb"
+        self.state = "on"
         self.dist_from_center = distance(0, 0, self._x, self._y)
         self.dir_from_center = math.atan2(-self._x, self._y)
 

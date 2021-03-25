@@ -20,6 +20,7 @@ from itertools import count
 from numbers import Number
 
 from .backends import make_backend
+from .devices import Bulb
 from .colors import BLACK_50, WHITE
 from .robot import Robot
 from .utils import (
@@ -56,33 +57,6 @@ class Wall:
 
     def __repr__(self):
         return "Wall(%r, %r, %r)" % (self.color, self.robot, self.lines)
-
-
-class Bulb:
-    """
-    Class representing lights in the world.
-    """
-
-    def __init__(self, color, x, y, z, brightness, name=None):
-        """
-        Create a lightbulb.
-        """
-        self.color = Color(color)
-        self.x = x
-        self.y = y
-        self.z = z
-        self.brightness = brightness
-        self.name = name if name is not None else "bulb"
-
-    def __repr__(self):
-        return "Bulb(color:%r, x:%r, y:%r, z:%r, brightness:%r, name:%r)" % (
-            self.color,
-            self.x,
-            self.y,
-            self.z,
-            self.brightness,
-            self.name,
-        )
 
 
 class List(Sequence):
@@ -229,9 +203,9 @@ class World:
         self._recording = False
         self.config = config.copy()
         self._initialize()  # default values
-        self.reset()  # from config
         self.robots = List(self._robots)
         self.bulbs = List(self._bulbs)
+        self.reset()  # from config
 
     def __repr__(self):
         return "<World width=%r, height=%r>" % (self.width, self.height)
@@ -339,7 +313,6 @@ class World:
         self._ground_image_pixels = None
         self._walls = []
         self._bulbs.clear()
-        self._bulb_rings = 7 # rings around bulb light
         self._complexity = 0
 
     def reset(self):
@@ -1035,6 +1008,14 @@ class World:
 
             self.draw()  # force
 
+    def _get_robot_bulbs(self):
+        bulbs = []
+        for robot in self.robots:
+            for device in robot._devices:
+                if device.type == "bulb":
+                    bulbs.append(device)
+        return bulbs
+
     def draw(self):
         """
         Force a redraw of the world.
@@ -1051,14 +1032,14 @@ class World:
                 self._backend.set_fill(self.ground_color)
                 self._backend.draw_rect(0, 0, self.width, self.height)
 
-            ## Draw bulbs:
-            for bulb in self._bulbs:
+            ## Draw bulbs in world and on robots:
+            for bulb in self._bulbs + self._get_robot_bulbs():
                 color = bulb.color
                 self._backend.line_width = 0
                 self._backend.noStroke()
-                for i in range(self._bulb_rings):
-                    radius = (self._bulb_rings - i) * 2
-                    color.alpha = (i + 1)/self._bulb_rings * 255
+                for i in range(bulb.draw_rings):
+                    radius = (bulb.draw_rings - i) * 2
+                    color.alpha = (i + 1)/bulb.draw_rings * 255
                     self._backend.set_fill_style(color)
                     self._backend.draw_circle(bulb.x, bulb.y, bulb.brightness * radius)
                 self._backend.line_width = 1

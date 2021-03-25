@@ -63,7 +63,7 @@ class Bulb:
     Class representing lights in the world.
     """
 
-    def __init__(self, color, x, y, z, brightness):
+    def __init__(self, color, x, y, z, brightness, name=None):
         """
         Create a lightbulb.
         """
@@ -72,27 +72,29 @@ class Bulb:
         self.y = y
         self.z = z
         self.brightness = brightness
+        self.name = name if name is not None else "bulb"
 
     def __repr__(self):
-        return "Bulb(color:%r, x:%r, y:%r, z:%r, brightness:%r)" % (
+        return "Bulb(color:%r, x:%r, y:%r, z:%r, brightness:%r, name:%r)" % (
             self.color,
             self.x,
             self.y,
             self.z,
             self.brightness,
+            self.name,
         )
 
 
-class RobotList(Sequence):
-    def __init__(self, world):
-        self.world = world
+class List(Sequence):
+    def __init__(self, list_object):
+        self.list_object = list_object
 
     def __getattr__(self, attr):
-        return getattr(self.world._robots, attr)
+        return getattr(self.list_object, attr)
 
     def __getitem__(self, item):
         if isinstance(item, int):
-            return self.world._robots[item]
+            return self.list_object[item]
         elif isinstance(item, str):
             name_map = {}  # mapping of base to count
             search_groups = re.match(r"(.*)-(\d*)", item)
@@ -106,33 +108,33 @@ class RobotList(Sequence):
             else:
                 search_name = item.lower()
                 search_index = 1
-            for robot in self.world._robots:
+            for item in self.list_object:
                 # update name_map
-                robot_name = robot.name.lower()
-                robot_index = None
-                if "-" in robot_name:
-                    robot_prefix, robot_index = robot_name.rsplit("-", 1)
-                    if robot_index.isdigit():
-                        robot_name = robot_prefix
-                        robot_index = int(robot_index)
+                name = item.name.lower()
+                index = None
+                if "-" in name:
+                    prefix, index = name.rsplit("-", 1)
+                    if index.isdigit():
+                        name = prefix
+                        index = int(index)
                     else:
-                        robot_index = 1
-                if robot_name not in name_map:
-                    name_map[robot_name] = 1
+                        index = 1
+                if name not in name_map:
+                    name_map[name] = 1
                 else:
-                    name_map[robot_name] += 1
-                if robot_index is None:
-                    robot_index = name_map[robot_name]
-                if search_name == robot_name and search_index == robot_index:
-                    return robot
+                    name_map[name] += 1
+                if index is None:
+                    index = name_map[name]
+                if search_name == name and search_index == index:
+                    return item
 
         return None
 
     def __len__(self):
-        return len(self.world._robots)
+        return len(self.list_object)
 
     def __repr__(self):
-        return repr(self.world._robots)
+        return repr(self.list_object)
 
 class CanvasCall:
     def __init__(self, canvas, command):
@@ -154,7 +156,7 @@ class Canvas:
 
 class World:
     """
-    The Jyrobot simulator world.
+    The aitk.robots simulator world.
     """
 
     def __init__(
@@ -173,7 +175,7 @@ class World:
         **kwargs
     ):
         """
-        The Jyrobot simulator world.
+        The aitk.robots simulator world.
 
         Args:
             * width: (int) width of world in pixels
@@ -222,12 +224,14 @@ class World:
         self.debug = False
         self._watchers = []
         self._robots = []
+        self._bulbs = []
         self._backend = None
         self._recording = False
         self.config = config.copy()
         self._initialize()  # default values
         self.reset()  # from config
-        self.robots = RobotList(self)
+        self.robots = List(self._robots)
+        self.bulbs = List(self._bulbs)
 
     def __repr__(self):
         return "<World width=%r, height=%r>" % (self.width, self.height)
@@ -298,6 +302,16 @@ class World:
         """
         return self.robots[item]
 
+    def get_bulb(self, item):
+        """
+        Get the bulb by name or index. Equivalent to
+        world.bulbs[item]
+
+        Args:
+            * item: (int or string) index or name of bulb
+        """
+        return self.bulbs[item]
+
     def _initialize(self):
         """
         Sets the default values.
@@ -324,7 +338,7 @@ class World:
         self._ground_image = None
         self._ground_image_pixels = None
         self._walls = []
-        self._bulbs = []
+        self._bulbs.clear()
         self._bulb_rings = 7 # rings around bulb light
         self._complexity = 0
 
@@ -660,11 +674,12 @@ class World:
     def clear_watchers(self):
         self._watchers[:] = []
 
-    def add_bulb(self, color, x, y, z, brightness):
+    def add_bulb(self, color, x, y, z, brightness, name=None):
         """
         Add a bulb to the world.
         """
-        bulb = Bulb(color, x, y, z, brightness)
+        name = name if name is not None else "bulb-%s" % (len(self._bulbs) + 1)
+        bulb = Bulb(color, x, y, z, brightness, name)
         self._bulbs.append(bulb)
         self.update()  # request draw
 

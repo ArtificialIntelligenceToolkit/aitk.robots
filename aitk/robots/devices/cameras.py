@@ -77,6 +77,7 @@ class Camera:
     def initialize(self):
         # FIXME: camera is fixed at (0,0) facing forward
         self.type = "camera"
+        self.bulbs_are_visible = True
         self.time = 0.0
         self.cameraShape = [64, 32]
         self.position = [0, 0]
@@ -449,7 +450,8 @@ class Camera:
                         pic_pixels[
                             i, self.cameraShape[1] - j - 1 - round(distance_to)
                         ] = hcolor.to_tuple()
-        self.show_bulbs(pic)
+        if self.bulbs_are_visible:
+            self.show_bulbs(pic)
         self.show_obstacles(pic)
         return pic
 
@@ -465,18 +467,19 @@ class Camera:
             # cast a ray, see if it hits this robot
             # if so, we can see it
             # ignore boundary boxes around robots that contain the bulb
-            hits = self.robot.cast_ray(bulb.x, bulb.y, 0, self.max_range,
+            bulb_x, bulb_y = bulb.get_position()
+            hits = self.robot.cast_ray(bulb_x, bulb_y, 0, self.max_range,
                                        self.robot.x, self.robot.y, ignore_robot=bulb.robot)
             if len(hits) == 0:
-                draw_list.append(bulb)
+                draw_list.append((bulb, bulb_x, bulb_y))
 
         if len(draw_list) > 0:
             layer = Image.new('RGBA', self.cameraShape, (0, 0, 0, 0))
             drawing = ImageDraw.Draw(layer, "RGBA")
             size = max(self.robot.world.width, self.robot.world.height)
-            for bulb in draw_list:
-                angle = uniform_angle(math.pi * 3/2 - math.atan2(self.robot.x - bulb.x,
-                                                                 self.robot.y - bulb.y))
+            for (bulb, bulb_x, bulb_y) in draw_list:
+                angle = uniform_angle(math.pi * 3/2 - math.atan2(self.robot.x - bulb_x,
+                                                                 self.robot.y - bulb_y))
                 min_angle = uniform_angle(self.robot.a - self.fov/2)
                 max_angle = uniform_angle(self.robot.a + self.fov/2)
                 if max_angle < min_angle:
@@ -484,7 +487,7 @@ class Camera:
                 if min_angle < angle < max_angle:
                     span = max_angle - min_angle
                     x = int((angle - min_angle)/span * self.cameraShape[0])
-                    hit_distance = distance(self.robot.x, self.robot.y, bulb.x, bulb.y)
+                    hit_distance = distance(self.robot.x, self.robot.y, bulb_x, bulb_y)
                     distance_ratio = 1.0 - hit_distance / size
                     s = distance_ratio * self.sizeFadeWithDistance
                     high = (1.0 - s) * self.cameraShape[1]

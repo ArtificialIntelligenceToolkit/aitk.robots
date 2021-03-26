@@ -1077,8 +1077,12 @@ class Robot:
         backend.translate(self.x, self.y)
         backend.rotate(self.a)
 
-        # body:
+        # Draw first:
+        for device in self._devices:
+            if device.type == "bulb":
+                device.draw(backend)
 
+        # body:
         for shape in self.body:
             shape_name, color, args = shape
 
@@ -1105,8 +1109,10 @@ class Robot:
 
             backend.noStroke()
 
+        # Draw on top of robot:
         for device in self._devices:
-            device.draw(backend)
+            if device.type != "bulb":
+                device.draw(backend)
 
         backend.popMatrix()
 

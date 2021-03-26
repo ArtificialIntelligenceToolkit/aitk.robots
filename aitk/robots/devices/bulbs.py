@@ -44,11 +44,15 @@ class Bulb:
         if self.robot is None:
             return self._x
         else:
-            x, y = rotate_around(self.robot.x,
-                                 self.robot.y,
-                                 self.dist_from_center,
-                                 self.robot.a + self.dir_from_center)
-            return x
+            if self.dist_from_center != 0:
+                x, y = rotate_around(0,
+                                     0,
+                                     self.dist_from_center,
+                                     self.robot.a + self.dir_from_center)
+                return x
+            else:
+                return 0
+
     @x.setter
     def x(self, value):
         self._x = value
@@ -58,11 +62,37 @@ class Bulb:
         if self.robot is None:
             return self._y
         else:
-            x, y = rotate_around(self.robot.x,
-                                 self.robot.y,
-                                 self.dist_from_center,
-                                 self.robot.a + self.dir_from_center)
-            return y
+            if self.dist_from_center != 0:
+                x, y = rotate_around(0,
+                                     0,
+                                     self.dist_from_center,
+                                     self.robot.a + self.dir_from_center)
+                return y
+            else:
+                return 0
+
+    def get_position(self, world=True):
+        if self.robot is None:
+            return self._x, self._y
+        else:
+            if world:
+                if self.dist_from_center != 0:
+                    x, y = rotate_around(self.robot.x,
+                                         self.robot.y,
+                                         self.dist_from_center,
+                                         self.robot.a + self.dir_from_center)
+                    return x, y
+                else:
+                    return self.robot.x, self.robot.y
+            else: # local to robot
+                if self.dist_from_center != 0:
+                    x, y = rotate_around(0,
+                                         0,
+                                         self.dist_from_center,
+                                         self.robot.a + self.dir_from_center)
+                    return x, y
+                else:
+                    return 0, 0
 
     @y.setter
     def y(self, value):
@@ -126,8 +156,16 @@ class Bulb:
         pass
 
     def draw(self, backend):
-        # World draws the lights? Pro: draws first
-        pass
+        color = self.color
+        backend.line_width = 0
+        backend.noStroke()
+        for i in range(self.draw_rings):
+            radius = (self.draw_rings - i) * 2
+            color.alpha = (i + 1)/self.draw_rings * 255
+            backend.set_fill_style(color)
+            x, y = self.get_position(world=False)
+            backend.draw_circle(self.x, self.y, self.brightness * radius)
+        backend.line_width = 1
 
     def watch(self, title="Light Sensor:"):
         widget = self.get_widget(title=title)

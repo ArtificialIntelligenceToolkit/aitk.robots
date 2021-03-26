@@ -1035,17 +1035,9 @@ class World:
                 self._backend.set_fill(self.ground_color)
                 self._backend.draw_rect(0, 0, self.width, self.height)
 
-            ## Draw bulbs in world and on robots:
-            for bulb in self._get_light_sources():
-                color = bulb.color
-                self._backend.line_width = 0
-                self._backend.noStroke()
-                for i in range(bulb.draw_rings):
-                    radius = (bulb.draw_rings - i) * 2
-                    color.alpha = (i + 1)/bulb.draw_rings * 255
-                    self._backend.set_fill_style(color)
-                    self._backend.draw_circle(bulb.x, bulb.y, bulb.brightness * radius)
-                self._backend.line_width = 1
+            ## Draw bulbs in world (not on robots):
+            for bulb in self._bulbs:
+                bulb.draw(self._backend)
 
             ## Draw walls:
             for wall in self._walls:

@@ -75,7 +75,7 @@ class LightSensor:
             self.dist_from_center,
             self.robot.a + self.dir_from_center + math.pi / 2,
         )
-        for bulb in self.robot.world._get_light_sources():  # for each light source:
+        for bulb in self.robot.world._get_light_sources(all=True):  # for each light source:
             if bulb.robot is self.robot:
                 # You can't sense your own bulbs
                 continue

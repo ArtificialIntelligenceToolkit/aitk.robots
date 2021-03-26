@@ -459,7 +459,7 @@ class Camera:
         from PIL import ImageDraw, Image
 
         draw_list = []
-        for bulb in self.robot.world._get_light_sources():
+        for bulb in self.robot.world._get_light_sources(all=True):
             if bulb.robot is self.robot:
                 # You can't sense your own bulbs
                 continue

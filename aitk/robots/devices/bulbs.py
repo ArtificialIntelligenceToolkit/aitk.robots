@@ -156,6 +156,8 @@ class Bulb:
         pass
 
     def draw(self, backend):
+        if self.state == "off":
+            return
         color = self.color
         backend.line_width = 0
         backend.noStroke()

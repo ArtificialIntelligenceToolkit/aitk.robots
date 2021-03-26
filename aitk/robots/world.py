@@ -179,6 +179,7 @@ class World:
             "ground_color": ground_color,
             "quiet": quiet,
         }
+        self._messages = []
         if filename is not None:
             config["filename"] = filename
         if ground_image_filename is not None:
@@ -901,7 +902,7 @@ class World:
                 if function is not None:
                     if isinstance(function, (list, tuple)):
                         if len(function) < len(self._robots):
-                            print("WARNING: you have not provided a controller function for every robot")
+                            self._print_once("WARNING: you have not provided a controller function for every robot")
                         # Deterministically run robots round-robin:
                         stop = any(
                             [
@@ -927,6 +928,11 @@ class World:
             )
         if show:
             self.draw()  # force to update any displays
+
+    def _print_once(self, message):
+        if message not in self._messages:
+            print(message)
+            self._messages.append(message)
 
     def _compute_complexity(self):
         # Proxy for how much drawing
@@ -1016,8 +1022,11 @@ class World:
                     bulbs.append(device)
         return bulbs
 
-    def _get_light_sources(self):
-        return [bulb for bulb in (self._bulbs + self._get_robot_bulbs()) if bulb.state == "on"]
+    def _get_light_sources(self, all=False):
+        if all:
+            return [bulb for bulb in (self._bulbs + self._get_robot_bulbs()) if bulb.state == "on"]
+        else:
+            return [bulb for bulb in self._bulbs if bulb.state == "on"]
 
     def draw(self):
         """
@@ -1036,7 +1045,7 @@ class World:
                 self._backend.draw_rect(0, 0, self.width, self.height)
 
             ## Draw bulbs in world (not on robots):
-            for bulb in self._bulbs:
+            for bulb in self._get_light_sources(all=False):
                 bulb.draw(self._backend)
 
             ## Draw walls:

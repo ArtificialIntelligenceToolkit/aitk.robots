@@ -9,5 +9,6 @@
 
 from .cameras import Camera, GroundCamera  # noqa: F401
 from .lightsensors import LightSensor  # noqa: F401
+from .smellsensors import SmellSensor  # noqa: F401
 from .rangesensors import RangeSensor  # noqa: F401
 from .bulbs import Bulb  # noqa: F401

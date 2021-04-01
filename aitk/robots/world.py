@@ -1014,6 +1014,7 @@ class World:
         Update the world, robots, and devices. Optionally, draw the
         world.
         """
+        self._grid.update(self._food)
         ## Update robots:
         self._draw_list = self._overlay_list[:]
         for robot in self._robots:

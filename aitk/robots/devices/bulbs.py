@@ -166,7 +166,7 @@ class Bulb:
             color.alpha = (i + 1)/self.draw_rings * 255
             backend.set_fill_style(color)
             x, y = self.get_position(world=False)
-            backend.draw_circle(self.x, self.y, self.brightness * radius)
+            backend.draw_circle(self.x, self.y, self.brightness/30 * radius)
         backend.line_width = 1
 
     def watch(self, title="Light Sensor:"):

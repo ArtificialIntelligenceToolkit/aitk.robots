@@ -10,7 +10,7 @@
 import math
 
 from ..colors import PURPLE, WHITE, BLACK
-from ..utils import distance, rotate_around
+from ..utils import distance, rotate_around, normal_dist
 
 
 class LightSensor:
@@ -101,12 +101,9 @@ class LightSensor:
                     draw_list.append(("draw_circle", (hit.x, hit.y, 2), {}))
 
             if len(hits) == 0:  # nothing blocking! we can see the light
-                # Make sure distance not zero:
-                dist = max(dist, 0.001)
                 # Maximum value of 100.0 with defaults:
-                self.value += min(
-                    brightness * self.multiplier / (dist ** 2), self.multiplier / 10
-                )
+                self.value += (normal_dist(dist, 0, brightness) / math.pi) / brightness
+                self.value = min(self.value, 1.0)
                 if draw_list is not None:
                     draw_list.append(("strokeStyle", (PURPLE, 1), {}))
                     draw_list.append(("draw_line", (x, y, p[0], p[1]), {}))

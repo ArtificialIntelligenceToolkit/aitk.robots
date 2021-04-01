@@ -8,5 +8,5 @@
 #
 # *************************************
 
-version_info = (0, 8, 11)
+version_info = (0, 8, 12)
 __version__ = ".".join(map(str, version_info))

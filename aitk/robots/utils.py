@@ -613,7 +613,7 @@ class Grid:
         """
         Get the reading at the grid point.
         """
-        return self.grid[x][y]
+        return self.grid[int(x)][int(y)]
 
     def get_image(self):
         """

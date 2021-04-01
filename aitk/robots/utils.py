@@ -15,6 +15,7 @@ import os
 from collections import OrderedDict
 from datetime import datetime, timedelta
 from functools import wraps
+import random
 
 from .color_data import COLORS
 from .config import get_aitk_search_paths
@@ -28,6 +29,13 @@ try:
     from IPython.display import display
 except ImportError:
     display = print
+
+def normal_dist(x , mean , sd):
+    prob_density = (math.pi * sd) * math.exp(-0.5 * ((x - mean) / sd) ** 2)
+    return prob_density
+
+def round_to(value, base):
+    return base * round(value / base)
 
 def uniform_angle(angle):
     return angle % TWO_PI
@@ -519,3 +527,102 @@ class Line:
 
     def __repr__(self):
         return "Line(%s,%s)" % (self.p1, self.p2)
+
+class Grid:
+    def __init__(self, width, height, step=10):
+        self.width = width
+        self.height = height
+        self.step = step
+        self.blocked = {}
+        self.grid = self.spread([])
+
+    def block_area(self, x1, y1, x2, y2):
+        x1 = round_to(x1, self.step)
+        y1 = round_to(y1, self.step)
+        x2 = round_to(x2, self.step)
+        y2 = round_to(y2, self.step)
+        for x in range(x1, x2 + 1):
+            for y in range(y1, y2 + 1):
+                self.blocked[(x,y)] = 1
+
+    def expand(self, visited, start, x, y, dist):
+        retval = []
+        for dx in [-self.step, 0, self.step]:
+            for dy in [-self.step, 0, self.step]:
+                if ((0 <= (x + dx) < self.width) and
+                    (0 <= (y + dy) < self.height)):
+                    if (x + dx, y + dy) not in self.blocked and (x + dx, y + dy) not in visited:
+                        # artifacts on ordering:
+                        #retval.append((x + dx, y + dy, dist + distance(0, 0, dx, dy)))
+                        retval.append((x + dx, y + dy, dist + self.step))
+        return retval
+
+    def bfs(self, start):
+        queue = [start + (0,)] # distance
+        visited = {}
+        while len(queue) > 0:
+            x, y, dist = queue.pop(0)
+            if (x,y) not in visited:
+                queue.extend(self.expand(visited, start, x, y, dist))
+                visited[(x,y)] = dist
+        return visited
+
+    def spread(self, points):
+        # Initialize grid with no values:
+        grid = [[0 for y in range(self.height)]
+                for x in range(self.width)]
+
+        # For each point, search out from there:
+        for px, py, sd in points:
+            # make sure we search from a spot on the
+            # grid
+            px = round_to(px, self.step)
+            py = round_to(py, self.step)
+            values = self.bfs((px, py))
+            for x in range(0, self.width, self.step):
+                for y in range(0, self.height, self.step):
+                    dist = values.get((x,y), None)
+                    if dist is not None:
+                        value = self.weight(dist, sd)
+                        for i in range(y, y + self.step):
+                            for j in range(x, x + self.step):
+                                if 0 <= i < self.height and 0 <= j < self.width:
+                                    if (j, i) not in self.blocked:
+                                        grid[j][i] += value
+                                        grid[j][i] = min(grid[j][i], 1.0)
+        return grid
+
+    def weight(self, dist, sd=1):
+        """
+        Return a value between 1 and 0 where
+        dist=0 gives 1, and as dist increases,
+        the return value falls off in a normal
+        distribution.
+        """
+        return (normal_dist(dist, 0, sd) / math.pi) / sd
+
+    def update(self, blooms):
+        """
+        Update the grid with blooms of values
+        to spread the values over the grid.
+        blooms are a list of (x, y, sd).
+        """
+        self.grid = self.spread(blooms)
+
+    def get(self, x, y):
+        """
+        Get the reading at the grid point.
+        """
+        return self.grid[x][y]
+
+    def get_image(self):
+        """
+        Get an image of the grid.
+        """
+        from PIL import Image
+        import numpy as np
+
+        data = np.array(self.grid).transpose() * 255
+        data = data.astype(np.uint8)
+        image = Image.fromarray(data, "L")
+        return image

@@ -25,6 +25,7 @@ from .colors import BLACK_50, WHITE
 from .robot import Robot
 from .utils import (
     Color,
+    Grid,
     Line,
     Point,
     distance,
@@ -187,6 +188,7 @@ class World:
         config["walls"] = kwargs.pop("walls", [])
         config["bulbs"] = kwargs.pop("bulbs", [])
         config["robots"] = kwargs.pop("robots", [])
+        config["food"] = kwargs.pop("food", [])
         if len(kwargs) != 0:
             raise AttributeError(
                 "unknown arguments for World: %s" % list(kwargs.keys())
@@ -324,6 +326,8 @@ class World:
         self.stop()
         self._initialize()
         self._reset_watchers()
+        self._food = []
+        self._grid = Grid(self.width, self.height)
         self.from_json(self.config)
         self.time = 0.0
         for robot in self._robots:
@@ -397,6 +401,10 @@ class World:
             # bulbs are {x, y, z, color, brightness}
             self.add_bulb(**bulb)
 
+        for food in config.get("food", []):
+            # food x, y, standard_deviation
+            self.add_food(**food)
+
         ## Create robot, and add to world:
         for i, robotConfig in enumerate(self.config.get("robots", [])):
             # FIXME: raise if lengths don't match
@@ -412,6 +420,9 @@ class World:
             self._backend = make_backend(self.width, self.height, self.scale)
         # Update the backend if it already existed, but differs in config
         self._backend.update_dimensions(self.width, self.height, self.scale)
+
+    def add_food(self, x, y, standard_deviation):
+        self._food.append((x, y, standard_deviation))
 
     def _add_boundary_walls(self):
         """
@@ -451,6 +462,7 @@ class World:
             "walls": [],
             "bulbs": [],
             "robots": [],
+            "food": [],
         }
         for wall in self._walls:
             if len(wall.lines) == 4 and wall.robot is None:
@@ -469,6 +481,15 @@ class World:
                     "y": bulb.y,
                     "z": bulb.z,
                     "brightness": bulb.brightness,
+                }
+            )
+
+        for food in self._food:
+            config["food"].append(
+                {
+                    "x": food[0],
+                    "y": food[1],
+                    "standard_deviation": food[2],
                 }
             )
 

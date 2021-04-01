@@ -370,8 +370,10 @@ class World:
             self.quiet = config["quiet"]
         if "width" in config:
             self.width = config["width"]
+            self._grid.width = self.width
         if "height" in config:
             self.height = config["height"]
+            self._grid.height = self.height
         if "scale" in config:
             self.scale = config["scale"]
         if "boundary_wall" in config:
@@ -443,6 +445,7 @@ class World:
                 ]
             )
             self._complexity = self._compute_complexity()
+            self._walls_updated()
 
     def to_json(self):
         """
@@ -689,7 +692,12 @@ class World:
             p2 = Point(x2, y1)
             p4 = Point(x1, y2)
             wall = Wall(
-                Color(color), None, Line(p1, p2), Line(p2, p3), Line(p3, p4), Line(p4, p1)
+                Color(color),
+                None,
+                Line(p1, p2),
+                Line(p2, p3),
+                Line(p3, p4),
+                Line(p4, p1),
             )
         else:
             wall = Wall(
@@ -697,6 +705,7 @@ class World:
             )
         self._walls.append(wall)
         self._complexity = self._compute_complexity()
+        self._walls_updated()
         self.update()  # request draw
 
     def del_robot(self, robot):
@@ -954,6 +963,25 @@ class World:
         if message not in self._messages:
             print(message)
             self._messages.append(message)
+
+    def _walls_updated(self):
+        # update the grid to block smells
+        self._grid.clear_walls()
+        for wall in self._walls:
+            if wall.robot is None:
+                if len(wall.lines) == 4: # box
+                    p1 = wall.lines[0].p1
+                    p3 = wall.lines[1].p2
+                    self._grid.block_area(p1[0], p1[1], p3[0], p3[1], box=True)
+                else: # line
+                    # FIXME: Includes boundary walls!
+                    for line in wall.lines:
+                        self._grid.block_area(
+                            line.p1[0],
+                            line.p1[1],
+                            line.p2[0],
+                            line.p2[1],
+                            box=False)
 
     def _compute_complexity(self):
         # Proxy for how much drawing

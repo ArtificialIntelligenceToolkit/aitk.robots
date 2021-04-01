@@ -536,14 +536,21 @@ class Grid:
         self.blocked = {}
         self.grid = self.spread([])
 
-    def block_area(self, x1, y1, x2, y2):
+    def clear_walls(self):
+        self.blocked = {}
+
+    def block_area(self, x1, y1, x2, y2, box=True):
         x1 = round_to(x1, self.step)
         y1 = round_to(y1, self.step)
         x2 = round_to(x2, self.step)
         y2 = round_to(y2, self.step)
-        for x in range(x1, x2 + 1):
-            for y in range(y1, y2 + 1):
-                self.blocked[(x,y)] = 1
+        if box:
+            for x in range(x1, x2 + 1):
+                for y in range(y1, y2 + 1):
+                    self.blocked[(x,y)] = 1
+        else:
+            # FIXME: lines
+            pass
 
     def expand(self, visited, start, x, y, dist):
         retval = []

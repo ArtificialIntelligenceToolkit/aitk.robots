@@ -80,18 +80,17 @@ class LightSensor:
                 # You can't sense your own bulbs
                 continue
 
-            x, y, z, brightness, light_color = (  # noqa: F841
-                bulb.x,
-                bulb.y,
+            z, brightness, light_color = (  # noqa: F841
                 bulb.z,
                 bulb.brightness,
                 bulb.color,
             )
+            x, y = bulb.get_position(world=True)
             # FIXME: use bulb_color for filter?
 
             angle = math.atan2(x - p[0], y - p[1])
             dist = distance(x, y, p[0], p[1])
-            hits = self.robot.cast_ray(p[0], p[1], angle, dist, ignore_robot=bulb.robot)
+            hits = self.robot.cast_ray(p[0], p[1], angle, dist, ignore_robots=[bulb.robot, self.robot])
             if self.robot.world.debug and draw_list is not None:
                 draw_list.append(("draw_circle", (p[0], p[1], 2), {}))
                 draw_list.append(("draw_circle", (x, y, 2), {}))

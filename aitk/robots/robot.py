@@ -690,7 +690,7 @@ class Robot:
         else:
             return (self.tvx / self.vx_max, self.tva / self.va_max)
 
-    def cast_ray(self, x1, y1, a, maxRange, x2=None, y2=None, ignore_robot=None):
+    def cast_ray(self, x1, y1, a, maxRange, x2=None, y2=None, ignore_robots=None):
         """
         Cast a ray into this world and see what it hits.
 
@@ -708,7 +708,7 @@ class Robot:
             if wall.robot is self:
                 continue
             # ignore this robot:
-            if ignore_robot is not None and wall.robot is ignore_robot:
+            if ignore_robots is not None and wall.robot in ignore_robots:
                 continue
             for line in wall.lines:
                 p1 = line.p1

@@ -1132,7 +1132,20 @@ class World:
             text = format_time(self.time)
             self._backend.draw_status(text)
 
-            for command, args, kwargs in self._draw_list:
+            for items in self._draw_list:
+                if len(items) == 1:
+                    command = items[0]
+                    args = tuple()
+                    kwargs = {}
+                elif len(items) == 2:
+                    command = items[0]
+                    args = items[1]
+                    kwargs = {}
+                elif len(items) == 3:
+                    command = items[0]
+                    args = items[1]
+                    kwargs = items[2]
+
                 self._backend.do_command(command, *args, **kwargs)
 
         self._draw_watchers()

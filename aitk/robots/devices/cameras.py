@@ -469,7 +469,7 @@ class Camera:
             # ignore boundary boxes around robots that contain the bulb
             bulb_x, bulb_y = bulb.get_position()
             hits = self.robot.cast_ray(bulb_x, bulb_y, 0, self.max_range,
-                                       self.robot.x, self.robot.y, ignore_robot=bulb.robot)
+                                       self.robot.x, self.robot.y, ignore_robots=[bulb.robot, self.robot])
             if len(hits) == 0:
                 draw_list.append((bulb, bulb_x, bulb_y))
 

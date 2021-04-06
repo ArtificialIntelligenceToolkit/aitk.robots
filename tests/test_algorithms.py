@@ -264,7 +264,7 @@ def test_SeekLight():
     world.seconds(120, [seekLight], real_time=False)
 
     assert (robot.x, robot.y, robot.a) == (
-        111.40677861955245,
-        84.5940996201107,
-        25.68378902132767,
+        90.4973436405173,
+        71.72096476288257,
+        18.244497061327607,
     )

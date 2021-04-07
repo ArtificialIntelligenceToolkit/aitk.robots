@@ -90,7 +90,13 @@ class LightSensor:
 
             angle = math.atan2(x - p[0], y - p[1])
             dist = distance(x, y, p[0], p[1])
-            hits = self.robot.cast_ray(p[0], p[1], angle, dist, ignore_robots=[bulb.robot, self.robot])
+            ignore_robots = []
+            if bulb.robot is not None:
+                ignore_robots.append(bulb.robot)
+            if self.robot is not None:
+                ignore_robots.append(self.robot)
+
+            hits = self.robot.cast_ray(p[0], p[1], angle, dist, ignore_robots=ignore_robots)
             if self.robot.world.debug and draw_list is not None:
                 draw_list.append(("draw_circle", (p[0], p[1], 2), {}))
                 draw_list.append(("draw_circle", (x, y, 2), {}))

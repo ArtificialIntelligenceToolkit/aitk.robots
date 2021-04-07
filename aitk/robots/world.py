@@ -426,11 +426,11 @@ class World:
 
         for bulb in config.get("bulbs", []):
             # bulbs are {x, y, z, color, brightness}
-            self.add_bulb(**bulb)
+            self._add_bulb(**bulb)
 
         for food in config.get("food", []):
             # food x, y, standard_deviation
-            self.add_food(**food)
+            self._add_food(**food)
 
         ## Create robot, and add to world:
         for i, robotConfig in enumerate(self.config.get("robots", [])):
@@ -449,9 +449,16 @@ class World:
         self._backend.update_dimensions(self.width, self.height, self.scale)
 
     def add_food(self, x, y, standard_deviation):
-        self._food.append((x, y, standard_deviation))
+        """
+        Add food at x, y with a brightness of standard_deviation
+        (in pixels).
+        """
+        self._add_food(x, y, standard_deviation)
         self.update()  # request draw
         self.save()
+
+    def _add_food(self, x, y, standard_deviation):
+        self._food.append((x, y, standard_deviation))
 
     def _add_boundary_walls(self):
         """
@@ -704,11 +711,14 @@ class World:
         """
         Add a bulb to the world.
         """
+        self._add_bulb(color, x, y, z, brightness, name)
+        self.update()  # request draw
+        self.save()
+
+    def _add_bulb(self, color, x, y, z, brightness, name=None):
         name = name if name is not None else "bulb-%s" % (len(self._bulbs) + 1)
         bulb = Bulb(color, x, y, z, brightness, name)
         self._bulbs.append(bulb)
-        self.update()  # request draw
-        self.save()
 
     def add_wall(self, color, x1, y1, x2, y2, box=True):
         """

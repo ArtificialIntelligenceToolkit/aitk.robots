@@ -17,7 +17,7 @@ class Bulb:
     Class representing lights in the world.
     """
 
-    def __init__(self, color, x=0, y=0, z=0, brightness=1, name=None, **kwargs):
+    def __init__(self, color, x=0, y=0, z=0, brightness=50, name=None, **kwargs):
         """
         Create a lightbulb.
         """
@@ -35,9 +35,13 @@ class Bulb:
 
     def on(self):
         self.state = "on"
+        if self.robot is not None and self.robot.world is not None:
+            self.robot.world.update()
 
     def off(self):
         self.state = "off"
+        if self.robot is not None and self.robot.world is not None:
+            self.robot.world.update()
 
     @property
     def x(self):

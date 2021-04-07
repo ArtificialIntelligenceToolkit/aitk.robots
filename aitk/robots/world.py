@@ -21,7 +21,6 @@ from numbers import Number
 
 from .backends import make_backend
 from .devices import Bulb
-from .colors import BLACK_50, WHITE
 from .robot import Robot
 from .utils import (
     Color,
@@ -147,6 +146,7 @@ class World:
         ground_image_filename=None,
         filename=None,
         quiet=False,
+        smell_cell_size=10,
         **kwargs
     ):
         """
@@ -179,6 +179,7 @@ class World:
             "boundary_wall_color": boundary_wall_color,
             "ground_color": ground_color,
             "quiet": quiet,
+            "smell_cell_size": smell_cell_size,
         }
         self._messages = []
         if filename is not None:
@@ -257,17 +258,37 @@ class World:
         """
         Get info about this world, and all of its robots.
         """
+        print("World details:")
         if self.filename:
             print("This world was loaded from %r" % self.filename)
+        print("Size: %s x %s" % (self.width, self.height))
+        print("Robots:")
         if len(self._robots) == 0:
-            print("This world has no robots.")
+            print("  This world has no robots.")
         else:
-            print("Size: %s x %s" % (self.width, self.height))
-            print("Robots:")
             print("-" * 25)
             for i, robot in enumerate(self._robots):
                 print("  .robots[%s or %r]: %r" % (i, robot.name, robot))
                 robot.info()
+        print("Food:")
+        if len(self._food) == 0:
+            print("  This world has no food.")
+        else:
+            print("-" * 25)
+            for food in self._food:
+                print("  x: %s, y: %s, brightness: %s" % (food[0], food[1], food[2]))
+        print("Lights:")
+        if len(self._bulbs) == 0:
+            print("  This world has no lights.")
+        else:
+            print("-" * 25)
+            for bulb in self._bulbs:
+                print("  x: %s, y: %s, brightness: %s, name: %r, color: %s" % (
+                    bulb.x,
+                    bulb.y,
+                    bulb.brightness,
+                    bulb.name,
+                    bulb.color))
 
     def get_robot(self, item):
         """
@@ -327,7 +348,8 @@ class World:
         self._initialize()
         self._reset_watchers()
         self._food = []
-        self._grid = Grid(self.width, self.height)
+        smell_cell_size = self.config.get("smell_cell_size", 10)
+        self._grid = Grid(self.width, self.height, smell_cell_size)
         self.from_json(self.config)
         self.time = 0.0
         for robot in self._robots:
@@ -376,6 +398,9 @@ class World:
             self._grid.height = self.height
         if "scale" in config:
             self.scale = config["scale"]
+        if "smell_cell_size" in config:
+            self.smell_cell_size = config["smell_cell_size"]
+            self._grid.step = self.smell_cell_size
         if "boundary_wall" in config:
             self.boundary_wall = config["boundary_wall"]
         if "boundary_wall_color" in config:
@@ -425,6 +450,8 @@ class World:
 
     def add_food(self, x, y, standard_deviation):
         self._food.append((x, y, standard_deviation))
+        self.update()  # request draw
+        self.save()
 
     def _add_boundary_walls(self):
         """
@@ -462,6 +489,7 @@ class World:
             "ground_color": str(self.ground_color),
             "ground_image_filename": self.ground_image_filename,
             "quiet": self.quiet,
+            "smell_cell_size": self.smell_cell_size,
             "walls": [],
             "bulbs": [],
             "robots": [],
@@ -680,6 +708,7 @@ class World:
         bulb = Bulb(color, x, y, z, brightness, name)
         self._bulbs.append(bulb)
         self.update()  # request draw
+        self.save()
 
     def add_wall(self, color, x1, y1, x2, y2, box=True):
         """
@@ -1093,6 +1122,11 @@ class World:
             else:
                 self._backend.set_fill(self.ground_color)
                 self._backend.draw_rect(0, 0, self.width, self.height)
+
+            if len(self._food) > 0:
+                smell = self._grid.get_image()
+                smell = smell.resize((int(self.width * self.scale), int(self.height * self.scale)))
+                self._backend.image.paste(smell, (0, 0), smell)
 
             ## Draw bulbs in world (not on robots):
             for bulb in self._get_light_sources(all=False):

@@ -20,6 +20,7 @@ from ..utils import (
     rotate_around,
     uniform_angle,
 )
+from ..colors import WHITE
 
 
 class Camera:
@@ -78,6 +79,7 @@ class Camera:
         # FIXME: camera is fixed at (0,0) facing forward
         self.type = "camera"
         self.bulbs_are_visible = True
+        self.food_is_visible = True
         self.time = 0.0
         self.cameraShape = [64, 32]
         self.position = [0, 0]
@@ -452,6 +454,8 @@ class Camera:
                         ] = hcolor.to_tuple()
         if self.bulbs_are_visible:
             self.show_bulbs(pic)
+        if self.food_is_visible:
+            self.show_food(pic)
         self.show_obstacles(pic)
         return pic
 
@@ -469,7 +473,8 @@ class Camera:
             # ignore boundary boxes around robots that contain the bulb
             bulb_x, bulb_y = bulb.get_position()
             hits = self.robot.cast_ray(bulb_x, bulb_y, 0, self.max_range,
-                                       self.robot.x, self.robot.y, ignore_robots=[bulb.robot, self.robot])
+                                       self.robot.x, self.robot.y, ignore_robots=[bulb.robot,
+                                                                                  self.robot])
             if len(hits) == 0:
                 draw_list.append((bulb, bulb_x, bulb_y))
 
@@ -494,6 +499,44 @@ class Camera:
                     y = (self.cameraShape[1] / 2) + high / 2
                     radius = 5
                     color = bulb.color
+                    color.alpha = 128
+                    drawing.ellipse((x - radius, y - radius,
+                                     x + radius, y + radius),
+                                    fill=color.to_tuple())
+            image.paste(Image.alpha_composite(image, layer))
+
+    def show_food(self, image):
+        from PIL import ImageDraw, Image
+
+        draw_list = []
+        for food in self.robot.world._food:
+            x, y, sd = food
+            hits = self.robot.cast_ray(x, y, 0, self.max_range,
+                                       self.robot.x, self.robot.y)
+            if len(hits) == 0:
+                draw_list.append((x, y, sd))
+
+        if len(draw_list) > 0:
+            layer = Image.new('RGBA', self.cameraShape, (0, 0, 0, 0))
+            drawing = ImageDraw.Draw(layer, "RGBA")
+            size = max(self.robot.world.width, self.robot.world.height)
+            for (x, y, sd) in draw_list:
+                angle = uniform_angle(math.pi * 3/2 - math.atan2(self.robot.x - x,
+                                                                 self.robot.y - y))
+                min_angle = uniform_angle(self.robot.a - self.fov/2)
+                max_angle = uniform_angle(self.robot.a + self.fov/2)
+                if max_angle < min_angle:
+                    max_angle += TWO_PI
+                if min_angle < angle < max_angle:
+                    span = max_angle - min_angle
+                    x = int((angle - min_angle)/span * self.cameraShape[0])
+                    hit_distance = distance(self.robot.x, self.robot.y, x, y)
+                    distance_ratio = 1.0 - hit_distance / size
+                    s = distance_ratio * self.sizeFadeWithDistance
+                    high = (1.0 - s) * self.cameraShape[1]
+                    y = (self.cameraShape[1] / 2) + high / 2
+                    radius = 5
+                    color = WHITE
                     color.alpha = 128
                     drawing.ellipse((x - radius, y - radius,
                                      x + radius, y + radius),

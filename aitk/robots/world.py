@@ -348,8 +348,7 @@ class World:
         self._initialize()
         self._reset_watchers()
         self._food = []
-        smell_cell_size = self.config.get("smell_cell_size", 10)
-        self._grid = Grid(self.width, self.height, smell_cell_size)
+        self._grid = None
         self.from_json(self.config)
         self.time = 0.0
         for robot in self._robots:
@@ -392,15 +391,12 @@ class World:
             self.quiet = config["quiet"]
         if "width" in config:
             self.width = config["width"]
-            self._grid.width = self.width
         if "height" in config:
             self.height = config["height"]
-            self._grid.height = self.height
         if "scale" in config:
             self.scale = config["scale"]
         if "smell_cell_size" in config:
             self.smell_cell_size = config["smell_cell_size"]
-            self._grid.step = self.smell_cell_size
         if "boundary_wall" in config:
             self.boundary_wall = config["boundary_wall"]
         if "boundary_wall_color" in config:
@@ -412,8 +408,12 @@ class World:
         if "ground_image_filename" in config:
             self.set_ground_image(config["ground_image_filename"], show=False)
 
-        self._add_boundary_walls()
+        # Now, we create the grid:
+        self._grid = Grid(self.width, self.height, self.smell_cell_size)
+        self._grid.update_walls(self._walls)
 
+        # Add walls:
+        self._add_boundary_walls()
         for wall in config.get("walls", []):
             # Walls are "boxes"... 4 lines:
             self.add_wall(
@@ -454,6 +454,7 @@ class World:
         (in pixels).
         """
         self._add_food(x, y, standard_deviation)
+        self._grid.need_update = True
         self.update()  # request draw
         self.save()
 
@@ -479,7 +480,6 @@ class World:
                 ]
             )
             self._complexity = self._compute_complexity()
-            self._walls_updated()
 
     def to_json(self):
         """
@@ -744,7 +744,7 @@ class World:
             )
         self._walls.append(wall)
         self._complexity = self._compute_complexity()
-        self._walls_updated()
+        self._grid.update_wall(wall)
         self.update()  # request draw
 
     def del_robot(self, robot):
@@ -1002,25 +1002,6 @@ class World:
         if message not in self._messages:
             print(message)
             self._messages.append(message)
-
-    def _walls_updated(self):
-        # update the grid to block smells
-        self._grid.clear_walls()
-        for wall in self._walls:
-            if wall.robot is None:
-                if len(wall.lines) == 4: # box
-                    p1 = wall.lines[0].p1
-                    p3 = wall.lines[1].p2
-                    self._grid.block_area(p1[0], p1[1], p3[0], p3[1], box=True)
-                else: # line
-                    # FIXME: Includes boundary walls!
-                    for line in wall.lines:
-                        self._grid.block_area(
-                            line.p1[0],
-                            line.p1[1],
-                            line.p2[0],
-                            line.p2[1],
-                            box=False)
 
     def _compute_complexity(self):
         # Proxy for how much drawing

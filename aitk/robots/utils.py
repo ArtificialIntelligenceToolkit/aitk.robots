@@ -535,9 +535,11 @@ class Grid:
         self.step = step
         self.blocked = {}
         self.grid = self.spread([])
+        self.need_update = True
 
     def clear_walls(self):
         self.blocked = {}
+        self.need_update = True
 
     def block_area(self, x1, y1, x2, y2, box=True):
         x1 = round_to(x1, self.step)
@@ -545,8 +547,8 @@ class Grid:
         x2 = round_to(x2, self.step)
         y2 = round_to(y2, self.step)
         if box:
-            for x in range(x1, x2 + 1):
-                for y in range(y1, y2 + 1):
+            for x in range(x1, x2):
+                for y in range(y1, y2):
                     self.blocked[(x,y)] = 1
         else:
             # FIXME: lines
@@ -614,7 +616,32 @@ class Grid:
         to spread the values over the grid.
         blooms are a list of (x, y, sd).
         """
-        self.grid = self.spread(blooms)
+        if self.need_update:
+            self.grid = self.spread(blooms)
+            self.need_update = False
+
+    def update_walls(self, walls):
+        # update the grid to block smells
+        self.clear_walls()
+        for wall in walls:
+            self.update_wall(wall)
+
+    def update_wall(self, wall):
+        self.need_update = True
+        if wall.robot is None:
+            if len(wall.lines) == 4: # box
+                p1 = wall.lines[0].p1
+                p3 = wall.lines[1].p2
+                self.block_area(p1[0], p1[1], p3[0], p3[1], box=True)
+            else: # line
+                # FIXME: Includes boundary walls!
+                for line in wall.lines:
+                    self.block_area(
+                        line.p1[0],
+                        line.p1[1],
+                        line.p2[0],
+                        line.p2[1],
+                        box=False)
 
     def get(self, x, y):
         """

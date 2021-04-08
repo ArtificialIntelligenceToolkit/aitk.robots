@@ -130,6 +130,7 @@ class Robot:
         self.name = "Robbie"
         self.state = {}
         self._set_color("red")
+        self.eat_food_distance = 20
         self.do_trace = True
         self.trace = []
         self.text_trace = []
@@ -167,6 +168,7 @@ class Robot:
         self.get_dataset_image = None
         self._boundingbox = []
         self.radius = 0.0
+        self.food_eaten = 0
         self._watcher = None
         self._init_boundingbox()
 
@@ -617,6 +619,26 @@ class Robot:
         a dataset?
         """
         return self.get_dataset_image is not None
+
+    def eat(self):
+        """
+        If the robot is close enough to food, then this
+        will eat it, removing from the world, and requesting
+        a redraw. Returns True if success, and False
+        otherwise.
+
+        Note: it must be within robot.eat_food_distance
+        """
+        success = False
+        if self.world is not None:
+            for food in self.world._food[:]: # copy
+                if distance(self.x, self.y, food[0], food[1]) <= self.eat_food_distance:
+                    self.food_eaten += 1
+                    success = True
+                    self.world._food.remove(food)
+                    self.world._grid.need_update = True
+                    self.world.update() # request draw
+        return success
 
     def speak(self, text=None):
         """

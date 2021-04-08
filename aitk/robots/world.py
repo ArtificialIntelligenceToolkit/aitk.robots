@@ -146,7 +146,7 @@ class World:
         ground_image_filename=None,
         filename=None,
         quiet=False,
-        smell_cell_size=10,
+        smell_cell_size=None,
         **kwargs
     ):
         """
@@ -338,6 +338,7 @@ class World:
         self._walls = []
         self._bulbs.clear()
         self._complexity = 0
+        self.smell_cell_size = None
 
     def reset(self):
         """
@@ -397,6 +398,10 @@ class World:
             self.scale = config["scale"]
         if "smell_cell_size" in config:
             self.smell_cell_size = config["smell_cell_size"]
+
+        if self.smell_cell_size is None:
+            self.smell_cell_size = max((self.width * self.height) // 20000, 1)
+
         if "boundary_wall" in config:
             self.boundary_wall = config["boundary_wall"]
         if "boundary_wall_color" in config:
@@ -1062,7 +1067,6 @@ class World:
         Update the world, robots, and devices. Optionally, draw the
         world.
         """
-        self._grid.update(self._food)
         ## Update robots:
         self._draw_list = self._overlay_list[:]
         for robot in self._robots:
@@ -1104,6 +1108,8 @@ class World:
         """
         if self._backend is None:
             return
+
+        self._grid.update(self._food)
 
         with self._backend:
             self._backend.clear()

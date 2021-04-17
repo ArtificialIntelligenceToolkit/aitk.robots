@@ -482,6 +482,8 @@ class Camera:
             layer = Image.new('RGBA', self.cameraShape, (0, 0, 0, 0))
             drawing = ImageDraw.Draw(layer, "RGBA")
             size = max(self.robot.world.width, self.robot.world.height)
+            color = Color(bulb.color)
+            color.alpha = 128
             for (bulb, bulb_x, bulb_y) in draw_list:
                 angle = uniform_angle(math.pi * 3/2 - math.atan2(self.robot.x - bulb_x,
                                                                  self.robot.y - bulb_y))
@@ -498,8 +500,6 @@ class Camera:
                     high = (1.0 - s) * self.cameraShape[1]
                     y = (self.cameraShape[1] / 2) + high / 2
                     radius = 5
-                    color = bulb.color
-                    color.alpha = 128
                     drawing.ellipse((x - radius, y - radius,
                                      x + radius, y + radius),
                                     fill=color.to_tuple())
@@ -520,6 +520,8 @@ class Camera:
             layer = Image.new('RGBA', self.cameraShape, (0, 0, 0, 0))
             drawing = ImageDraw.Draw(layer, "RGBA")
             size = max(self.robot.world.width, self.robot.world.height)
+            color = Color(WHITE)
+            color.alpha = 128
             for (x, y, sd) in draw_list:
                 angle = uniform_angle(math.pi * 3/2 - math.atan2(self.robot.x - x,
                                                                  self.robot.y - y))
@@ -536,8 +538,6 @@ class Camera:
                     high = (1.0 - s) * self.cameraShape[1]
                     y = (self.cameraShape[1] / 2) + high / 2
                     radius = 5
-                    color = WHITE
-                    color.alpha = 128
                     drawing.ellipse((x - radius, y - radius,
                                      x + radius, y + radius),
                                     fill=color.to_tuple())

@@ -423,14 +423,25 @@ class World:
         # Add walls:
         self._add_boundary_walls()
         for wall in config.get("walls", []):
-            # Walls are "boxes"... 4 lines:
-            self.add_wall(
-                wall["color"],
-                wall["p1"]["x"],
-                wall["p1"]["y"],
-                wall["p2"]["x"],
-                wall["p2"]["y"],
-            )
+            # Walls are either "boxes" with 4 lines, or a single line:
+            if "wtype" not in wall or wall["wtype"] == "box":
+                self.add_wall(
+                    wall["color"],
+                    wall["p1"]["x"],
+                    wall["p1"]["y"],
+                    wall["p2"]["x"],
+                    wall["p2"]["y"],
+                    box=True,
+                )
+            elif wall["wtype"] == "line":
+                self.add_wall(
+                    wall["color"],
+                    wall["p1"]["x"],
+                    wall["p1"]["y"],
+                    wall["p2"]["x"],
+                    wall["p2"]["y"],
+                    box=False,
+                )
 
         for bulb in config.get("bulbs", []):
             # bulbs are {x, y, z, color, brightness}
@@ -513,11 +524,24 @@ class World:
         for wall in self._walls:
             # Not a boundary wall or robot bounding box:
             if wall.wtype == "wall":
-                w = {
-                    "color": str(wall.color),
-                    "p1": {"x": wall.lines[0].p1.x, "y": wall.lines[0].p1.y,},
-                    "p2": {"x": wall.lines[2].p1.x, "y": wall.lines[2].p1.y,},
-                }
+                if len(wall.lines) == 4:
+                    # Box:
+                    w = {
+                        "color": str(wall.color),
+                        "p1": {"x": wall.lines[0].p1.x, "y": wall.lines[0].p1.y,},
+                        "p2": {"x": wall.lines[2].p1.x, "y": wall.lines[2].p1.y,},
+                        "wtype": "box",
+                    }
+                elif len(wall.lines) == 1:
+                    # Line:
+                    w = {
+                        "color": str(wall.color),
+                        "p1": {"x": wall.lines[0].p1.x, "y": wall.lines[0].p1.y,},
+                        "p2": {"x": wall.lines[0].p2.x, "y": wall.lines[0].p2.y,},
+                        "wtype": "line",
+                    }
+                else:
+                    raise Exception("invalid wall length; should be 1 or 4: %s" % len(wall.lines))
                 config["walls"].append(w)
 
         for bulb in self._bulbs:
@@ -1138,14 +1162,25 @@ class World:
             for wall in self._walls:
                 if wall.wtype == "wall":
                     c = wall.color
-                    self._backend.noStroke()
-                    self._backend.set_fill(c)
-                    self._backend.beginShape()
-                    for line in wall.lines:
-                        self._backend.vertex(line.p1.x, line.p1.y)
-                        self._backend.vertex(line.p2.x, line.p2.y)
+                    if len(wall.lines) == 1:
+                        self._backend.strokeStyle(c, 5)
+                        self._backend.draw_line(
+                            wall.lines[0].p1.x,
+                            wall.lines[0].p1.y,
+                            wall.lines[0].p2.x,
+                            wall.lines[0].p2.y,
+                        )
+                    else:
+                        self._backend.set_fill(c)
+                        self._backend.noStroke()
+                        self._backend.beginShape()
+                        for line in wall.lines:
+                            self._backend.vertex(line.p1.x, line.p1.y)
+                            self._backend.vertex(line.p2.x, line.p2.y)
+                        self._backend.endShape()
 
-                    self._backend.endShape()
+                    self._backend.lineWidth(1)
+                    self._backend.noStroke()
 
                 elif wall.wtype == "boundary":
                     c = wall.color

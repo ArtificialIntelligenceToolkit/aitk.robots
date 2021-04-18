@@ -280,9 +280,9 @@ class Robot:
                     if device:
                         self.add_device(device)
 
-    def info(self):
+    def summary(self):
         """
-        Get information on a robot.
+        Get a summary of information about the robot.
         """
         if len(self._devices) == 0:
             print("  This robot has no devices.")

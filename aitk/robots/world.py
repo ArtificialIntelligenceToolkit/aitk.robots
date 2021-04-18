@@ -257,9 +257,10 @@ class World:
         picture = self.get_image(index=index, size=size)
         display(picture)
 
-    def info(self):
+    def summary(self):
         """
-        Get info about this world, and all of its robots.
+        Get a summary of information about the world and
+        all of its robots.
         """
         print("World details:")
         if self.filename:

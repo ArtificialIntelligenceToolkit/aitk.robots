@@ -483,14 +483,17 @@ class Camera(BaseDevice):
             drawing = ImageDraw.Draw(layer, "RGBA")
             size = max(self.robot.world.width, self.robot.world.height)
             color = Color(bulb.color)
-            color.alpha = 128
+            #color.alpha = 128
             for (bulb, bulb_x, bulb_y) in draw_list:
                 angle = uniform_angle(math.pi * 3/2 - math.atan2(self.robot.x - bulb_x,
                                                                  self.robot.y - bulb_y))
                 min_angle = uniform_angle(self.robot.a - self.fov/2)
                 max_angle = uniform_angle(self.robot.a + self.fov/2)
                 if max_angle < min_angle:
+                    if 0 <= angle < max_angle:
+                        angle += TWO_PI
                     max_angle += TWO_PI
+
                 if min_angle < angle < max_angle:
                     span = max_angle - min_angle
                     x = int((angle - min_angle)/span * self.cameraShape[0])
@@ -503,6 +506,8 @@ class Camera(BaseDevice):
                     drawing.ellipse((x - radius, y - radius,
                                      x + radius, y + radius),
                                     fill=color.to_tuple())
+                else:
+                    print(min_angle, angle, max_angle)
             image.paste(Image.alpha_composite(image, layer))
 
     def show_food(self, image):
@@ -521,14 +526,17 @@ class Camera(BaseDevice):
             drawing = ImageDraw.Draw(layer, "RGBA")
             size = max(self.robot.world.width, self.robot.world.height)
             color = Color(WHITE)
-            color.alpha = 128
+            #color.alpha = 128
             for (x, y, sd) in draw_list:
                 angle = uniform_angle(math.pi * 3/2 - math.atan2(self.robot.x - x,
                                                                  self.robot.y - y))
                 min_angle = uniform_angle(self.robot.a - self.fov/2)
                 max_angle = uniform_angle(self.robot.a + self.fov/2)
                 if max_angle < min_angle:
+                    if 0 <= angle < max_angle:
+                        angle += TWO_PI
                     max_angle += TWO_PI
+
                 if min_angle < angle < max_angle:
                     span = max_angle - min_angle
                     x = int((angle - min_angle)/span * self.cameraShape[0])
@@ -538,9 +546,9 @@ class Camera(BaseDevice):
                     high = (1.0 - s) * self.cameraShape[1]
                     y = (self.cameraShape[1] / 2) + high / 2
                     radius = 5
-                    drawing.ellipse((x - radius, y - radius,
-                                     x + radius, y + radius),
-                                    fill=color.to_tuple())
+                    drawing.rectangle((x - radius, y - radius,
+                                       x + radius, y + radius),
+                                      fill=color.to_tuple())
             image.paste(Image.alpha_composite(image, layer))
 
     def show_obstacles(self, image):

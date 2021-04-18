@@ -740,7 +740,9 @@ class Robot:
             if wall.robot is self:
                 continue
             # ignore this robot:
-            if ignore_robots is not None and wall.robot in ignore_robots:
+            if ((ignore_robots is not None) and
+                (wall.robot is not None) and
+                (wall.robot in ignore_robots)):
                 continue
             for line in wall.lines:
                 p1 = line.p1

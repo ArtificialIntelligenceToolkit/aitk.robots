@@ -273,7 +273,7 @@ class World:
             print("-" * 25)
             for i, robot in enumerate(self._robots):
                 print("  .robots[%s or %r]: %r" % (i, robot.name, robot))
-                robot.info()
+                robot.summary()
         print("Food:")
         if len(self._food) == 0:
             print("  This world has no food.")

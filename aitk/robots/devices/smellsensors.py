@@ -9,16 +9,17 @@
 
 import math
 
-from ..colors import PURPLE, YELLOW, BLACK
+from ..colors import PURPLE, WHITE, BLACK
 from ..utils import distance, rotate_around
+from .base import BaseDevice
 
-
-class SmellSensor:
+class SmellSensor(BaseDevice):
     def __init__(self, position=(0, 0), name="smell", **kwargs):
         config = {
             "position": position,
             "name": name,
         }
+        config.update(kwargs)
         self._watcher = None
         self.robot = None
         self.initialize()
@@ -39,11 +40,7 @@ class SmellSensor:
         valid_keys = set([
             "position", "name", "class"
         ])
-        config_keys = set(list(config.keys()))
-        extra_keys = config_keys - valid_keys
-
-        if len(extra_keys) > 0:
-            raise TypeError("invalid key(s) for smellsensor config: %r" % extra_keys)
+        self.verify_config(valid_keys, config)
 
         if "name" in config:
             self.name = config["name"]
@@ -78,7 +75,7 @@ class SmellSensor:
     def draw(self, backend):
         backend.lineWidth(1)
         backend.set_stroke_style(BLACK)
-        backend.set_fill_style(YELLOW)
+        backend.set_fill_style(WHITE)
         backend.draw_circle(self.position[0], self.position[1], 2)
 
     def get_reading(self):

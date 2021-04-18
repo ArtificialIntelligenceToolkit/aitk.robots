@@ -18,9 +18,9 @@ from ..utils import (
     rotate_around,
     world_to_degrees,
 )
+from .base import BaseDevice
 
-
-class RangeSensor:
+class RangeSensor(BaseDevice):
     def __init__(
         self, position=(8, 0), a=0, max=20, width=1.0, name="sensor", **kwargs
     ):
@@ -44,6 +44,7 @@ class RangeSensor:
             "width": width,
             "name": name,
         }
+        config.update(kwargs)
         self._watcher = None
         self.robot = None
         self.initialize()
@@ -95,11 +96,7 @@ class RangeSensor:
         valid_keys = set([
             "position", "a", "max", "width", "name", "class"
         ])
-        config_keys = set(list(config.keys()))
-        extra_keys = config_keys - valid_keys
-
-        if len(extra_keys) > 0:
-            raise TypeError("invalid key(s) for rangesensor config: %r" % extra_keys)
+        self.verify_config(valid_keys, config)
 
         if "position" in config:
             self.position = config["position"]

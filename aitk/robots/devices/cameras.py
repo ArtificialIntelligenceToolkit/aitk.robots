@@ -21,9 +21,9 @@ from ..utils import (
     uniform_angle,
 )
 from ..colors import WHITE
+from .base import BaseDevice
 
-
-class Camera:
+class Camera(BaseDevice):
     def __init__(
         self,
         width=64,
@@ -56,7 +56,7 @@ class Camera:
             * name: (str) the name of the camera
             * samples: (int) how many pixels should it sample
 
-        Note: currently the camera faces forward. TODO.
+        Note: currently the camera faces forward.
         """
         config = {
             "width": width,
@@ -70,6 +70,7 @@ class Camera:
             "name": name,
             "samples": samples,
         }
+        config.update(kwargs)
         self._watcher = None
         self.robot = None
         self.initialize()
@@ -103,8 +104,7 @@ class Camera:
             "sizeFadeWithDistance", "reflectGround", "reflectSky",
             "fov", "max_range", "samples", "position", "class"
         ])
-        config_keys = set(list(config.keys()))
-        extra_keys = config_keys - valid_keys
+        self.verify_config(valid_keys, config)
 
         if "width" in config:
             self.cameraShape[0] = config["width"]

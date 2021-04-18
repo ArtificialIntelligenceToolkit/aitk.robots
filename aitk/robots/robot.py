@@ -660,13 +660,23 @@ class Robot:
             else:
                 self.text_trace[:] = [(self.world.time, text)]
 
-    def pen_down(self, color, radius=1):
+    def pen_down(self, color=None, radius=1):
         """
         Put the pen down to change the color of the background image.
 
         Note: not for use in a robot in a recorder.
         """
+        from PIL import Image
+
+        color = color if color is not None else self.color
         self.pen = (Color(color), radius)
+        if self.world is not None:
+            if self.world._ground_image is None:
+                image = Image.new("RGBA", (self.world.width, self.world.height),
+                                  color="white")
+                filename = "ground_image.png"
+                image.save(filename)
+                self.world.set_ground_image(filename)
 
     def pen_up(self):
         """

@@ -1080,9 +1080,15 @@ class Robot:
         """
         if self.do_trace:
             time_step = self.world.time_step if self.world is not None else 0.1
-            max_trace_length = int(1.0 / time_step * self.max_trace_length)
+            if self.max_trace_length > 0:
+                max_trace_length = int(1.0 / time_step * self.max_trace_length)
+            else:
+                max_trace_length = 0
 
-            data = self.trace[-max_trace_length:]
+            if max_trace_length == 0:
+                data = []
+            else:
+                data = self.trace[-max_trace_length:]
 
             # None indicates a segment break
             if all(data): # no segments
@@ -1105,7 +1111,9 @@ class Robot:
                     segment,
                     stroke_style=self.trace_color,
                 )
-            self.trace = self.trace[-max_trace_length:]
+
+
+            self.trace = data
 
         backend.pushMatrix()
         backend.translate(self.x, self.y)

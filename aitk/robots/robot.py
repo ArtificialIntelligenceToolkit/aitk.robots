@@ -32,10 +32,6 @@ from .utils import (
 )
 
 class Robot:
-    """
-    The base robot class.
-    """
-
     def __init__(
         self,
         x=0,
@@ -49,7 +45,27 @@ class Robot:
         **kwargs
     ):
         """
-        Base robot class. You'll need to define a body.
+        A simulated robot. 
+
+        Args:
+            x: (int) starting location in the horizontal direction. Leave 0 to
+                place in a random location.
+            y: (int) starting location in the horizontal direction. Leave 0 to
+                place in a random location.
+            a: (number) starting angle in degrees.
+            color: (str) the name of a color
+            name: (str) a name to give your robot
+            do_trace: (bool) should the robot leave a trace?
+            height: (number) height of robot (use number < 1)
+            max_trace_length: (number) max length of trace, in seconds
+            state: (dict) serializable memory for a robot
+            va, vx, vy: (numbers) velocities
+            tva, tvx, tvy: (numbers) target velocities
+            va_max, vx_max, vy_max: (numbers) max velocities
+            va_ramp, vx_ramp, vy_ramp: (numbers) linear accelerations
+            image_data: ["dataset-name", index] to use a 3D set of images
+            body: data structure that defines a robot body
+            devices: list of serialized devices
         """
         # Get the args:
         config = {
@@ -299,9 +315,9 @@ class Robot:
         Get the robot widget.
 
         Args:
-            * size: (int) size in pixels around robot
-            * show_robot: (bool) show picture of robot
-            * attributes: (list) items to include, or "all"
+            size: (int) size in pixels around robot
+            show_robot: (bool) show picture of robot
+            attributes: (list) items to include, or "all"
         """
         from .watchers import RobotWatcher
 
@@ -326,9 +342,9 @@ class Robot:
         Watch the robot stats with live updates.
 
         Args:
-            * size: (int) size in pixels around robot
-            * show_robot: (bool) show picture of robot
-            * attributes: (list) items to include, or "all"
+            size: (int) size in pixels around robot
+            show_robot: (bool) show picture of robot
+            attributes: (list) items to include, or "all"
         """
         widget = self.get_widget(
             size=size,
@@ -342,7 +358,7 @@ class Robot:
         Get an image of the robot.
 
         Args:
-            * size: (int) size in pixels around robot
+            size: (int) size in pixels around robot
         """
         picture = self.world.get_image()
         start_x = round(
@@ -377,7 +393,7 @@ class Robot:
         Set the max length of trace, in seconds.
 
         Args:
-            * seconds: (number) the length of trace
+            seconds: (number) the length of trace
         """
         self.max_trace_length = seconds
 
@@ -645,7 +661,7 @@ class Robot:
         Show some text in the robot's speech bubble.
 
         Args:
-            * text: (str) the text to show; use None to clear
+            text: (str) the text to show; use None to clear
 
         Note: not for use in a robot in a recorder.
         """
@@ -1233,32 +1249,6 @@ class Scribbler(Robot):
         max_trace_length=10,
         **kwargs
     ):
-        """
-        A small little two-wheeled robot. x,y should fit in the world that
-        you will place the robot into (or use x=0, y=0 to put in a random place).
-
-        Args:
-            * x: (int) starting location in the horizontal direction. Leave 0 to
-                place in a random location.
-            * y: (int) starting location in the horizontal direction. Leave 0 to
-                place in a random location.
-            * a: (number) starting angle in degrees.
-            * color:
-            * name: (str) a name to give your robot
-            * do_trace: (bool) should the robot leave a trace?
-            * height: (number) height of robot (use number < 1)
-            * max_trace_length: (number) max length of trace, in seconds
-
-        Any of the other valid config settings can also be passed in, including:
-            * state: (dict) serializable memory for a robot
-            * va, vx, vy: (numbers) velocities
-            * tva, tvx, tvy: (numbers) target velocities
-            * va_max, vx_max, vy_max: (numbers) max velocities
-            * va_ramp, vx_ramp, vy_ramp: (numbers) linear accelerations
-            * image_data: ["dataset-name", index] to use a 3D set of images
-            * body: data structure that defines a robot body
-            * devices: list of serialized devices
-        """
         config = {
             "x": x,
             "y": y,
@@ -1310,32 +1300,6 @@ class Vehicle(Robot):
         max_trace_length=10,
         **kwargs
     ):
-        """
-        A small little two-wheeled robot. x,y should fit in the world that
-        you will place the robot into (or use x=0, y=0 to put in a random place).
-
-        Args:
-            * x: (int) starting location in the horizontal direction. Leave 0 to
-                place in a random location.
-            * y: (int) starting location in the horizontal direction. Leave 0 to
-                place in a random location.
-            * a: (number) starting angle in degrees.
-            * color:
-            * name: (str) a name to give your robot
-            * do_trace: (bool) should the robot leave a trace?
-            * height: (number) height of robot (use number < 1)
-            * max_trace_length: (number) max length of trace, in seconds
-
-        Any of the other valid config settings can also be passed in, including:
-            * state: (dict) serializable memory for a robot
-            * va, vx, vy: (numbers) velocities
-            * tva, tvx, tvy: (numbers) target velocities
-            * va_max, vx_max, vy_max: (numbers) max velocities
-            * va_ramp, vx_ramp, vy_ramp: (numbers) linear accelerations
-            * image_data: ["dataset-name", index] to use a 3D set of images
-            * body: data structure that defines a robot body
-            * devices: list of serialized devices
-        """
         config = {
             "x": x,
             "y": y,

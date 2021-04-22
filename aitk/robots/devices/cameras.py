@@ -42,19 +42,19 @@ class Camera:
         A camera device.
 
         Args:
-            * width: (int) width of camera in pixels
-            * height: (int) height of camera in pixels
-            * fov: (number) width of camera field of view in degrees. Can be
+            width: (int) width of camera in pixels
+            height: (int) height of camera in pixels
+            fov: (number) width of camera field of view in degrees. Can be
                 180 or even 360 for wide angle cameras.
-            * colorsFadeWithDistance: (float) colors get darker
+            colorsFadeWithDistance: (float) colors get darker
                 faster with larger value
-            * sizeFadeWithDistance: (float) size gets smaller faster
+            sizeFadeWithDistance: (float) size gets smaller faster
                 with with larger value
-            * reflectGround: (bool) ground reflects for 3D point cloud
-            * reflectSky: (bool) sky reflects for 3D point cloud
-            * max_range: (int) maximum range of camera
-            * name: (str) the name of the camera
-            * samples: (int) how many pixels should it sample
+            reflectGround: (bool) ground reflects for 3D point cloud
+            reflectSky: (bool) sky reflects for 3D point cloud
+            max_range: (int) maximum range of camera
+            name: (str) the name of the camera
+            samples: (int) how many pixels should it sample
 
         Note: currently the camera faces forward. TODO.
         """
@@ -626,7 +626,7 @@ class Camera:
         Set the field of view angle in degrees of the camera.
 
         Args:
-            * angle: (number) angle in degrees of field of view
+            angle: (number) angle in degrees of field of view
         """
         # given in degrees
         # save in radians
@@ -640,8 +640,8 @@ class Camera:
         Set the height and width of the camera in pixels.
 
         Args:
-            * width: (int) width of camera in pixels
-            * height: (int) height of camera in pixels
+            width: (int) width of camera in pixels
+            height: (int) height of camera in pixels
         """
         self.cameraShape[0] = width
         self.cameraShape[1] = height
@@ -652,7 +652,7 @@ class Camera:
         Set the maximum distance the camera can see.
 
         Args:
-            * max_range: (number) distance (in CM) the camera can see
+            max_range: (number) distance (in CM) the camera can see
         """
         self.max_range = max_range
 
@@ -661,7 +661,7 @@ class Camera:
         Set the width of the camera in pixels.
 
         Args:
-            * width: (int) width of camera in pixels
+            width: (int) width of camera in pixels
         """
         self.cameraShape[0] = width
         self.reset()
@@ -671,7 +671,7 @@ class Camera:
         Set the height of the camera in pixels.
 
         Args:
-            * height: (int) height of camera in pixels
+            height: (int) height of camera in pixels
         """
         self.cameraShape[1] = height
         self.reset()
@@ -681,7 +681,7 @@ class Camera:
         Set the name of the camera.
 
         Args:
-            * name: (str) the name of the camera
+            name: (str) the name of the camera
         """
         self.name = name
 
@@ -716,9 +716,9 @@ class GroundCamera(Camera):
         A downward-facing camera device.
 
         Args:
-            * width: (int) width of camera in pixels
-            * height: (int) height of camera in pixels
-            * name: (str) the name of the camera
+            width: (int) width of camera in pixels
+            height: (int) height of camera in pixels
+            name: (str) the name of the camera
         """
         config = {
             "width": width,

@@ -30,12 +30,12 @@ class RangeSensor:
         is the reading in CM.
 
         Args:
-            * position: (int, int) the location on the robot in (x, y)
-            * a: (number) the direction in degrees the sensor is
+            position: (int, int) the location on the robot in (x, y)
+            a: (number) the direction in degrees the sensor is
                 facing.
-            * max: (number) max distance in CM that the range sensor can sense
-            * width: (number) 0 for laser, or wider for sonar
-            * name: (str) the name of the sensor
+            max: (number) max distance in CM that the range sensor can sense
+            width: (number) 0 for laser, or wider for sonar
+            name: (str) the name of the sensor
         """
         config = {
             "position": position,
@@ -265,7 +265,7 @@ class RangeSensor:
         Set the name of the range sensor.
 
         Args:
-            * name: (str) the name of the range sensor
+            name: (str) the name of the range sensor
         """
         self.name = name
 
@@ -275,7 +275,7 @@ class RangeSensor:
         usually do this manually.
 
         Args:
-            * distance: (number) distance in CM to sensed object
+            distance: (number) distance in CM to sensed object
         """
         self.distance = distance
         self.reading = distance / self.max
@@ -286,7 +286,7 @@ class RangeSensor:
         usually do this manually.
 
         Args:
-            * reading: (number) between 0 and 1
+            reading: (number) between 0 and 1
         """
         self.reading = reading
         self.distance = reading * self.max
@@ -296,7 +296,7 @@ class RangeSensor:
         Set the maximum distance in CM that this sensor can sense.
 
         Args:
-            * max: (number) max distance in CM the sensor can sense.
+            max: (number) max distance in CM the sensor can sense.
         """
         self.max = max
 
@@ -308,7 +308,7 @@ class RangeSensor:
         robot.
 
         Args:
-            * position: (list of length 2 numbers) the location
+            position: (list of length 2 numbers) the location
                 of the sensor in relationship to the center of the
                 robot.
         """
@@ -324,7 +324,7 @@ class RangeSensor:
         Set the direction of the sensor.
 
         Args:
-            * a: (number) the angle of the direction of sensor in degrees
+            a: (number) the angle of the direction of sensor in degrees
         """
         self.a = degrees_to_world(a)
 
@@ -337,7 +337,7 @@ class RangeSensor:
         minimum of the three.
 
         Args:
-            * width: (number) angle in degrees
+            width: (number) angle in degrees
         """
         self.width = width * math.pi / 180  # save as radians
         if self.width == 0:

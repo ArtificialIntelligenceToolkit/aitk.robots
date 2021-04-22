@@ -153,17 +153,17 @@ class World:
         The aitk.robots simulator world.
 
         Args:
-            * width: (int) width of world in pixels
-            * height: (int) height of world in pixels
-            * seed: (int) random number generator seed
-            * scale: (number) value to use in drawing the world
-            * boundary_wall: (bool) draw a boundary around the world?
-            * boundary_wall_color: (str) color name of boundary wall
-            * boundary_wall_width: (int) width of boundary wall
-            * ground_color: (str) color name
-            * ground_image_filename: (str) image file used for backgound
-            * filename: (str) name of json world file
-            * quiet: (bool) if True, don't print any messages
+            width: (int) width of world in pixels
+            height: (int) height of world in pixels
+            seed: (int) random number generator seed
+            scale: (number) value to use in drawing the world
+            boundary_wall: (bool) draw a boundary around the world?
+            boundary_wall_color: (str) color name of boundary wall
+            boundary_wall_width: (int) width of boundary wall
+            ground_color: (str) color name
+            ground_image_filename: (str) image file used for backgound
+            filename: (str) name of json world file
+            quiet: (bool) if True, don't print any messages
 
         You can also pass any valid item from the world config settings.
         """
@@ -296,7 +296,7 @@ class World:
         world.robots[item]
 
         Args:
-            * item: (int or string) index or name of robot
+            item: (int or string) index or name of robot
         """
         return self.robots[item]
 
@@ -306,7 +306,7 @@ class World:
         world.bulbs[item]
 
         Args:
-            * item: (int or string) index or name of bulb
+            item: (int or string) index or name of bulb
         """
         return self.bulbs[item]
 
@@ -606,9 +606,9 @@ class World:
         a ground image to have already been set.
 
         Args:
-            * image: a Python Image Library image
-            * x: (int) the x coordinate of upper lefthand corner
-            * y: (int) the y coordinate of upper lefthand corner
+            image: a Python Image Library image
+            x: (int) the x coordinate of upper lefthand corner
+            y: (int) the y coordinate of upper lefthand corner
         """
         if self._ground_image:
             self._ground_image.paste(image, (x, y))
@@ -619,9 +619,9 @@ class World:
         a ground image to have already been set.
 
         Args:
-            * x: (int) the x coordinate
-            * y: (int) the y coordinate
-            * pen: (tuple) the (color, radius) to draw with
+            x: (int) the x coordinate
+            y: (int) the y coordinate
+            pen: (tuple) the (color, radius) to draw with
         """
         if self._ground_image:
             color, radius = pen
@@ -640,9 +640,9 @@ class World:
         a ground image to have already been set.
 
         Args:
-            * x: (int) the x coordinate
-            * y: (int) the y coordinate
-            * radius: (int) size of area
+            x: (int) the x coordinate
+            y: (int) the y coordinate
+            radius: (int) size of area
         """
         if self._ground_image:
             results = []
@@ -1017,9 +1017,9 @@ class World:
         Run the simulator for 1 step.
 
         Args:
-            * time_step: (Number, optional) the time unit to advance the simulation
-            * show: (bool) if True, update the watchers
-            * real_time: (bool) if True, run in real time, even introducing a
+            time_step: (Number, optional) the time unit to advance the simulation
+            show: (bool) if True, update the watchers
+            real_time: (bool) if True, run in real time, even introducing a
                 delay if necessary
         """
         if time_step is not None and not isinstance(time_step, Number):

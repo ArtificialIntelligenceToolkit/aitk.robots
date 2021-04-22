@@ -112,7 +112,7 @@ class SmellSensor:
         robot.
 
         Args:
-            * position: (list/tuple of length 2) represents [x, y] in CM from
+            position: (list/tuple of length 2) represents [x, y] in CM from
                 center of robot
         """
         if len(position) != 2:

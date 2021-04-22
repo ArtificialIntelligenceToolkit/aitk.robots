@@ -2,7 +2,6 @@
 **/.ipynb_checkpoints/**
 build/**
 dist/**
-site/**
 *~
 Makefile
 *.egg-info/**

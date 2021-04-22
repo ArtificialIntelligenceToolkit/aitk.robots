@@ -1,0 +1,1379 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="AI toolkit for robots">
+      
+      
+      
+      
+        <link rel="canonical" href="https://github.com/ArtificialIntelligenceToolkit/aitk.robots/camera/">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.2">
+    
+    
+      
+        <title>Camera - aitk.robots</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.6f955dcd.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ef6f36e2.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#camera" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="aitk.robots" class="md-header__button md-logo" aria-label="aitk.robots" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            aitk.robots
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Camera
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="aitk.robots" class="md-nav__button md-logo" aria-label="aitk.robots" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    aitk.robots
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      <label class="md-nav__link" for="__nav_2">
+        Code
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Code" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Code
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../world/" class="md-nav__link">
+        World
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../robot/" class="md-nav__link">
+        Robot
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_3" type="checkbox" id="__nav_2_3" checked>
+      
+      <label class="md-nav__link" for="__nav_2_3">
+        Devices
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Devices" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_3">
+          <span class="md-nav__icon md-icon"></span>
+          Devices
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Camera
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Camera
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.cameras.Camera" class="md-nav__link">
+    aitk.robots.devices.cameras.Camera
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.cameras.Camera.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.cameras.Camera.draw" class="md-nav__link">
+    draw()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.cameras.Camera.get_fov" class="md-nav__link">
+    get_fov()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.cameras.Camera.get_height" class="md-nav__link">
+    get_height()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.cameras.Camera.get_max" class="md-nav__link">
+    get_max()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.cameras.Camera.get_name" class="md-nav__link">
+    get_name()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.cameras.Camera.get_width" class="md-nav__link">
+    get_width()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.cameras.Camera.set_fov" class="md-nav__link">
+    set_fov()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.cameras.Camera.set_height" class="md-nav__link">
+    set_height()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.cameras.Camera.set_max" class="md-nav__link">
+    set_max()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.cameras.Camera.set_name" class="md-nav__link">
+    set_name()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.cameras.Camera.set_size" class="md-nav__link">
+    set_size()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.cameras.Camera.set_width" class="md-nav__link">
+    set_width()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.cameras.Camera.update" class="md-nav__link">
+    update()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.cameras.Camera" class="md-nav__link">
+    aitk.robots.devices.cameras.Camera
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.cameras.Camera.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.cameras.Camera.draw" class="md-nav__link">
+    draw()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.cameras.Camera.get_fov" class="md-nav__link">
+    get_fov()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.cameras.Camera.get_height" class="md-nav__link">
+    get_height()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.cameras.Camera.get_max" class="md-nav__link">
+    get_max()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.cameras.Camera.get_name" class="md-nav__link">
+    get_name()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.cameras.Camera.get_width" class="md-nav__link">
+    get_width()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.cameras.Camera.set_fov" class="md-nav__link">
+    set_fov()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.cameras.Camera.set_height" class="md-nav__link">
+    set_height()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.cameras.Camera.set_max" class="md-nav__link">
+    set_max()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.cameras.Camera.set_name" class="md-nav__link">
+    set_name()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.cameras.Camera.set_size" class="md-nav__link">
+    set_size()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.cameras.Camera.set_width" class="md-nav__link">
+    set_width()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.cameras.Camera.update" class="md-nav__link">
+    update()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="camera">Camera<a class="headerlink" href="#camera" title="Permanent link">&para;</a></h1>
+
+
+  <div class="doc doc-object doc-class">
+
+<a id="aitk.robots.devices.cameras.Camera"></a>
+    <div class="doc doc-contents first">
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="aitk.robots.devices.cameras.Camera.__init__" class="doc doc-heading">
+<code class="codehilite language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">fov</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">colorsFadeWithDistance</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">sizeFadeWithDistance</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">reflectGround</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">reflectSky</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">max_range</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;camera&#39;</span><span class="p">,</span> <span class="n">samples</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+<a href="#aitk.robots.devices.cameras.Camera.__init__" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>A camera device.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>width</code></td>
+        <td><code></code></td>
+        <td><p>(int) width of camera in pixels</p></td>
+        <td><code>64</code></td>
+      </tr>
+      <tr>
+        <td><code>height</code></td>
+        <td><code></code></td>
+        <td><p>(int) height of camera in pixels</p></td>
+        <td><code>32</code></td>
+      </tr>
+      <tr>
+        <td><code>fov</code></td>
+        <td><code></code></td>
+        <td><p>(number) width of camera field of view in degrees. Can be
+180 or even 360 for wide angle cameras.</p></td>
+        <td><code>30</code></td>
+      </tr>
+      <tr>
+        <td><code>colorsFadeWithDistance</code></td>
+        <td><code></code></td>
+        <td><p>(float) colors get darker
+faster with larger value</p></td>
+        <td><code>1.0</code></td>
+      </tr>
+      <tr>
+        <td><code>sizeFadeWithDistance</code></td>
+        <td><code></code></td>
+        <td><p>(float) size gets smaller faster
+with with larger value</p></td>
+        <td><code>0.8</code></td>
+      </tr>
+      <tr>
+        <td><code>reflectGround</code></td>
+        <td><code></code></td>
+        <td><p>(bool) ground reflects for 3D point cloud</p></td>
+        <td><code>True</code></td>
+      </tr>
+      <tr>
+        <td><code>reflectSky</code></td>
+        <td><code></code></td>
+        <td><p>(bool) sky reflects for 3D point cloud</p></td>
+        <td><code>False</code></td>
+      </tr>
+      <tr>
+        <td><code>max_range</code></td>
+        <td><code></code></td>
+        <td><p>(int) maximum range of camera</p></td>
+        <td><code>1000</code></td>
+      </tr>
+      <tr>
+        <td><code>name</code></td>
+        <td><code></code></td>
+        <td><p>(str) the name of the camera</p></td>
+        <td><code>&#39;camera&#39;</code></td>
+      </tr>
+      <tr>
+        <td><code>samples</code></td>
+        <td><code></code></td>
+        <td><p>(int) how many pixels should it sample</p></td>
+        <td><code>1</code></td>
+      </tr>
+  </tbody>
+</table>      
+
+        <details class="quote">
+          <summary>Source code in <code>robots/devices/cameras.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">width</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">height</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+    <span class="n">fov</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+    <span class="n">colorsFadeWithDistance</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">sizeFadeWithDistance</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+    <span class="n">reflectGround</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">reflectSky</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">max_range</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;camera&quot;</span><span class="p">,</span>
+    <span class="n">samples</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A camera device.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        width: (int) width of camera in pixels</span>
+<span class="sd">        height: (int) height of camera in pixels</span>
+<span class="sd">        fov: (number) width of camera field of view in degrees. Can be</span>
+<span class="sd">            180 or even 360 for wide angle cameras.</span>
+<span class="sd">        colorsFadeWithDistance: (float) colors get darker</span>
+<span class="sd">            faster with larger value</span>
+<span class="sd">        sizeFadeWithDistance: (float) size gets smaller faster</span>
+<span class="sd">            with with larger value</span>
+<span class="sd">        reflectGround: (bool) ground reflects for 3D point cloud</span>
+<span class="sd">        reflectSky: (bool) sky reflects for 3D point cloud</span>
+<span class="sd">        max_range: (int) maximum range of camera</span>
+<span class="sd">        name: (str) the name of the camera</span>
+<span class="sd">        samples: (int) how many pixels should it sample</span>
+
+<span class="sd">    Note: currently the camera faces forward.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="n">width</span><span class="p">,</span>
+        <span class="s2">&quot;height&quot;</span><span class="p">:</span> <span class="n">height</span><span class="p">,</span>
+        <span class="s2">&quot;fov&quot;</span><span class="p">:</span> <span class="n">fov</span><span class="p">,</span>
+        <span class="s2">&quot;colorsFadeWithDistance&quot;</span><span class="p">:</span> <span class="n">colorsFadeWithDistance</span><span class="p">,</span>
+        <span class="s2">&quot;sizeFadeWithDistance&quot;</span><span class="p">:</span> <span class="n">sizeFadeWithDistance</span><span class="p">,</span>
+        <span class="s2">&quot;reflectGround&quot;</span><span class="p">:</span> <span class="n">reflectGround</span><span class="p">,</span>
+        <span class="s2">&quot;reflectSky&quot;</span><span class="p">:</span> <span class="n">reflectSky</span><span class="p">,</span>
+        <span class="s2">&quot;max_range&quot;</span><span class="p">:</span> <span class="n">max_range</span><span class="p">,</span>
+        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+        <span class="s2">&quot;samples&quot;</span><span class="p">:</span> <span class="n">samples</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_watcher</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">robot</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="aitk.robots.devices.cameras.Camera.draw" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">backend</span><span class="p">)</span></code>
+
+
+<a href="#aitk.robots.devices.cameras.Camera.draw" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Currently, cameras are fixed at 0,0 and face forwards.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>robots/devices/cameras.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">backend</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Currently, cameras are fixed at 0,0 and face forwards.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">backend</span><span class="o">.</span><span class="n">set_fill</span><span class="p">(</span><span class="n">Color</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="n">backend</span><span class="o">.</span><span class="n">strokeStyle</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">backend</span><span class="o">.</span><span class="n">draw_rect</span><span class="p">(</span><span class="mf">5.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.33</span><span class="p">,</span> <span class="mf">1.33</span><span class="p">,</span> <span class="mf">6.33</span><span class="p">)</span>
+
+    <span class="c1"># Note angle in sim world is opposite in graphics:</span>
+    <span class="n">hits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">cast_ray</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">y</span><span class="p">,</span>
+        <span class="n">PI_OVER_2</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">fov</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_range</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">hits</span><span class="p">:</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">rotate_around</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">hits</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">distance</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">fov</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">rotate_around</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_range</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">fov</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,)</span>
+    <span class="n">backend</span><span class="o">.</span><span class="n">draw_line</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="c1"># Note angle in sim world is opposite in graphics:</span>
+    <span class="n">hits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">cast_ray</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">y</span><span class="p">,</span>
+        <span class="n">PI_OVER_2</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">a</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">fov</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_range</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">hits</span><span class="p">:</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">rotate_around</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">hits</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">distance</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fov</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">rotate_around</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_range</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fov</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,)</span>
+    <span class="n">backend</span><span class="o">.</span><span class="n">draw_line</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="aitk.robots.devices.cameras.Camera.get_fov" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">get_fov</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+<a href="#aitk.robots.devices.cameras.Camera.get_fov" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Get the field of view angle in degrees.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>robots/devices/cameras.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">get_fov</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the field of view angle in degrees.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fov</span> <span class="o">*</span> <span class="n">ONE80_OVER_PI</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="aitk.robots.devices.cameras.Camera.get_height" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">get_height</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+<a href="#aitk.robots.devices.cameras.Camera.get_height" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Get the height in pixels of the camera.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>robots/devices/cameras.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">get_height</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the height in pixels of the camera.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cameraShape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="aitk.robots.devices.cameras.Camera.get_max" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">get_max</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+<a href="#aitk.robots.devices.cameras.Camera.get_max" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Get the maximum distance in CM the camera can see.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>robots/devices/cameras.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">get_max</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the maximum distance in CM the camera can see.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_range</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="aitk.robots.devices.cameras.Camera.get_name" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+<a href="#aitk.robots.devices.cameras.Camera.get_name" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Get the name of the camera.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>robots/devices/cameras.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the name of the camera.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="aitk.robots.devices.cameras.Camera.get_width" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">get_width</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+<a href="#aitk.robots.devices.cameras.Camera.get_width" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Get the width in pixels of the camera.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>robots/devices/cameras.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">get_width</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the width in pixels of the camera.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cameraShape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="aitk.robots.devices.cameras.Camera.set_fov" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">set_fov</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">)</span></code>
+
+
+<a href="#aitk.robots.devices.cameras.Camera.set_fov" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Set the field of view angle in degrees of the camera.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>angle</code></td>
+        <td><code></code></td>
+        <td><p>(number) angle in degrees of field of view</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>robots/devices/cameras.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">set_fov</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Set the field of view angle in degrees of the camera.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        angle: (number) angle in degrees of field of view</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># given in degrees</span>
+    <span class="c1"># save in radians</span>
+    <span class="c1"># scale = min(max(angle / 6.0, 0.0), 1.0)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">fov</span> <span class="o">=</span> <span class="n">angle</span> <span class="o">*</span> <span class="n">PI_OVER_180</span>
+    <span class="c1"># self.sizeFadeWithDistance = scale</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="aitk.robots.devices.cameras.Camera.set_height" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">set_height</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span></code>
+
+
+<a href="#aitk.robots.devices.cameras.Camera.set_height" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Set the height of the camera in pixels.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>height</code></td>
+        <td><code></code></td>
+        <td><p>(int) height of camera in pixels</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>robots/devices/cameras.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">set_height</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">height</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Set the height of the camera in pixels.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        height: (int) height of camera in pixels</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">cameraShape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">height</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="aitk.robots.devices.cameras.Camera.set_max" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">set_max</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_range</span><span class="p">)</span></code>
+
+
+<a href="#aitk.robots.devices.cameras.Camera.set_max" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Set the maximum distance the camera can see.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>max_range</code></td>
+        <td><code></code></td>
+        <td><p>(number) distance (in CM) the camera can see</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>robots/devices/cameras.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">set_max</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_range</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Set the maximum distance the camera can see.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        max_range: (number) distance (in CM) the camera can see</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">max_range</span> <span class="o">=</span> <span class="n">max_range</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="aitk.robots.devices.cameras.Camera.set_name" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">set_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></code>
+
+
+<a href="#aitk.robots.devices.cameras.Camera.set_name" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Set the name of the camera.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>name</code></td>
+        <td><code></code></td>
+        <td><p>(str) the name of the camera</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>robots/devices/cameras.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">set_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Set the name of the camera.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        name: (str) the name of the camera</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="aitk.robots.devices.cameras.Camera.set_size" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">set_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span></code>
+
+
+<a href="#aitk.robots.devices.cameras.Camera.set_size" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Set the height and width of the camera in pixels.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>width</code></td>
+        <td><code></code></td>
+        <td><p>(int) width of camera in pixels</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>height</code></td>
+        <td><code></code></td>
+        <td><p>(int) height of camera in pixels</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>robots/devices/cameras.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">set_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Set the height and width of the camera in pixels.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        width: (int) width of camera in pixels</span>
+<span class="sd">        height: (int) height of camera in pixels</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">cameraShape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">width</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">cameraShape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">height</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="aitk.robots.devices.cameras.Camera.set_width" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">set_width</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">)</span></code>
+
+
+<a href="#aitk.robots.devices.cameras.Camera.set_width" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Set the width of the camera in pixels.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>width</code></td>
+        <td><code></code></td>
+        <td><p>(int) width of camera in pixels</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>robots/devices/cameras.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">set_width</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Set the width of the camera in pixels.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        width: (int) width of camera in pixels</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">cameraShape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">width</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="aitk.robots.devices.cameras.Camera.update" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">draw_list</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+
+<a href="#aitk.robots.devices.cameras.Camera.update" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Cameras operate in a lazy way: they don't actually update
+until needed because they are so expensive.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>robots/devices/cameras.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">draw_list</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Cameras operate in a lazy way: they don&#39;t actually update</span>
+<span class="sd">    until needed because they are so expensive.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        <a href="../robot/" class="md-footer__link md-footer__link--prev" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Robot
+            </div>
+          </div>
+        </a>
+      
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.4ea5477f.min.js"></script>
+      
+    
+  </body>
+</html>

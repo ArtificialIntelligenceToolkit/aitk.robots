@@ -1,17 +1,8 @@
-# Welcome to MkDocs
+# Welcome to aitk.robots
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+For full documentation visit [github.com/ArtificialIntelligenceToolkit/aitk.robots](https://github.com/ArtificialIntelligenceToolkit/aitk.robots/).
 
-## Commands
+## Introduction
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+## Installation
 
-## Project layout
-
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.

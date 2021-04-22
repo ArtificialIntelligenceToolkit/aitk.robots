@@ -47,16 +47,19 @@ class Wall:
     a robot, then robot will be that robot, else None.
     """
 
-    def __init__(self, color, robot, *lines):
+    def __init__(self, color, robot, *lines, wtype=None):
         """
         Create a wall consisting of one or more lines.
+
+        wtype is "boundary", "robot", or "wall"
         """
         self.color = color
         self.robot = robot
         self.lines = lines
+        self.wtype = wtype
 
     def __repr__(self):
-        return "Wall(%r, %r, %r)" % (self.color, self.robot, self.lines)
+        return "Wall(%r, %r, %r, wtype=%r)" % (self.color, self.robot, self.lines, self.wtype)
 
 
 class List(Sequence):
@@ -254,9 +257,10 @@ class World:
         picture = self.get_image(index=index, size=size)
         display(picture)
 
-    def info(self):
+    def summary(self):
         """
-        Get info about this world, and all of its robots.
+        Get a summary of information about the world and
+        all of its robots.
         """
         print("World details:")
         if self.filename:
@@ -269,7 +273,7 @@ class World:
             print("-" * 25)
             for i, robot in enumerate(self._robots):
                 print("  .robots[%s or %r]: %r" % (i, robot.name, robot))
-                robot.info()
+                robot.summary()
         print("Food:")
         if len(self._food) == 0:
             print("  This world has no food.")
@@ -355,7 +359,7 @@ class World:
         for robot in self._robots:
             robot.reset()
             # Re-add the robot's boundaries:
-            wall = Wall(robot.color, robot, *robot._bounding_lines)
+            wall = Wall(robot.color, robot, *robot._bounding_lines, wtype="robot")
             self._walls.append(wall)
         self._stop = False  # should stop?
         self.status = "stopped"
@@ -420,14 +424,25 @@ class World:
         # Add walls:
         self._add_boundary_walls()
         for wall in config.get("walls", []):
-            # Walls are "boxes"... 4 lines:
-            self.add_wall(
-                wall["color"],
-                wall["p1"]["x"],
-                wall["p1"]["y"],
-                wall["p2"]["x"],
-                wall["p2"]["y"],
-            )
+            # Walls are either "boxes" with 4 lines, or a single line:
+            if "wtype" not in wall or wall["wtype"] == "box":
+                self.add_wall(
+                    wall["color"],
+                    wall["p1"]["x"],
+                    wall["p1"]["y"],
+                    wall["p2"]["x"],
+                    wall["p2"]["y"],
+                    box=True,
+                )
+            elif wall["wtype"] == "line":
+                self.add_wall(
+                    wall["color"],
+                    wall["p1"]["x"],
+                    wall["p1"]["y"],
+                    wall["p2"]["x"],
+                    wall["p2"]["y"],
+                    box=False,
+                )
 
         for bulb in config.get("bulbs", []):
             # bulbs are {x, y, z, color, brightness}
@@ -478,10 +493,10 @@ class World:
             ## Not a box, but surround area with four boundaries:
             self._walls.extend(
                 [
-                    Wall(self.boundary_wall_color, None, Line(p1, p2)),
-                    Wall(self.boundary_wall_color, None, Line(p2, p3)),
-                    Wall(self.boundary_wall_color, None, Line(p3, p4)),
-                    Wall(self.boundary_wall_color, None, Line(p4, p1)),
+                    Wall(self.boundary_wall_color, None, Line(p1, p2), wtype="boundary"),
+                    Wall(self.boundary_wall_color, None, Line(p2, p3), wtype="boundary"),
+                    Wall(self.boundary_wall_color, None, Line(p3, p4), wtype="boundary"),
+                    Wall(self.boundary_wall_color, None, Line(p4, p1), wtype="boundary"),
                 ]
             )
             self._complexity = self._compute_complexity()
@@ -508,12 +523,26 @@ class World:
             "food": [],
         }
         for wall in self._walls:
-            if len(wall.lines) == 4 and wall.robot is None:
-                w = {
-                    "color": str(wall.color),
-                    "p1": {"x": wall.lines[0].p1.x, "y": wall.lines[0].p1.y,},
-                    "p2": {"x": wall.lines[2].p1.x, "y": wall.lines[2].p1.y,},
-                }
+            # Not a boundary wall or robot bounding box:
+            if wall.wtype == "wall":
+                if len(wall.lines) == 4:
+                    # Box:
+                    w = {
+                        "color": str(wall.color),
+                        "p1": {"x": wall.lines[0].p1.x, "y": wall.lines[0].p1.y,},
+                        "p2": {"x": wall.lines[2].p1.x, "y": wall.lines[2].p1.y,},
+                        "wtype": "box",
+                    }
+                elif len(wall.lines) == 1:
+                    # Line:
+                    w = {
+                        "color": str(wall.color),
+                        "p1": {"x": wall.lines[0].p1.x, "y": wall.lines[0].p1.y,},
+                        "p2": {"x": wall.lines[0].p2.x, "y": wall.lines[0].p2.y,},
+                        "wtype": "line",
+                    }
+                else:
+                    raise Exception("invalid wall length; should be 1 or 4: %s" % len(wall.lines))
                 config["walls"].append(w)
 
         for bulb in self._bulbs:
@@ -725,7 +754,7 @@ class World:
         bulb = Bulb(color, x, y, z, brightness, name)
         self._bulbs.append(bulb)
 
-    def add_wall(self, color, x1, y1, x2, y2, box=True):
+    def add_wall(self, color, x1, y1, x2, y2, box=True, wtype="wall"):
         """
         Add a wall line or box of wall lines.
         """
@@ -742,10 +771,11 @@ class World:
                 Line(p2, p3),
                 Line(p3, p4),
                 Line(p4, p1),
+                wtype=wtype,
             )
         else:
             wall = Wall(
-                Color(color), None, Line(p1, p3)
+                Color(color), None, Line(p1, p3), wtype="wall"
             )
         self._walls.append(wall)
         self._complexity = self._compute_complexity()
@@ -808,7 +838,7 @@ class World:
             # Bounding lines form a wall:
             if len(robot._bounding_lines) == 0:
                 print("WARNING: adding a robot with no body")
-            wall = Wall(robot.color, robot, *robot._bounding_lines)
+            wall = Wall(robot.color, robot, *robot._bounding_lines, wtype="robot")
             self._walls.append(wall)
             self._complexity = self._compute_complexity()
             self.update()
@@ -1131,21 +1161,30 @@ class World:
 
             ## Draw walls:
             for wall in self._walls:
-                if len(wall.lines) >= 1 and wall.robot is None:
+                if wall.wtype == "wall":
                     c = wall.color
+                    if len(wall.lines) == 1:
+                        self._backend.strokeStyle(c, 5)
+                        self._backend.draw_line(
+                            wall.lines[0].p1.x,
+                            wall.lines[0].p1.y,
+                            wall.lines[0].p2.x,
+                            wall.lines[0].p2.y,
+                        )
+                    else:
+                        self._backend.set_fill(c)
+                        self._backend.noStroke()
+                        self._backend.beginShape()
+                        for line in wall.lines:
+                            self._backend.vertex(line.p1.x, line.p1.y)
+                            self._backend.vertex(line.p2.x, line.p2.y)
+                        self._backend.endShape()
+
+                    self._backend.lineWidth(1)
                     self._backend.noStroke()
-                    self._backend.set_fill(c)
-                    self._backend.beginShape()
-                    for line in wall.lines:
-                        self._backend.vertex(line.p1.x, line.p1.y)
-                        self._backend.vertex(line.p2.x, line.p2.y)
 
-                    self._backend.endShape()
-
-            ## Draw borders:
-            for wall in self._walls:
-                c = wall.color
-                if len(wall.lines) == 1:
+                elif wall.wtype == "boundary":
+                    c = wall.color
                     self._backend.strokeStyle(c, 3)
                     self._backend.draw_line(
                         wall.lines[0].p1.x,

@@ -21,9 +21,9 @@ from ..utils import (
     uniform_angle,
 )
 from ..colors import WHITE
+from .base import BaseDevice
 
-
-class Camera:
+class Camera(BaseDevice):
     def __init__(
         self,
         width=64,
@@ -56,7 +56,7 @@ class Camera:
             name: (str) the name of the camera
             samples: (int) how many pixels should it sample
 
-        Note: currently the camera faces forward. TODO.
+        Note: currently the camera faces forward.
         """
         config = {
             "width": width,
@@ -70,6 +70,7 @@ class Camera:
             "name": name,
             "samples": samples,
         }
+        config.update(kwargs)
         self._watcher = None
         self.robot = None
         self.initialize()
@@ -103,8 +104,7 @@ class Camera:
             "sizeFadeWithDistance", "reflectGround", "reflectSky",
             "fov", "max_range", "samples", "position", "class"
         ])
-        config_keys = set(list(config.keys()))
-        extra_keys = config_keys - valid_keys
+        self.verify_config(valid_keys, config)
 
         if "width" in config:
             self.cameraShape[0] = config["width"]
@@ -482,13 +482,18 @@ class Camera:
             layer = Image.new('RGBA', self.cameraShape, (0, 0, 0, 0))
             drawing = ImageDraw.Draw(layer, "RGBA")
             size = max(self.robot.world.width, self.robot.world.height)
+            color = Color(bulb.color)
+            #color.alpha = 128
             for (bulb, bulb_x, bulb_y) in draw_list:
                 angle = uniform_angle(math.pi * 3/2 - math.atan2(self.robot.x - bulb_x,
                                                                  self.robot.y - bulb_y))
                 min_angle = uniform_angle(self.robot.a - self.fov/2)
                 max_angle = uniform_angle(self.robot.a + self.fov/2)
                 if max_angle < min_angle:
+                    if 0 <= angle < max_angle:
+                        angle += TWO_PI
                     max_angle += TWO_PI
+
                 if min_angle < angle < max_angle:
                     span = max_angle - min_angle
                     x = int((angle - min_angle)/span * self.cameraShape[0])
@@ -498,11 +503,11 @@ class Camera:
                     high = (1.0 - s) * self.cameraShape[1]
                     y = (self.cameraShape[1] / 2) + high / 2
                     radius = 5
-                    color = bulb.color
-                    color.alpha = 128
                     drawing.ellipse((x - radius, y - radius,
                                      x + radius, y + radius),
                                     fill=color.to_tuple())
+                else:
+                    print(min_angle, angle, max_angle)
             image.paste(Image.alpha_composite(image, layer))
 
     def show_food(self, image):
@@ -520,13 +525,18 @@ class Camera:
             layer = Image.new('RGBA', self.cameraShape, (0, 0, 0, 0))
             drawing = ImageDraw.Draw(layer, "RGBA")
             size = max(self.robot.world.width, self.robot.world.height)
+            color = Color(WHITE)
+            #color.alpha = 128
             for (x, y, sd) in draw_list:
                 angle = uniform_angle(math.pi * 3/2 - math.atan2(self.robot.x - x,
                                                                  self.robot.y - y))
                 min_angle = uniform_angle(self.robot.a - self.fov/2)
                 max_angle = uniform_angle(self.robot.a + self.fov/2)
                 if max_angle < min_angle:
+                    if 0 <= angle < max_angle:
+                        angle += TWO_PI
                     max_angle += TWO_PI
+
                 if min_angle < angle < max_angle:
                     span = max_angle - min_angle
                     x = int((angle - min_angle)/span * self.cameraShape[0])
@@ -536,11 +546,9 @@ class Camera:
                     high = (1.0 - s) * self.cameraShape[1]
                     y = (self.cameraShape[1] / 2) + high / 2
                     radius = 5
-                    color = WHITE
-                    color.alpha = 128
-                    drawing.ellipse((x - radius, y - radius,
-                                     x + radius, y + radius),
-                                    fill=color.to_tuple())
+                    drawing.rectangle((x - radius, y - radius,
+                                       x + radius, y + radius),
+                                      fill=color.to_tuple())
             image.paste(Image.alpha_composite(image, layer))
 
     def show_obstacles(self, image):

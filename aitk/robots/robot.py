@@ -296,9 +296,9 @@ class Robot:
                     if device:
                         self.add_device(device)
 
-    def info(self):
+    def summary(self):
         """
-        Get information on a robot.
+        Get a summary of information about the robot.
         """
         if len(self._devices) == 0:
             print("  This robot has no devices.")
@@ -676,13 +676,23 @@ class Robot:
             else:
                 self.text_trace[:] = [(self.world.time, text)]
 
-    def pen_down(self, color, radius=1):
+    def pen_down(self, color=None, radius=1):
         """
         Put the pen down to change the color of the background image.
 
         Note: not for use in a robot in a recorder.
         """
+        from PIL import Image
+
+        color = color if color is not None else self.color
         self.pen = (Color(color), radius)
+        if self.world is not None:
+            if self.world._ground_image is None:
+                image = Image.new("RGBA", (self.world.width, self.world.height),
+                                  color="white")
+                filename = "ground_image.png"
+                image.save(filename)
+                self.world.set_ground_image(filename)
 
     def pen_up(self):
         """
@@ -746,7 +756,9 @@ class Robot:
             if wall.robot is self:
                 continue
             # ignore this robot:
-            if ignore_robots is not None and wall.robot in ignore_robots:
+            if ((ignore_robots is not None) and
+                (wall.robot is not None) and
+                (wall.robot in ignore_robots)):
                 continue
             for line in wall.lines:
                 p1 = line.p1
@@ -1084,9 +1096,15 @@ class Robot:
         """
         if self.do_trace:
             time_step = self.world.time_step if self.world is not None else 0.1
-            max_trace_length = int(1.0 / time_step * self.max_trace_length)
+            if self.max_trace_length > 0:
+                max_trace_length = int(1.0 / time_step * self.max_trace_length)
+            else:
+                max_trace_length = 0
 
-            data = self.trace[-max_trace_length:]
+            if max_trace_length == 0:
+                data = []
+            else:
+                data = self.trace[-max_trace_length:]
 
             # None indicates a segment break
             if all(data): # no segments
@@ -1109,7 +1127,9 @@ class Robot:
                     segment,
                     stroke_style=self.trace_color,
                 )
-            self.trace = self.trace[-max_trace_length:]
+
+
+            self.trace = data
 
         backend.pushMatrix()
         backend.translate(self.x, self.y)

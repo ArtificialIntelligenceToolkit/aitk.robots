@@ -10,27 +10,79 @@
 import math
 
 from ..utils import distance, rotate_around, Color
+from .base import BaseDevice
 
-
-class Bulb:
+class Bulb(BaseDevice):
     """
     Class representing lights in the world.
     """
-
     def __init__(self, color, x=0, y=0, z=0, brightness=50, name=None, **kwargs):
         """
         Create a lightbulb.
+
+        Args:
+            color: (Color) the color of the bulb
+            x: (int) the position of bulb on x dimension
+            y: (int) the position of bulb on y dimension
+            z: (float) the height of bulb from ground (range 0 to 1)
+            brightness: (number) the brightness of the bulb (default 50)
+            name: (str) the name of the bulb
         """
-        self.color = Color(color)
+        config = {
+            "color": color,
+            "x": x,
+            "y": y,
+            "z": z,
+            "brightness": brightness,
+            "name": name,
+        }
+        config.update(kwargs)
         self.state = "on"
-        self._x = x
-        self._y = y
-        self._z = z
-        self.brightness = brightness
-        self.name = name if name is not None else "bulb"
         self.draw_rings = 7 # rings around bulb light in views
         self._watcher = None
         self.robot = None
+        self.from_json(config)
+
+    def initialize(self):
+        self.type = "bulb"
+        self.state = "on"
+        self.dist_from_center = distance(0, 0, self._x, self._y)
+        self.dir_from_center = math.atan2(-self._x, self._y)
+
+    def to_json(self):
+        config = {
+            "class": self.__class__.__name__,
+            "color": str(self.color),
+            "x": self._x,
+            "y": self._y,
+            "z": self._z,
+            "brightness": self.brightness,
+            "name": self.name,
+        }
+        return config
+
+    def from_json(self, config):
+        valid_keys = set(["x", "y", "z", "name", "color",
+                          "brightness", "class"])
+        self.verify_config(valid_keys, config)
+
+        if "x" in config:
+            self._x = config["x"]
+        if "y" in config:
+            self._y = config["y"]
+        if "z" in config:
+            self._z = config["z"]
+
+        if "name" in config:
+            name = config["name"]
+        else:
+            name = None
+        self.name = name if name is not None else "bulb"
+
+        if "color" in config:
+            self.color = Color(config["color"])
+        if "brightness" in config:
+            self.brightness = config["brightness"]
         self.initialize()
 
     def on(self):
@@ -119,39 +171,6 @@ class Bulb:
             self.brightness,
             self.name,
         )
-
-    def initialize(self):
-        self.type = "bulb"
-        self.state = "on"
-        self.dist_from_center = distance(0, 0, self._x, self._y)
-        self.dir_from_center = math.atan2(-self._x, self._y)
-
-    def to_json(self):
-        config = {
-            "class": self.__class__.__name__,
-            "color": str(self.color),
-            "x": self._x,
-            "y": self._y,
-            "z": self._z,
-            "brightness": self.brightness,
-            "name": self.name,
-        }
-        return config
-
-    def from_json(self, config):
-        if "x" in config:
-            self._x = config["x"]
-        if "y" in config:
-            self._y = config["y"]
-        if "z" in config:
-            self._z = config["z"]
-        if "name" in config:
-            self.name = config["name"]
-        if "color" in config:
-            self.color = Color(config["color"])
-        if "brightness" in config:
-            self.brightness = config["brightness"]
-        self.initialize()
 
     def _step(self, time_step):
         pass

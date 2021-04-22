@@ -30,6 +30,22 @@ try:
 except ImportError:
     display = print
 
+def compare(a, b):
+    if a > b:
+        return 1
+    elif a < b:
+        return -1
+    else:
+        return 0
+
+def in_range(delta, current, stop_value):
+    if delta < 0:
+        return current >= stop_value
+    elif delta > 0:
+        return current <= stop_value
+    else:
+        return True
+
 def normal_dist(x , mean , sd):
     prob_density = (math.pi * sd) * math.exp(-0.5 * ((x - mean) / sd) ** 2)
     return prob_density
@@ -542,17 +558,37 @@ class Grid:
         self.need_update = True
 
     def block_area(self, x1, y1, x2, y2, box=True):
-        x1 = round_to(x1, self.step)
-        y1 = round_to(y1, self.step)
-        x2 = round_to(x2, self.step)
-        y2 = round_to(y2, self.step)
         if box:
-            for x in range(x1, x2):
-                for y in range(y1, y2):
+            x_min = round_to(min(x1, x2), self.step)
+            y_min = round_to(min(y1, y2), self.step)
+            x_max = round_to(max(x1, x2), self.step)
+            y_max = round_to(max(y1, y2), self.step)
+            for x in range(x_min, x_max):
+                for y in range(y_min, y_max):
                     self.blocked[(x,y)] = 1
         else:
-            # FIXME: lines
-            pass
+            x_start = round_to(x1, self.step)
+            x_stop = round_to(x2, self.step)
+            y_start = round_to(y1, self.step)
+            y_stop = round_to(y2, self.step)
+
+            dx = compare(x_stop, x_start)
+            dy = compare(y_stop, y_start)
+
+            max_range = max(abs(x_stop - x_start),
+                            abs(y_stop - y_start))
+
+            if dx != 0 and dy != 0:
+                x = x_start
+                y = y_start
+                while in_range(dx, x, x_stop) and in_range(dy, y, y_stop):
+                    self.blocked[(round(x),round(y))] = 1
+                    self.blocked[(round(x)-1,round(y))] = 1
+                    self.blocked[(round(x),round(y)-1)] = 1
+                    self.blocked[(round(x)+1,round(y))] = 1
+                    self.blocked[(round(x),round(y)+1)] = 1
+                    x += dx / max_range * abs(x_stop - x_start)
+                    y += dy / max_range * abs(y_stop - y_start)
 
     def expand(self, visited, start, x, y, dist):
         retval = []

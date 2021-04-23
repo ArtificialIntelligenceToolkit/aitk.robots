@@ -17,6 +17,9 @@ from ..utils import (
     degrees_to_world,
     rotate_around,
     world_to_degrees,
+    ONE80_OVER_PI,
+    PI_OVER_180,
+    PI_OVER_2,
 )
 from .base import BaseDevice
 
@@ -108,7 +111,7 @@ class RangeSensor(BaseDevice):
         if "max" in config:
             self.max = config["max"]
         if "width" in config:
-            self.width = config["width"] * math.pi / 180  # save as radians
+            self.width = config["width"] * PI_OVER_180  # save as radians
             if self.width == 0:
                 self.type = "laser"
         if "name" in config:
@@ -121,7 +124,7 @@ class RangeSensor(BaseDevice):
             "position": self.position,
             "a": world_to_degrees(self.a),
             "max": self.max,
-            "width": self.width * 180 / math.pi,  # save as degrees
+            "width": self.width * ONE80_OVER_PI,  # save as degrees
             "name": self.name,
         }
         return config
@@ -131,7 +134,7 @@ class RangeSensor(BaseDevice):
             self.name,
             round(world_to_degrees(self.a), 1),
             self.max,
-            round(self.width * 180 / math.pi, 1),
+            round(self.width * ONE80_OVER_PI, 1),
             self.position,
         )
 
@@ -146,7 +149,7 @@ class RangeSensor(BaseDevice):
             self.robot.x,
             self.robot.y,
             self.dist_from_center,
-            self.robot.a + self.dir_from_center + math.pi / 2,
+            self.robot.a + self.dir_from_center + PI_OVER_2,
         )
 
         if self.robot.world.debug and draw_list is not None:
@@ -158,7 +161,7 @@ class RangeSensor(BaseDevice):
                 hits = self.robot.cast_ray(
                     p[0],
                     p[1],
-                    -self.robot.a + math.pi / 2.0 + incr - self.a,
+                    -self.robot.a + PI_OVER_2 + incr - self.a,
                     self.max,
                 )
                 if hits:
@@ -173,7 +176,7 @@ class RangeSensor(BaseDevice):
             hits = self.robot.cast_ray(
                 p[0],
                 p[1],
-                -self.robot.a + math.pi / 2.0 - self.a,
+                -self.robot.a + PI_OVER_2 - self.a,
                 self.max,
             )
             if hits:
@@ -249,7 +252,7 @@ class RangeSensor(BaseDevice):
         Get the width of the sensor in degrees. Use
         RangeSensor.width to see raw radians.
         """
-        return self.width * 180 / math.pi
+        return self.width * ONE80_OVER_PI
 
     def get_name(self):
         """
@@ -336,7 +339,7 @@ class RangeSensor(BaseDevice):
         Args:
             width: (number) angle in degrees
         """
-        self.width = width * math.pi / 180  # save as radians
+        self.width = width * PI_OVER_180  # save as radians
         if self.width == 0:
             self.type = "laser"
         else:

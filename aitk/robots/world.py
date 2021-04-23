@@ -27,15 +27,18 @@ from .utils import (
     Grid,
     Line,
     Point,
+    cast_ray,
     distance,
     distance_point_to_line,
     format_time,
     json_dump,
     load_image,
+    rotate_around,
     progress_bar,
     PI_OVER_180,
     PI_OVER_2,
     ONE80_OVER_PI,
+    TWO_PI,
 )
 
 DEFAULT_HANDLER = signal.getsignal(signal.SIGINT)
@@ -1155,9 +1158,38 @@ class World:
                 smell = smell.resize((int(self.width * self.scale), int(self.height * self.scale)))
                 self._backend.image.paste(smell, (0, 0), smell)
 
-            ## Draw bulbs in world (not on robots):
-            for bulb in self._get_light_sources(all=False):
-                bulb.draw(self._backend)
+            ## Draw all bulbs in world:
+            maxRange = max(self.width, self.height)
+            for bulb in self._get_light_sources(all=True):
+                if bulb.state == "on":
+                    color = bulb.color
+                    self._backend.line_width = 0
+                    self._backend.noStroke()
+                    x, y = bulb.get_position(world=True)
+                    # Cast rays once:
+                    all_hits = []
+                    for ray in range(bulb.rays):
+                        angle = ray/bulb.rays * TWO_PI
+                        hits = cast_ray(self, bulb.robot, x, y, -angle + PI_OVER_2, maxRange)
+                        all_hits.append(hits)
+                    # Now draw the rings:
+                    for i in range(bulb.draw_rings):
+                        radius = (bulb.draw_rings - i) * 2
+                        ray_length = bulb.brightness/30 * radius
+                        color.alpha = (i + 1)/bulb.draw_rings * 255
+                        self._backend.set_fill_style(color)
+                        points = []
+                        for ray in range(bulb.rays):
+                            hits = all_hits[ray]
+                            ray_length = bulb.brightness/30 * radius
+                            if len(hits) > 0:
+                                if hits[-1].distance < ray_length:
+                                    ray_length = hits[-1].distance
+                            angle = ray/bulb.rays * TWO_PI
+                            x2, y2 = rotate_around(x, y, ray_length, angle)
+                            points.append((x2, y2))
+                        self._backend.draw_polygon(points)
+                    self._backend.line_width = 1
 
             ## Draw walls:
             for wall in self._walls:

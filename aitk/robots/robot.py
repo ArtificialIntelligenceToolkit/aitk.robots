@@ -12,9 +12,9 @@ import math
 import re
 
 from .datasets import get_dataset
-from .hit import Hit
 from .utils import (
     arange,
+    cast_ray,
     display,
     Color,
     Line,
@@ -22,7 +22,6 @@ from .utils import (
     degrees_to_world,
     distance,
     intersect,
-    intersect_hit,
     rotate_around,
     PI_OVER_180,
     PI_OVER_2,
@@ -744,50 +743,7 @@ class Robot:
 
         Returns list of hits, furthest away first (back to front)
         """
-        # walls and robots
-        hits = []
-        if x2 is None:
-            x2 = math.sin(a) * maxRange + x1
-        if y2 is None:
-            y2 = math.cos(a) * maxRange + y1
-
-        for wall in self.world._walls:
-            # never detect hit with yourself
-            if wall.robot is self:
-                continue
-            # ignore this robot:
-            if ((ignore_robots is not None) and
-                (wall.robot is not None) and
-                (wall.robot in ignore_robots)):
-                continue
-            for line in wall.lines:
-                p1 = line.p1
-                p2 = line.p2
-                pos = intersect_hit(x1, y1, x2, y2, p1.x, p1.y, p2.x, p2.y)
-                if pos is not None:
-                    dist = distance(pos[0], pos[1], x1, y1)
-                    height = 1.0 if wall.robot is None else wall.robot.height
-                    color = wall.robot.color if wall.robot else wall.color
-                    boundary = len(wall.lines) == 1
-                    hits.append(
-                        Hit(
-                            wall.robot,
-                            height,
-                            pos[0],
-                            pos[1],
-                            dist,
-                            color,
-                            x1,
-                            y1,
-                            boundary,
-                            a,
-                        )
-                    )
-
-        hits.sort(
-            key=lambda a: a.distance, reverse=True
-        )  # further away first, back to front
-        return hits
+        return cast_ray(self.world, self, x1, y1, a, maxRange, x2, y2, ignore_robots)
 
     def _init_boundingbox(self):
         # First, find min/max points around robot (assumes box):

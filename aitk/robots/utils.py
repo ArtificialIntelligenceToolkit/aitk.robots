@@ -19,6 +19,7 @@ import random
 
 from .color_data import COLORS
 from .config import get_aitk_search_paths
+from .hit import Hit
 
 PI_OVER_180 = math.pi / 180
 PI_OVER_2 = math.pi / 2
@@ -61,6 +62,53 @@ def degrees_to_world(degrees):
 
 def world_to_degrees(direction):
     return (((direction + TWO_PI) * -ONE80_OVER_PI) % 360)
+
+def cast_ray(world, robot, x1, y1, a, maxRange,
+             x2=None, y2=None, ignore_robots=None):
+    # walls and robots
+    hits = []
+    if x2 is None:
+        x2 = math.sin(a) * maxRange + x1
+    if y2 is None:
+        y2 = math.cos(a) * maxRange + y1
+
+    for wall in world._walls:
+        # never detect hit with yourself
+        if robot is not None and wall.robot is robot:
+            continue
+        # ignore this robot:
+        if ((ignore_robots is not None) and
+            (wall.robot is not None) and
+            (wall.robot in ignore_robots)):
+            continue
+        for line in wall.lines:
+            p1 = line.p1
+            p2 = line.p2
+            pos = intersect_hit(x1, y1, x2, y2, p1.x, p1.y, p2.x, p2.y)
+            if pos is not None:
+                dist = distance(pos[0], pos[1], x1, y1)
+                height = 1.0 if wall.robot is None else wall.robot.height
+                color = wall.robot.color if wall.robot else wall.color
+                boundary = len(wall.lines) == 1
+                hits.append(
+                    Hit(
+                        wall.robot,
+                        height,
+                        pos[0],
+                        pos[1],
+                        dist,
+                        color,
+                        x1,
+                        y1,
+                        boundary,
+                        a,
+                    )
+                )
+
+    hits.sort(
+        key=lambda a: a.distance, reverse=True
+    )  # further away first, back to front
+    return hits
 
 def rotate_around(x1, y1, length, angle):
     """

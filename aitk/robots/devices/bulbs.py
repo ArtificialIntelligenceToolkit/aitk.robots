@@ -37,6 +37,7 @@ class Bulb(BaseDevice):
             "name": name,
         }
         config.update(kwargs)
+        self.rays = 32
         self.state = "on"
         self.draw_rings = 7 # rings around bulb light in views
         self._watcher = None
@@ -179,18 +180,8 @@ class Bulb(BaseDevice):
         pass
 
     def draw(self, backend):
-        if self.state == "off":
-            return
-        color = self.color
-        backend.line_width = 0
-        backend.noStroke()
-        for i in range(self.draw_rings):
-            radius = (self.draw_rings - i) * 2
-            color.alpha = (i + 1)/self.draw_rings * 255
-            backend.set_fill_style(color)
-            x, y = self.get_position(world=False)
-            backend.draw_circle(self.x, self.y, self.brightness/30 * radius)
-        backend.line_width = 1
+        # Drawn by world
+        pass
 
     def watch(self, title="Light Sensor:"):
         widget = self.get_widget(title=title)

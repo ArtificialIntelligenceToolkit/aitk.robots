@@ -45,7 +45,7 @@ class Robot:
         **kwargs
     ):
         """
-        A simulated robot. 
+        A simulated robot.
 
         Args:
             x: (int) starting location in the horizontal direction. Leave 0 to
@@ -513,7 +513,7 @@ class Robot:
         span = stop_degree - start_degree
         step_angle = span / count
         for angle in arange(start_degree, stop_degree, step_angle):
-            x, y = rotate_around(0, 0, 7, -angle * PI_OVER_180)
+            x, y = rotate_around(0, 0, distance_from_center, -angle * PI_OVER_180)
             self.add_device(device_class(position=(x, y), a=angle, **kwargs))
 
     def to_json(self):

@@ -109,8 +109,8 @@ class RangeSensor(BaseDevice):
             self.max = config["max"]
         if "width" in config:
             self.width = config["width"] * math.pi / 180  # save as radians
-            if self.width == 0:
-                self.type = "laser"
+        if self.width == 0:
+            self.type = "laser"
         if "name" in config:
             self.name = config["name"]
         self.distance = self.reading * self.max
@@ -127,7 +127,7 @@ class RangeSensor(BaseDevice):
         return config
 
     def __repr__(self):
-        return "<RangeSensor %r a=%r, range=%r, width=%r, position=%r>" % (
+        return "<RangeSensor %r a=%r, max=%r, width=%r, position=%r>" % (
             self.name,
             round(world_to_degrees(self.a), 1),
             self.max,
@@ -206,8 +206,10 @@ class RangeSensor(BaseDevice):
             else:
                 backend.strokeStyle(Color(128, 0, 128, 64), 1)
 
+            x, y = rotate_around(self.position[0], self.position[1], dist, self.a)
+
             backend.draw_line(
-                self.position[0], self.position[1], dist + self.position[0], 0
+                self.position[0], self.position[1], x, y
             )
 
     def get_distance(self):

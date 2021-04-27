@@ -880,7 +880,8 @@
 <a id="aitk.robots.world.World"></a>
     <div class="doc doc-contents first">
 
-      <p>The aitk.robots simulator world.</p>
+      <p>The aitk.robots simulator world. All simulations
+begin with a world.</p>
 
 
 
@@ -991,6 +992,10 @@
       </tr>
   </tbody>
 </table>      <p>You can also pass any valid item from the world config settings.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">aitk.robots</span> <span class="kn">import</span> <span class="n">World</span>
+
+<span class="n">world</span> <span class="o">=</span> <span class="n">World</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+</code></pre></div>
 
         <details class="quote">
           <summary>Source code in <code>robots/world.py</code></summary>
@@ -1027,6 +1032,12 @@
 <span class="sd">        quiet (bool): if True, don&#39;t print any messages</span>
 
 <span class="sd">    You can also pass any valid item from the world config settings.</span>
+
+<span class="sd">    ```python</span>
+<span class="sd">    from aitk.robots import World</span>
+
+<span class="sd">    world = World(200, 200)</span>
+<span class="sd">    ```</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># For faster-than real time display with synchronous backends,</span>
     <span class="c1"># keep processing time below this percentage of throttle_period:</span>

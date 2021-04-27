@@ -14,7 +14,7 @@
         <link rel="canonical" href="https://github.com/ArtificialIntelligenceToolkit/aitk.robots/rangesensor/">
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.2">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.3">
     
     
       
@@ -22,7 +22,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.6f955dcd.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.e35208c4.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ef6f36e2.min.css">
@@ -260,6 +260,18 @@
   
   
     <li class="md-nav__item">
+      <a href="../bulb/" class="md-nav__link">
+        Blub
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../camera/" class="md-nav__link">
         Camera
       </a>
@@ -319,6 +331,20 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#aitk.robots.devices.rangesensors.RangeSensor.draw" class="md-nav__link">
+    draw()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.rangesensors.RangeSensor.from_json" class="md-nav__link">
+    from_json()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#aitk.robots.devices.rangesensors.RangeSensor.get_angle" class="md-nav__link">
     get_angle()
   </a>
@@ -361,8 +387,22 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#aitk.robots.devices.rangesensors.RangeSensor.get_widget" class="md-nav__link">
+    get_widget()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#aitk.robots.devices.rangesensors.RangeSensor.get_width" class="md-nav__link">
     get_width()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.rangesensors.RangeSensor.initialize" class="md-nav__link">
+    initialize()
   </a>
   
 </li>
@@ -416,10 +456,55 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.rangesensors.RangeSensor.to_json" class="md-nav__link">
+    to_json()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.rangesensors.RangeSensor.update" class="md-nav__link">
+    update()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.rangesensors.RangeSensor.watch" class="md-nav__link">
+    watch()
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
       
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lightsensor/" class="md-nav__link">
+        LightSensor
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../smellsensor/" class="md-nav__link">
+        SmellSensor
+      </a>
     </li>
   
 
@@ -476,6 +561,20 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#aitk.robots.devices.rangesensors.RangeSensor.draw" class="md-nav__link">
+    draw()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.rangesensors.RangeSensor.from_json" class="md-nav__link">
+    from_json()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#aitk.robots.devices.rangesensors.RangeSensor.get_angle" class="md-nav__link">
     get_angle()
   </a>
@@ -518,8 +617,22 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#aitk.robots.devices.rangesensors.RangeSensor.get_widget" class="md-nav__link">
+    get_widget()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#aitk.robots.devices.rangesensors.RangeSensor.get_width" class="md-nav__link">
     get_width()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.rangesensors.RangeSensor.initialize" class="md-nav__link">
+    initialize()
   </a>
   
 </li>
@@ -569,6 +682,27 @@
         <li class="md-nav__item">
   <a href="#aitk.robots.devices.rangesensors.RangeSensor.set_width" class="md-nav__link">
     set_width()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.rangesensors.RangeSensor.to_json" class="md-nav__link">
+    to_json()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.rangesensors.RangeSensor.update" class="md-nav__link">
+    update()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.devices.rangesensors.RangeSensor.watch" class="md-nav__link">
+    watch()
   </a>
   
 </li>
@@ -640,33 +774,33 @@ is the reading in CM.</p>
   <tbody>
       <tr>
         <td><code>position</code></td>
-        <td><code></code></td>
-        <td><p>(int, int) the location on the robot in (x, y)</p></td>
+        <td><code>List[int, int]</code></td>
+        <td><p>the location on the robot in (x, y)</p></td>
         <td><code>(8, 0)</code></td>
       </tr>
       <tr>
         <td><code>a</code></td>
-        <td><code></code></td>
-        <td><p>(number) the direction in degrees the sensor is
+        <td><code>float</code></td>
+        <td><p>the direction in degrees the sensor is
 facing.</p></td>
         <td><code>0</code></td>
       </tr>
       <tr>
         <td><code>max</code></td>
-        <td><code></code></td>
-        <td><p>(number) max distance in CM that the range sensor can sense</p></td>
+        <td><code>float</code></td>
+        <td><p>max distance in CM that the range sensor can sense</p></td>
         <td><code>20</code></td>
       </tr>
       <tr>
         <td><code>width</code></td>
-        <td><code></code></td>
-        <td><p>(number) 0 for laser, or wider for sonar</p></td>
+        <td><code>float</code></td>
+        <td><p>0 for laser, or wider for sonar</p></td>
         <td><code>1.0</code></td>
       </tr>
       <tr>
         <td><code>name</code></td>
-        <td><code></code></td>
-        <td><p>(str) the name of the sensor</p></td>
+        <td><code>str</code></td>
+        <td><p>the name of the sensor</p></td>
         <td><code>&#39;sensor&#39;</code></td>
       </tr>
   </tbody>
@@ -682,12 +816,12 @@ facing.</p></td>
 <span class="sd">    is the reading in CM.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        position: (int, int) the location on the robot in (x, y)</span>
-<span class="sd">        a: (number) the direction in degrees the sensor is</span>
+<span class="sd">        position (List[int, int]): the location on the robot in (x, y)</span>
+<span class="sd">        a (float): the direction in degrees the sensor is</span>
 <span class="sd">            facing.</span>
-<span class="sd">        max: (number) max distance in CM that the range sensor can sense</span>
-<span class="sd">        width: (number) 0 for laser, or wider for sonar</span>
-<span class="sd">        name: (str) the name of the sensor</span>
+<span class="sd">        max (float): max distance in CM that the range sensor can sense</span>
+<span class="sd">        width (float): 0 for laser, or wider for sonar</span>
+<span class="sd">        name (str): the name of the sensor</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="n">position</span><span class="p">,</span>
@@ -709,6 +843,152 @@ facing.</p></td>
 
 
 
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="aitk.robots.devices.rangesensors.RangeSensor.draw" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">backend</span><span class="p">)</span></code>
+
+
+<a href="#aitk.robots.devices.rangesensors.RangeSensor.draw" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Draw the device on the backend.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>backend</code></td>
+        <td><code>Backend</code></td>
+        <td><p>an aitk drawing backend</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>robots/devices/rangesensors.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">backend</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Draw the device on the backend.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        backend (Backend): an aitk drawing backend</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">backend</span><span class="o">.</span><span class="n">set_fill</span><span class="p">(</span><span class="n">Color</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">))</span>
+    <span class="n">dist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_distance</span><span class="p">()</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_reading</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">1.0</span><span class="p">:</span>
+            <span class="n">backend</span><span class="o">.</span><span class="n">strokeStyle</span><span class="p">(</span><span class="n">Color</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">backend</span><span class="o">.</span><span class="n">strokeStyle</span><span class="p">(</span><span class="n">Color</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">backend</span><span class="o">.</span><span class="n">draw_arc</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+            <span class="n">dist</span><span class="p">,</span>
+            <span class="n">dist</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_reading</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">1.0</span><span class="p">:</span>
+            <span class="n">backend</span><span class="o">.</span><span class="n">strokeStyle</span><span class="p">(</span><span class="n">Color</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">backend</span><span class="o">.</span><span class="n">strokeStyle</span><span class="p">(</span><span class="n">Color</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">rotate_around</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dist</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">)</span>
+
+        <span class="n">backend</span><span class="o">.</span><span class="n">draw_line</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+        <span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="aitk.robots.devices.rangesensors.RangeSensor.from_json" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">from_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span></code>
+
+
+<a href="#aitk.robots.devices.rangesensors.RangeSensor.from_json" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Set the settings from a device config.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>config</code></td>
+        <td><code>dict</code></td>
+        <td><p>a config dictionary</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>robots/devices/rangesensors.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">from_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Set the settings from a device config.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        config (dict): a config dictionary</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">valid_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span>
+        <span class="s2">&quot;position&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="s2">&quot;width&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;class&quot;</span>
+    <span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">verify_config</span><span class="p">(</span><span class="n">valid_keys</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s2">&quot;position&quot;</span> <span class="ow">in</span> <span class="n">config</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">]</span>
+        <span class="c1"># Get location of sensor, doesn&#39;t change once position is set:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dist_from_center</span> <span class="o">=</span> <span class="n">distance</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dir_from_center</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">if</span> <span class="s2">&quot;a&quot;</span> <span class="ow">in</span> <span class="n">config</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">degrees_to_world</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="s2">&quot;max&quot;</span> <span class="ow">in</span> <span class="n">config</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;max&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="s2">&quot;width&quot;</span> <span class="ow">in</span> <span class="n">config</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;width&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">PI_OVER_180</span>  <span class="c1"># save as radians</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;laser&quot;</span>
+    <span class="k">if</span> <span class="s2">&quot;name&quot;</span> <span class="ow">in</span> <span class="n">config</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">distance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reading</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
 
 
 
@@ -894,6 +1174,78 @@ of the sensor in [x, y] CM.</p>
 
 
 
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="aitk.robots.devices.rangesensors.RangeSensor.get_widget" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">get_widget</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">attributes</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+
+<a href="#aitk.robots.devices.rangesensors.RangeSensor.get_widget" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Return the dynamically updating widget.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>title</code></td>
+        <td><code>str</code></td>
+        <td><p>title of sensor</p></td>
+        <td><code>None</code></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>robots/devices/rangesensors.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">get_widget</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">attributes</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the dynamically updating widget.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        title (str): title of sensor</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">..watchers</span> <span class="kn">import</span> <span class="n">AttributesWatcher</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">robot</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">world</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ERROR: can&#39;t watch until added to robot, and robot is in world&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_watcher</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="n">title</span> <span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;Range Sensor:&quot;</span>
+        <span class="n">attributes</span> <span class="o">=</span> <span class="n">attributes</span> <span class="k">if</span> <span class="n">attributes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;all&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_watcher</span> <span class="o">=</span> <span class="n">AttributesWatcher</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;reading&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;distance&quot;</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+            <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Name:&quot;</span><span class="p">,</span> <span class="s2">&quot;Reading:&quot;</span><span class="p">,</span> <span class="s2">&quot;Distance:&quot;</span><span class="p">],</span>
+            <span class="n">attributes</span><span class="o">=</span><span class="n">attributes</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">_watchers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_watcher</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_watcher</span><span class="o">.</span><span class="n">set_arguments</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">attributes</span><span class="o">=</span><span class="n">attributes</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_watcher</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_watcher</span><span class="o">.</span><span class="n">widget</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
 
   <div class="doc doc-object doc-method">
 
@@ -926,6 +1278,44 @@ RangeSensor.width to see raw radians.</p>
 
 
 
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="aitk.robots.devices.rangesensors.RangeSensor.initialize" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+<a href="#aitk.robots.devices.rangesensors.RangeSensor.initialize" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Internal method to set all settings to default values.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>robots/devices/rangesensors.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Internal method to set all settings to default values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;ir&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">reading</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">dist_from_center</span> <span class="o">=</span> <span class="n">distance</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">dir_from_center</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">degrees_to_world</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># comes in degrees, save as radians</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># CM</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># radians</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;sensor&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">distance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reading</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
 
   <div class="doc doc-object doc-method">
 
@@ -954,8 +1344,8 @@ RangeSensor.width to see raw radians.</p>
   <tbody>
       <tr>
         <td><code>a</code></td>
-        <td><code></code></td>
-        <td><p>(number) the angle of the direction of sensor in degrees</p></td>
+        <td><code>float</code></td>
+        <td><p>the angle of the direction of sensor in degrees</p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
@@ -967,7 +1357,7 @@ RangeSensor.width to see raw radians.</p>
 <span class="sd">    Set the direction of the sensor.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        a: (number) the angle of the direction of sensor in degrees</span>
+<span class="sd">        a (float): the angle of the direction of sensor in degrees</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">degrees_to_world</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 </code></pre></div>
@@ -1006,8 +1396,8 @@ usually do this manually.</p>
   <tbody>
       <tr>
         <td><code>distance</code></td>
-        <td><code></code></td>
-        <td><p>(number) distance in CM to sensed object</p></td>
+        <td><code>float</code></td>
+        <td><p>distance in CM to sensed object</p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
@@ -1020,7 +1410,7 @@ usually do this manually.</p>
 <span class="sd">    usually do this manually.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        distance: (number) distance in CM to sensed object</span>
+<span class="sd">        distance (float): distance in CM to sensed object</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">distance</span> <span class="o">=</span> <span class="n">distance</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">reading</span> <span class="o">=</span> <span class="n">distance</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span>
@@ -1059,8 +1449,8 @@ usually do this manually.</p>
   <tbody>
       <tr>
         <td><code>max</code></td>
-        <td><code></code></td>
-        <td><p>(number) max distance in CM the sensor can sense.</p></td>
+        <td><code>float</code></td>
+        <td><p>max distance in CM the sensor can sense.</p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
@@ -1072,7 +1462,7 @@ usually do this manually.</p>
 <span class="sd">    Set the maximum distance in CM that this sensor can sense.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        max: (number) max distance in CM the sensor can sense.</span>
+<span class="sd">        max (float): max distance in CM the sensor can sense.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">=</span> <span class="nb">max</span>
 </code></pre></div>
@@ -1110,8 +1500,8 @@ usually do this manually.</p>
   <tbody>
       <tr>
         <td><code>name</code></td>
-        <td><code></code></td>
-        <td><p>(str) the name of the range sensor</p></td>
+        <td><code>str</code></td>
+        <td><p>the name of the range sensor</p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
@@ -1123,7 +1513,7 @@ usually do this manually.</p>
 <span class="sd">    Set the name of the range sensor.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        name: (str) the name of the range sensor</span>
+<span class="sd">        name (str): the name of the range sensor</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
 </code></pre></div>
@@ -1164,8 +1554,8 @@ robot.</p>
   <tbody>
       <tr>
         <td><code>position</code></td>
-        <td><code></code></td>
-        <td><p>(list of length 2 numbers) the location
+        <td><code>List[int, int]</code></td>
+        <td><p>the location
 of the sensor in relationship to the center of the
 robot.</p></td>
         <td><em>required</em></td>
@@ -1182,7 +1572,7 @@ robot.</p></td>
 <span class="sd">    robot.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        position: (list of length 2 numbers) the location</span>
+<span class="sd">        position (List[int, int]): the location</span>
 <span class="sd">            of the sensor in relationship to the center of the</span>
 <span class="sd">            robot.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1228,8 +1618,8 @@ usually do this manually.</p>
   <tbody>
       <tr>
         <td><code>reading</code></td>
-        <td><code></code></td>
-        <td><p>(number) between 0 and 1</p></td>
+        <td><code>float</code></td>
+        <td><p>between 0 and 1</p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
@@ -1242,7 +1632,7 @@ usually do this manually.</p>
 <span class="sd">    usually do this manually.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        reading: (number) between 0 and 1</span>
+<span class="sd">        reading (float): between 0 and 1</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">reading</span> <span class="o">=</span> <span class="n">reading</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">distance</span> <span class="o">=</span> <span class="n">reading</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span>
@@ -1285,8 +1675,8 @@ minimum of the three.</p>
   <tbody>
       <tr>
         <td><code>width</code></td>
-        <td><code></code></td>
-        <td><p>(number) angle in degrees</p></td>
+        <td><code>float</code></td>
+        <td><p>angle in degrees</p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
@@ -1302,7 +1692,7 @@ minimum of the three.</p>
 <span class="sd">    minimum of the three.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        width: (number) angle in degrees</span>
+<span class="sd">        width (float): angle in degrees</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">width</span> <span class="o">*</span> <span class="n">PI_OVER_180</span>  <span class="c1"># save as radians</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -1317,6 +1707,189 @@ minimum of the three.</p>
 
 
 
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="aitk.robots.devices.rangesensors.RangeSensor.to_json" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+<a href="#aitk.robots.devices.rangesensors.RangeSensor.to_json" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Save the internal settings to a config dictionary.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>robots/devices/rangesensors.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Save the internal settings to a config dictionary.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+        <span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">,</span>
+        <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="n">world_to_degrees</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">),</span>
+        <span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="p">,</span>
+        <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="n">ONE80_OVER_PI</span><span class="p">,</span>  <span class="c1"># save as degrees</span>
+        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">config</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="aitk.robots.devices.rangesensors.RangeSensor.update" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">draw_list</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+
+<a href="#aitk.robots.devices.rangesensors.RangeSensor.update" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Update the device.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>draw_list</code></td>
+        <td><code>list</code></td>
+        <td><p>optional. If given, then the
+method can add to it for drawing later.</p></td>
+        <td><code>None</code></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>robots/devices/rangesensors.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">draw_list</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Update the device.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        draw_list (list): optional. If given, then the</span>
+<span class="sd">            method can add to it for drawing later.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Update timestamp:</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">time</span>
+    <span class="c1"># This changes:</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">rotate_around</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">y</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dist_from_center</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">dir_from_center</span> <span class="o">+</span> <span class="n">PI_OVER_2</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">debug</span> <span class="ow">and</span> <span class="n">draw_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">draw_list</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;draw_ellipse&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">{}))</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">set_reading</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">incr</span> <span class="ow">in</span> <span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="n">hits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">cast_ray</span><span class="p">(</span>
+                <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="n">PI_OVER_2</span> <span class="o">+</span> <span class="n">incr</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">hits</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">debug</span> <span class="ow">and</span> <span class="n">draw_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">draw_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="p">(</span><span class="s2">&quot;draw_ellipse&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">hits</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">hits</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">{})</span>
+                    <span class="p">)</span>
+                <span class="c1"># Closest hit:</span>
+                <span class="k">if</span> <span class="n">hits</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">distance</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_distance</span><span class="p">():</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">set_distance</span><span class="p">(</span><span class="n">hits</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">distance</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">hits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">cast_ray</span><span class="p">(</span>
+            <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+            <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="n">PI_OVER_2</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">hits</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">debug</span> <span class="ow">and</span> <span class="n">draw_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">draw_list</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;draw_ellipse&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">hits</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">hits</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">{}))</span>
+            <span class="c1"># Closest hit:</span>
+            <span class="k">if</span> <span class="n">hits</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">distance</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_distance</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">set_distance</span><span class="p">(</span><span class="n">hits</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">distance</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="aitk.robots.devices.rangesensors.RangeSensor.watch" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">watch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Range Sensor:&#39;</span><span class="p">)</span></code>
+
+
+<a href="#aitk.robots.devices.rangesensors.RangeSensor.watch" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Create a dynamically updating view
+of this sensor.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>title</code></td>
+        <td><code>str</code></td>
+        <td><p>title of sensor</p></td>
+        <td><code>&#39;Range Sensor:&#39;</code></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>robots/devices/rangesensors.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">watch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Range Sensor:&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a dynamically updating view</span>
+<span class="sd">    of this sensor.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        title (str): title of sensor</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">widget</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_widget</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">display</span><span class="p">(</span><span class="n">widget</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
 
 
 
@@ -1359,6 +1932,20 @@ minimum of the three.</p>
           </div>
         </a>
       
+      
+        <a href="../lightsensor/" class="md-footer__link md-footer__link--next" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              LightSensor
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
       
     </nav>
   

@@ -12,11 +12,23 @@
      <lastmod>2021-04-27</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
+     <loc>https://github.com/ArtificialIntelligenceToolkit/aitk.robots/bulb/</loc>
+     <lastmod>2021-04-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
      <loc>https://github.com/ArtificialIntelligenceToolkit/aitk.robots/camera/</loc>
      <lastmod>2021-04-27</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://github.com/ArtificialIntelligenceToolkit/aitk.robots/rangesensor/</loc>
+     <lastmod>2021-04-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://github.com/ArtificialIntelligenceToolkit/aitk.robots/lightsensor/</loc>
+     <lastmod>2021-04-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://github.com/ArtificialIntelligenceToolkit/aitk.robots/smellsensor/</loc>
      <lastmod>2021-04-27</lastmod>
      <changefreq>daily</changefreq>
     </url>

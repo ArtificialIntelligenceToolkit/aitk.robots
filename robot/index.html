@@ -918,7 +918,7 @@
 
     <div class="doc doc-contents ">
 
-      <p>A simulated robot. </p>
+      <p>A simulated robot.</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1046,7 +1046,7 @@ place in a random location.</p></td>
     <span class="o">**</span><span class="n">kwargs</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A simulated robot. </span>
+<span class="sd">    A simulated robot.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        x: (int) starting location in the horizontal direction. Leave 0 to</span>
@@ -1226,7 +1226,7 @@ a, and kwargs, and returns a device</p></td>
     <span class="n">span</span> <span class="o">=</span> <span class="n">stop_degree</span> <span class="o">-</span> <span class="n">start_degree</span>
     <span class="n">step_angle</span> <span class="o">=</span> <span class="n">span</span> <span class="o">/</span> <span class="n">count</span>
     <span class="k">for</span> <span class="n">angle</span> <span class="ow">in</span> <span class="n">arange</span><span class="p">(</span><span class="n">start_degree</span><span class="p">,</span> <span class="n">stop_degree</span><span class="p">,</span> <span class="n">step_angle</span><span class="p">):</span>
-        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">rotate_around</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="o">-</span><span class="n">angle</span> <span class="o">*</span> <span class="n">PI_OVER_180</span><span class="p">)</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">rotate_around</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">distance_from_center</span><span class="p">,</span> <span class="o">-</span><span class="n">angle</span> <span class="o">*</span> <span class="n">PI_OVER_180</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add_device</span><span class="p">(</span><span class="n">device_class</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">a</span><span class="o">=</span><span class="n">angle</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
 </code></pre></div>
         </details>
@@ -1294,50 +1294,7 @@ a, and kwargs, and returns a device</p></td>
 
 <span class="sd">    Returns list of hits, furthest away first (back to front)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># walls and robots</span>
-    <span class="n">hits</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">if</span> <span class="n">x2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">x2</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">maxRange</span> <span class="o">+</span> <span class="n">x1</span>
-    <span class="k">if</span> <span class="n">y2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">y2</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">maxRange</span> <span class="o">+</span> <span class="n">y1</span>
-
-    <span class="k">for</span> <span class="n">wall</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">_walls</span><span class="p">:</span>
-        <span class="c1"># never detect hit with yourself</span>
-        <span class="k">if</span> <span class="n">wall</span><span class="o">.</span><span class="n">robot</span> <span class="ow">is</span> <span class="bp">self</span><span class="p">:</span>
-            <span class="k">continue</span>
-        <span class="c1"># ignore this robot:</span>
-        <span class="k">if</span> <span class="p">((</span><span class="n">ignore_robots</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span>
-            <span class="p">(</span><span class="n">wall</span><span class="o">.</span><span class="n">robot</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span>
-            <span class="p">(</span><span class="n">wall</span><span class="o">.</span><span class="n">robot</span> <span class="ow">in</span> <span class="n">ignore_robots</span><span class="p">)):</span>
-            <span class="k">continue</span>
-        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">wall</span><span class="o">.</span><span class="n">lines</span><span class="p">:</span>
-            <span class="n">p1</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">p1</span>
-            <span class="n">p2</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">p2</span>
-            <span class="n">pos</span> <span class="o">=</span> <span class="n">intersect_hit</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">p1</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">p1</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">p2</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">p2</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">pos</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">dist</span> <span class="o">=</span> <span class="n">distance</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">)</span>
-                <span class="n">height</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="n">wall</span><span class="o">.</span><span class="n">robot</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">wall</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">height</span>
-                <span class="n">color</span> <span class="o">=</span> <span class="n">wall</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">color</span> <span class="k">if</span> <span class="n">wall</span><span class="o">.</span><span class="n">robot</span> <span class="k">else</span> <span class="n">wall</span><span class="o">.</span><span class="n">color</span>
-                <span class="n">boundary</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">wall</span><span class="o">.</span><span class="n">lines</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-                <span class="n">hits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                    <span class="n">Hit</span><span class="p">(</span>
-                        <span class="n">wall</span><span class="o">.</span><span class="n">robot</span><span class="p">,</span>
-                        <span class="n">height</span><span class="p">,</span>
-                        <span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                        <span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-                        <span class="n">dist</span><span class="p">,</span>
-                        <span class="n">color</span><span class="p">,</span>
-                        <span class="n">x1</span><span class="p">,</span>
-                        <span class="n">y1</span><span class="p">,</span>
-                        <span class="n">boundary</span><span class="p">,</span>
-                        <span class="n">a</span><span class="p">,</span>
-                    <span class="p">)</span>
-                <span class="p">)</span>
-
-    <span class="n">hits</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span>
-        <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="n">a</span><span class="o">.</span><span class="n">distance</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span>
-    <span class="p">)</span>  <span class="c1"># further away first, back to front</span>
-    <span class="k">return</span> <span class="n">hits</span>
+    <span class="k">return</span> <span class="n">cast_ray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">maxRange</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">ignore_robots</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>

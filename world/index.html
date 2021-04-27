@@ -288,6 +288,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#aitk.robots.world.World.clear_watchers" class="md-nav__link">
+    clear_watchers()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#aitk.robots.world.World.del_robot" class="md-nav__link">
     del_robot()
   </a>
@@ -344,8 +351,22 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#aitk.robots.world.World.get_widget" class="md-nav__link">
+    get_widget()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#aitk.robots.world.World.paste_ground_image" class="md-nav__link">
     paste_ground_image()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.world.World.record" class="md-nav__link">
+    record()
   </a>
   
 </li>
@@ -428,6 +449,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#aitk.robots.world.World.stop" class="md-nav__link">
+    stop()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#aitk.robots.world.World.summary" class="md-nav__link">
     summary()
   </a>
@@ -444,6 +472,13 @@
         <li class="md-nav__item">
   <a href="#aitk.robots.world.World.update" class="md-nav__link">
     update()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.world.World.watch" class="md-nav__link">
+    watch()
   </a>
   
 </li>
@@ -581,6 +616,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#aitk.robots.world.World.clear_watchers" class="md-nav__link">
+    clear_watchers()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#aitk.robots.world.World.del_robot" class="md-nav__link">
     del_robot()
   </a>
@@ -637,8 +679,22 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#aitk.robots.world.World.get_widget" class="md-nav__link">
+    get_widget()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#aitk.robots.world.World.paste_ground_image" class="md-nav__link">
     paste_ground_image()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.world.World.record" class="md-nav__link">
+    record()
   </a>
   
 </li>
@@ -721,6 +777,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#aitk.robots.world.World.stop" class="md-nav__link">
+    stop()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#aitk.robots.world.World.summary" class="md-nav__link">
     summary()
   </a>
@@ -737,6 +800,13 @@
         <li class="md-nav__item">
   <a href="#aitk.robots.world.World.update" class="md-nav__link">
     update()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.world.World.watch" class="md-nav__link">
+    watch()
   </a>
   
 </li>
@@ -792,7 +862,7 @@
 
     <div class="doc doc-contents ">
 
-      <p>The aitk.robots simulator world.</p>
+      <p>The constructor for the aitk.robots simulator world.</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -807,68 +877,68 @@
   <tbody>
       <tr>
         <td><code>width</code></td>
-        <td><code></code></td>
-        <td><p>(int) width of world in pixels</p></td>
+        <td><code>int</code></td>
+        <td><p>width of world in pixels</p></td>
         <td><code>500</code></td>
       </tr>
       <tr>
         <td><code>height</code></td>
-        <td><code></code></td>
-        <td><p>(int) height of world in pixels</p></td>
+        <td><code>int</code></td>
+        <td><p>height of world in pixels</p></td>
         <td><code>250</code></td>
       </tr>
       <tr>
         <td><code>seed</code></td>
-        <td><code></code></td>
-        <td><p>(int) random number generator seed</p></td>
+        <td><code>int</code></td>
+        <td><p>random number generator seed</p></td>
         <td><code>0</code></td>
       </tr>
       <tr>
         <td><code>scale</code></td>
-        <td><code></code></td>
-        <td><p>(number) value to use in drawing the world</p></td>
+        <td><code>float</code></td>
+        <td><p>value to use in drawing the world</p></td>
         <td><code>3.0</code></td>
       </tr>
       <tr>
         <td><code>boundary_wall</code></td>
-        <td><code></code></td>
-        <td><p>(bool) draw a boundary around the world?</p></td>
+        <td><code>bool</code></td>
+        <td><p>draw a boundary around the world?</p></td>
         <td><code>True</code></td>
       </tr>
       <tr>
         <td><code>boundary_wall_color</code></td>
-        <td><code></code></td>
-        <td><p>(str) color name of boundary wall</p></td>
+        <td><code>str</code></td>
+        <td><p>color name of boundary wall</p></td>
         <td><code>&#39;purple&#39;</code></td>
       </tr>
       <tr>
         <td><code>boundary_wall_width</code></td>
-        <td><code></code></td>
-        <td><p>(int) width of boundary wall</p></td>
+        <td><code>int</code></td>
+        <td><p>width of boundary wall</p></td>
         <td><code>1</code></td>
       </tr>
       <tr>
         <td><code>ground_color</code></td>
-        <td><code></code></td>
-        <td><p>(str) color name</p></td>
+        <td><code>str</code></td>
+        <td><p>color name</p></td>
         <td><code>&#39;green&#39;</code></td>
       </tr>
       <tr>
         <td><code>ground_image_filename</code></td>
-        <td><code></code></td>
-        <td><p>(str) image file used for backgound</p></td>
+        <td><code>str</code></td>
+        <td><p>image file used for backgound</p></td>
         <td><code>None</code></td>
       </tr>
       <tr>
         <td><code>filename</code></td>
-        <td><code></code></td>
-        <td><p>(str) name of json world file</p></td>
+        <td><code>str</code></td>
+        <td><p>name of json world file</p></td>
         <td><code>None</code></td>
       </tr>
       <tr>
         <td><code>quiet</code></td>
-        <td><code></code></td>
-        <td><p>(bool) if True, don't print any messages</p></td>
+        <td><code>bool</code></td>
+        <td><p>if True, don't print any messages</p></td>
         <td><code>False</code></td>
       </tr>
   </tbody>
@@ -878,35 +948,35 @@
           <summary>Source code in <code>robots/world.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
-    <span class="n">width</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
-    <span class="n">height</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span>
-    <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-    <span class="n">scale</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span>
-    <span class="n">boundary_wall</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">boundary_wall_color</span><span class="o">=</span><span class="s2">&quot;purple&quot;</span><span class="p">,</span>
-    <span class="n">boundary_wall_width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-    <span class="n">ground_color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span>
-    <span class="n">ground_image_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">quiet</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">smell_cell_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">width</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="c1"># type: int</span>
+    <span class="n">height</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span>  <span class="c1"># type: int</span>
+    <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>  <span class="c1"># type: int</span>
+    <span class="n">scale</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span> <span class="c1"># type: float</span>
+    <span class="n">boundary_wall</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># type: bool</span>
+    <span class="n">boundary_wall_color</span><span class="o">=</span><span class="s2">&quot;purple&quot;</span><span class="p">,</span>  <span class="c1"># type: str</span>
+    <span class="n">boundary_wall_width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># type: int</span>
+    <span class="n">ground_color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span>  <span class="c1"># type: str</span>
+    <span class="n">ground_image_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># type: str</span>
+    <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># type: str</span>
+    <span class="n">quiet</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># type: bool</span>
+    <span class="n">smell_cell_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># type: int</span>
     <span class="o">**</span><span class="n">kwargs</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The aitk.robots simulator world.</span>
+<span class="sd">    The constructor for the aitk.robots simulator world.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        width: (int) width of world in pixels</span>
-<span class="sd">        height: (int) height of world in pixels</span>
-<span class="sd">        seed: (int) random number generator seed</span>
-<span class="sd">        scale: (number) value to use in drawing the world</span>
-<span class="sd">        boundary_wall: (bool) draw a boundary around the world?</span>
-<span class="sd">        boundary_wall_color: (str) color name of boundary wall</span>
-<span class="sd">        boundary_wall_width: (int) width of boundary wall</span>
-<span class="sd">        ground_color: (str) color name</span>
-<span class="sd">        ground_image_filename: (str) image file used for backgound</span>
-<span class="sd">        filename: (str) name of json world file</span>
-<span class="sd">        quiet: (bool) if True, don&#39;t print any messages</span>
+<span class="sd">        width (int): width of world in pixels</span>
+<span class="sd">        height (int): height of world in pixels</span>
+<span class="sd">        seed (int): random number generator seed</span>
+<span class="sd">        scale (float): value to use in drawing the world</span>
+<span class="sd">        boundary_wall (bool): draw a boundary around the world?</span>
+<span class="sd">        boundary_wall_color (str): color name of boundary wall</span>
+<span class="sd">        boundary_wall_width (int): width of boundary wall</span>
+<span class="sd">        ground_color (str): color name</span>
+<span class="sd">        ground_image_filename (str): image file used for backgound</span>
+<span class="sd">        filename (str): name of json world file</span>
+<span class="sd">        quiet (bool): if True, don&#39;t print any messages</span>
 
 <span class="sd">    You can also pass any valid item from the world config settings.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -976,11 +1046,68 @@
 
       <p>Add a bulb to the world.</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>color</code></td>
+        <td><code>str</code></td>
+        <td><p>the color of the light</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>x</code></td>
+        <td><code>int</code></td>
+        <td><p>the x coordinate</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>y</code></td>
+        <td><code>int</code></td>
+        <td><p>the y coordinate</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>z</code></td>
+        <td><code>int</code></td>
+        <td><p>the z coordinate</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>brightness</code></td>
+        <td><code>float</code></td>
+        <td><p>the distance in pixels of 1 standard deviation</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>name</code></td>
+        <td><code>str</code></td>
+        <td><p>the name of the bulb</p></td>
+        <td><code>None</code></td>
+      </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>robots/world.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">add_bulb</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">brightness</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Add a bulb to the world.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        color (str): the color of the light</span>
+<span class="sd">        x (int): the x coordinate</span>
+<span class="sd">        y (int): the y coordinate</span>
+<span class="sd">        z (int): the z coordinate</span>
+<span class="sd">        brightness (float): the distance in pixels of 1 standard deviation</span>
+<span class="sd">        name (str): the name of the bulb</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_add_bulb</span><span class="p">(</span><span class="n">color</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">brightness</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>  <span class="c1"># request draw</span>
@@ -1008,12 +1135,50 @@
       <p>Add food at x, y with a brightness of standard_deviation
 (in pixels).</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>x</code></td>
+        <td><code>int</code></td>
+        <td><p>the x coordinate</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>y</code></td>
+        <td><code>int</code></td>
+        <td><p>the y coordinate</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>standard_deviation</code></td>
+        <td><code>float</code></td>
+        <td><p>distance int pixels
+of 1 standard deviation</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>robots/world.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">add_food</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">standard_deviation</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Add food at x, y with a brightness of standard_deviation</span>
 <span class="sd">    (in pixels).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x (int): the x coordinate</span>
+<span class="sd">        y (int): the y coordinate</span>
+<span class="sd">        standard_deviation (float): distance int pixels</span>
+<span class="sd">            of 1 standard deviation</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_add_food</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">standard_deviation</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_grid</span><span class="o">.</span><span class="n">need_update</span> <span class="o">=</span> <span class="kc">True</span>
@@ -1042,12 +1207,34 @@
       <p>Add a new robot to the world. If the robot's position is 0,0 then
 place it randomly in the world.</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>robot</code></td>
+        <td><code>Robot</code></td>
+        <td><p>the robot to add</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>robots/world.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">add_robot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">robot</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Add a new robot to the world. If the robot&#39;s position is 0,0 then</span>
 <span class="sd">    place it randomly in the world.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        robot (Robot): the robot to add</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">robot</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_robots</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">robot</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">robot</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -1086,11 +1273,75 @@ place it randomly in the world.</p>
 
       <p>Add a wall line or box of wall lines.</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>color</code></td>
+        <td><code>str</code></td>
+        <td><p>the color of the wall</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>x1</code></td>
+        <td><code>int</code></td>
+        <td><p>the upper left x coordinate</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>y1</code></td>
+        <td><code>int</code></td>
+        <td><p>the upper left y coordinate</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>x2</code></td>
+        <td><code>int</code></td>
+        <td><p>the lower right x coordinate</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>y2</code></td>
+        <td><code>int</code></td>
+        <td><p>the lower right y coordinate</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>box</code></td>
+        <td><code>bool</code></td>
+        <td><p>whether this is a box (True) or line (False)</p></td>
+        <td><code>True</code></td>
+      </tr>
+      <tr>
+        <td><code>wtype</code></td>
+        <td><code>str</code></td>
+        <td><p>"wall", "robot", or "boundary"</p></td>
+        <td><code>&#39;wall&#39;</code></td>
+      </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>robots/world.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">add_wall</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">box</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">wtype</span><span class="o">=</span><span class="s2">&quot;wall&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Add a wall line or box of wall lines.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        color (str): the color of the wall</span>
+<span class="sd">        x1 (int): the upper left x coordinate</span>
+<span class="sd">        y1 (int): the upper left y coordinate</span>
+<span class="sd">        x2 (int): the lower right x coordinate</span>
+<span class="sd">        y2 (int): the lower right y coordinate</span>
+<span class="sd">        box (bool): whether this is a box (True) or line (False)</span>
+<span class="sd">        wtype (str): &quot;wall&quot;, &quot;robot&quot;, or &quot;boundary&quot;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">p1</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">)</span>
     <span class="n">p3</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">)</span>
@@ -1123,6 +1374,34 @@ place it randomly in the world.</p>
 
 
 
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="aitk.robots.world.World.clear_watchers" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">clear_watchers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+<a href="#aitk.robots.world.World.clear_watchers" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Clear all of the watchers.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>robots/world.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">clear_watchers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Clear all of the watchers.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_watchers</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">[]</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
 
   <div class="doc doc-object doc-method">
 
@@ -1136,13 +1415,35 @@ place it randomly in the world.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Removed a robot from the world.</p>
+      <p>Remove a robot from the world.</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>robot</code></td>
+        <td><code>Robot</code></td>
+        <td><p>the robot to remove</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>robots/world.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">del_robot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">robot</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Removed a robot from the world.</span>
+<span class="sd">    Remove a robot from the world.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        robot (Robot): the robot to remove</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">robot</span><span class="p">,</span> <span class="n">Robot</span><span class="p">):</span>
         <span class="c1"># Then look it up by index/name/type:</span>
@@ -1190,14 +1491,14 @@ place it randomly in the world.</p>
   <tbody>
       <tr>
         <td><code>index</code></td>
-        <td><code></code></td>
-        <td><p>(str or int, optional) - index of robot</p></td>
+        <td><code>str or int</code></td>
+        <td><p>index of robot</p></td>
         <td><code>None</code></td>
       </tr>
       <tr>
         <td><code>size</code></td>
-        <td><code></code></td>
-        <td><p>(int, optional) - size of robot picture</p></td>
+        <td><code>int</code></td>
+        <td><p>size of robot picture</p></td>
         <td><code>100</code></td>
       </tr>
   </tbody>
@@ -1209,8 +1510,8 @@ place it randomly in the world.</p>
 <span class="sd">    Display a picture of the world, or of a robot.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        index: (str or int, optional) - index of robot</span>
-<span class="sd">        size: (int, optional) - size of robot picture</span>
+<span class="sd">        index (str or int, optional): index of robot</span>
+<span class="sd">        size (int, optional): size of robot picture</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">picture</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_image</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
     <span class="n">display</span><span class="p">(</span><span class="n">picture</span><span class="p">)</span>
@@ -1261,9 +1562,38 @@ place it randomly in the world.</p>
             <span class="n">smell</span> <span class="o">=</span> <span class="n">smell</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">)))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">paste</span><span class="p">(</span><span class="n">smell</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">smell</span><span class="p">)</span>
 
-        <span class="c1">## Draw bulbs in world (not on robots):</span>
-        <span class="k">for</span> <span class="n">bulb</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_light_sources</span><span class="p">(</span><span class="nb">all</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-            <span class="n">bulb</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="p">)</span>
+        <span class="c1">## Draw all bulbs in world:</span>
+        <span class="n">maxRange</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">bulb</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_light_sources</span><span class="p">(</span><span class="nb">all</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">bulb</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="s2">&quot;on&quot;</span><span class="p">:</span>
+                <span class="n">color</span> <span class="o">=</span> <span class="n">bulb</span><span class="o">.</span><span class="n">color</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">line_width</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">noStroke</span><span class="p">()</span>
+                <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">bulb</span><span class="o">.</span><span class="n">get_position</span><span class="p">(</span><span class="n">world</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="c1"># Cast rays once:</span>
+                <span class="n">all_hits</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">ray</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">bulb</span><span class="o">.</span><span class="n">rays</span><span class="p">):</span>
+                    <span class="n">angle</span> <span class="o">=</span> <span class="n">ray</span><span class="o">/</span><span class="n">bulb</span><span class="o">.</span><span class="n">rays</span> <span class="o">*</span> <span class="n">TWO_PI</span>
+                    <span class="n">hits</span> <span class="o">=</span> <span class="n">cast_ray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bulb</span><span class="o">.</span><span class="n">robot</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">angle</span> <span class="o">+</span> <span class="n">PI_OVER_2</span><span class="p">,</span> <span class="n">maxRange</span><span class="p">)</span>
+                    <span class="n">all_hits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hits</span><span class="p">)</span>
+                <span class="c1"># Now draw the rings:</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">bulb</span><span class="o">.</span><span class="n">draw_rings</span><span class="p">):</span>
+                    <span class="n">radius</span> <span class="o">=</span> <span class="p">(</span><span class="n">bulb</span><span class="o">.</span><span class="n">draw_rings</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span>
+                    <span class="n">ray_length</span> <span class="o">=</span> <span class="n">bulb</span><span class="o">.</span><span class="n">brightness</span><span class="o">/</span><span class="mi">30</span> <span class="o">*</span> <span class="n">radius</span>
+                    <span class="n">color</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">bulb</span><span class="o">.</span><span class="n">draw_rings</span> <span class="o">*</span> <span class="mi">255</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">set_fill_style</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
+                    <span class="n">points</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">ray</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">bulb</span><span class="o">.</span><span class="n">rays</span><span class="p">):</span>
+                        <span class="n">hits</span> <span class="o">=</span> <span class="n">all_hits</span><span class="p">[</span><span class="n">ray</span><span class="p">]</span>
+                        <span class="n">ray_length</span> <span class="o">=</span> <span class="n">bulb</span><span class="o">.</span><span class="n">brightness</span><span class="o">/</span><span class="mi">30</span> <span class="o">*</span> <span class="n">radius</span>
+                        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">hits</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">hits</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">distance</span> <span class="o">&lt;</span> <span class="n">ray_length</span><span class="p">:</span>
+                                <span class="n">ray_length</span> <span class="o">=</span> <span class="n">hits</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">distance</span>
+                        <span class="n">angle</span> <span class="o">=</span> <span class="n">ray</span><span class="o">/</span><span class="n">bulb</span><span class="o">.</span><span class="n">rays</span> <span class="o">*</span> <span class="n">TWO_PI</span>
+                        <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">rotate_around</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ray_length</span><span class="p">,</span> <span class="n">angle</span><span class="p">)</span>
+                        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">))</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">draw_polygon</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">line_width</span> <span class="o">=</span> <span class="mi">1</span>
 
         <span class="c1">## Draw walls:</span>
         <span class="k">for</span> <span class="n">wall</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_walls</span><span class="p">:</span>
@@ -1470,8 +1800,8 @@ world.bulbs[item]</p>
   <tbody>
       <tr>
         <td><code>item</code></td>
-        <td><code></code></td>
-        <td><p>(int or string) index or name of bulb</p></td>
+        <td><code>int or string</code></td>
+        <td><p>index or name of bulb</p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
@@ -1484,7 +1814,7 @@ world.bulbs[item]</p>
 <span class="sd">    world.bulbs[item]</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        item: (int or string) index or name of bulb</span>
+<span class="sd">        item (int or string): index or name of bulb</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bulbs</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
 </code></pre></div>
@@ -1523,20 +1853,20 @@ a ground image to have already been set.</p>
   <tbody>
       <tr>
         <td><code>x</code></td>
-        <td><code></code></td>
-        <td><p>(int) the x coordinate</p></td>
+        <td><code>int</code></td>
+        <td><p>the x coordinate</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
         <td><code>y</code></td>
-        <td><code></code></td>
-        <td><p>(int) the y coordinate</p></td>
+        <td><code>int</code></td>
+        <td><p>the y coordinate</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
         <td><code>radius</code></td>
-        <td><code></code></td>
-        <td><p>(int) size of area</p></td>
+        <td><code>int</code></td>
+        <td><p>size of area</p></td>
         <td><code>1</code></td>
       </tr>
   </tbody>
@@ -1549,9 +1879,9 @@ a ground image to have already been set.</p>
 <span class="sd">    a ground image to have already been set.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        x: (int) the x coordinate</span>
-<span class="sd">        y: (int) the y coordinate</span>
-<span class="sd">        radius: (int) size of area</span>
+<span class="sd">        x (int): the x coordinate</span>
+<span class="sd">        y (int): the y coordinate</span>
+<span class="sd">        radius (int): size of area</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ground_image</span><span class="p">:</span>
         <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1598,14 +1928,14 @@ a ground image to have already been set.</p>
   <tbody>
       <tr>
         <td><code>index</code></td>
-        <td><code></code></td>
-        <td><p>(str or int, optional) - index of robot</p></td>
+        <td><code>str or int</code></td>
+        <td><p>index of robot</p></td>
         <td><code>None</code></td>
       </tr>
       <tr>
         <td><code>size</code></td>
-        <td><code></code></td>
-        <td><p>(int, optional) - size of robot picture</p></td>
+        <td><code>int</code></td>
+        <td><p>size of robot picture</p></td>
         <td><code>100</code></td>
       </tr>
   </tbody>
@@ -1617,8 +1947,8 @@ a ground image to have already been set.</p>
 <span class="sd">    Get a PIL image of the world, or of a robot.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        index: (str or int, optional) - index of robot</span>
-<span class="sd">        size: (int, optional) - size of robot picture</span>
+<span class="sd">        index (str or int, optional): index of robot</span>
+<span class="sd">        size (int, optional): size of robot picture</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">picture</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">get_image</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
@@ -1676,8 +2006,8 @@ world.robots[item]</p>
   <tbody>
       <tr>
         <td><code>item</code></td>
-        <td><code></code></td>
-        <td><p>(int or string) index or name of robot</p></td>
+        <td><code>int or string</code></td>
+        <td><p>index or name of robot</p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
@@ -1690,7 +2020,7 @@ world.robots[item]</p>
 <span class="sd">    world.robots[item]</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        item: (int or string) index or name of robot</span>
+<span class="sd">        item (int or string): index or name of robot</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">robots</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
 </code></pre></div>
@@ -1699,6 +2029,69 @@ world.robots[item]</p>
 
   </div>
 
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="aitk.robots.world.World.get_widget" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">get_widget</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+
+<a href="#aitk.robots.world.World.get_widget" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Returns the IPython simulation widget.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>width</code></td>
+        <td><code>int</code></td>
+        <td><p>the width of the world</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>height</code></td>
+        <td><code>int</code></td>
+        <td><p>the height of the world</p></td>
+        <td><code>None</code></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>robots/world.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">get_widget</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the IPython simulation widget.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        width (int): the width of the world</span>
+<span class="sd">        height (int): the height of the world</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="n">width</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">px&quot;</span> <span class="o">%</span> <span class="n">width</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="n">height</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">px&quot;</span> <span class="o">%</span> <span class="n">height</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_step_display</span> <span class="o">=</span> <span class="s2">&quot;notebook&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">get_widget</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
 
 
 
@@ -1730,20 +2123,20 @@ a ground image to have already been set.</p>
   <tbody>
       <tr>
         <td><code>image</code></td>
-        <td><code></code></td>
+        <td><code>Image</code></td>
         <td><p>a Python Image Library image</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
         <td><code>x</code></td>
-        <td><code></code></td>
-        <td><p>(int) the x coordinate of upper lefthand corner</p></td>
+        <td><code>int</code></td>
+        <td><p>the x coordinate of upper lefthand corner</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
         <td><code>y</code></td>
-        <td><code></code></td>
-        <td><p>(int) the y coordinate of upper lefthand corner</p></td>
+        <td><code>int</code></td>
+        <td><p>the y coordinate of upper lefthand corner</p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
@@ -1756,9 +2149,9 @@ a ground image to have already been set.</p>
 <span class="sd">    a ground image to have already been set.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        image: a Python Image Library image</span>
-<span class="sd">        x: (int) the x coordinate of upper lefthand corner</span>
-<span class="sd">        y: (int) the y coordinate of upper lefthand corner</span>
+<span class="sd">        image (Image): a Python Image Library image</span>
+<span class="sd">        x (int): the x coordinate of upper lefthand corner</span>
+<span class="sd">        y (int): the y coordinate of upper lefthand corner</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ground_image</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ground_image</span><span class="o">.</span><span class="n">paste</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
@@ -1768,6 +2161,39 @@ a ground image to have already been set.</p>
 
   </div>
 
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="aitk.robots.world.World.record" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">record</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+<a href="#aitk.robots.world.World.record" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Create and return a world recorder.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>robots/world.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">record</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create and return a world recorder.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">.watchers</span> <span class="kn">import</span> <span class="n">Recorder</span>
+
+    <span class="n">recorder</span> <span class="o">=</span> <span class="n">Recorder</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_watchers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">recorder</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_recording</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="n">recorder</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
 
 
 
@@ -1833,6 +2259,65 @@ last save.</p>
       <p>Run the simulator until one of the control functions returns True
 or Control+C is pressed.</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>function</code></td>
+        <td><code>Function</code></td>
+        <td><p>either a single function that takes the
+world, or a list of functions (or None) that each take
+a robot. If any function returns True, then simulation will
+stop.</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>time_step</code></td>
+        <td><code>float</code></td>
+        <td><p>time unit to advance the world</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>show</code></td>
+        <td><code>bool</code></td>
+        <td><p>update the watchers</p></td>
+        <td><code>True</code></td>
+      </tr>
+      <tr>
+        <td><code>real_time</code></td>
+        <td><code>bool</code></td>
+        <td><p>run simulation in real time</p></td>
+        <td><code>True</code></td>
+      </tr>
+      <tr>
+        <td><code>show_progress</code></td>
+        <td><code>bool</code></td>
+        <td><p>show progress bar</p></td>
+        <td><code>True</code></td>
+      </tr>
+      <tr>
+        <td><code>quiet</code></td>
+        <td><code>bool</code></td>
+        <td><p>if True, do not show the status message when
+completed</p></td>
+        <td><code>False</code></td>
+      </tr>
+      <tr>
+        <td><code>background</code></td>
+        <td><code>bool</code></td>
+        <td><p>if True, run in the background.</p></td>
+        <td><code>False</code></td>
+      </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>robots/world.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">run</span><span class="p">(</span>
@@ -1850,17 +2335,17 @@ or Control+C is pressed.</p>
 <span class="sd">    or Control+C is pressed.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        function - (optional) either a single function that takes the</span>
+<span class="sd">        function (Function): either a single function that takes the</span>
 <span class="sd">            world, or a list of functions (or None) that each take</span>
 <span class="sd">            a robot. If any function returns True, then simulation will</span>
 <span class="sd">            stop.</span>
-<span class="sd">        time_step - (optional) time unit to advance the world</span>
-<span class="sd">        show - (optional) update the watchers</span>
-<span class="sd">        real_time - (optional) run simulation in real time</span>
-<span class="sd">        show_progress - (optional) show progress bar</span>
-<span class="sd">        quiet - (optional) if True, do not show the status message when</span>
+<span class="sd">        time_step (float): time unit to advance the world</span>
+<span class="sd">        show (bool): update the watchers</span>
+<span class="sd">        real_time (bool): run simulation in real time</span>
+<span class="sd">        show_progress (bool): show progress bar</span>
+<span class="sd">        quiet (bool): if True, do not show the status message when</span>
 <span class="sd">            completed</span>
-<span class="sd">        background - (optional) if True, run in the background.</span>
+<span class="sd">        background (bool): if True, run in the background.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">time_step</span> <span class="o">=</span> <span class="n">time_step</span> <span class="k">if</span> <span class="n">time_step</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_step</span>
     <span class="k">if</span> <span class="n">background</span><span class="p">:</span>
@@ -1934,11 +2419,35 @@ or Control+C is pressed.</p>
 
       <p>Save the world config JSON as a new file.</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>filename</code></td>
+        <td><code>str</code></td>
+        <td><p>the name of the file to save
+the world in</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>robots/world.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">save_as</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Save the world config JSON as a new file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filename (str): the name of the file to save</span>
+<span class="sd">            the world in</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">filename</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.json&quot;</span><span class="p">):</span>
         <span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span> <span class="o">+</span> <span class="s2">&quot;.json&quot;</span>
@@ -2008,6 +2517,65 @@ save it back to disc if it was loaded from disk.</p>
       <p>Run the simulator for N seconds, or until one of the control
 functions returns True or Control+C is pressed.</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>seconds</code></td>
+        <td><code>float</code></td>
+        <td><p>how many simulation seconds to run</p></td>
+        <td><code>5.0</code></td>
+      </tr>
+      <tr>
+        <td><code>function</code></td>
+        <td><code>Function</code></td>
+        <td><p>either a single function that takes the
+world, or a list of functions (or None) that each take
+a robot. If any function returns True, then simulation will
+stop.</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>time_step</code></td>
+        <td><code>float</code></td>
+        <td><p>time unit to advance the world</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>show</code></td>
+        <td><code>bool</code></td>
+        <td><p>update the watchers</p></td>
+        <td><code>True</code></td>
+      </tr>
+      <tr>
+        <td><code>real_time</code></td>
+        <td><code>float</code></td>
+        <td><p>run simulation in real time</p></td>
+        <td><code>True</code></td>
+      </tr>
+      <tr>
+        <td><code>show_progress</code></td>
+        <td><code>bool</code></td>
+        <td><p>show progress bar</p></td>
+        <td><code>True</code></td>
+      </tr>
+      <tr>
+        <td><code>quiet</code></td>
+        <td><code>bool</code></td>
+        <td><p>if True, do not show the status message when
+completed</p></td>
+        <td><code>False</code></td>
+      </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>robots/world.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">seconds</span><span class="p">(</span>
@@ -2025,16 +2593,16 @@ functions returns True or Control+C is pressed.</p>
 <span class="sd">    functions returns True or Control+C is pressed.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        seconds - (optional) how many simulation seconds to run</span>
-<span class="sd">        function - (optional) either a single function that takes the</span>
+<span class="sd">        seconds (float): how many simulation seconds to run</span>
+<span class="sd">        function (Function): either a single function that takes the</span>
 <span class="sd">            world, or a list of functions (or None) that each take</span>
 <span class="sd">            a robot. If any function returns True, then simulation will</span>
 <span class="sd">            stop.</span>
-<span class="sd">        time_step - (optional) time unit to advance the world</span>
-<span class="sd">        show - (optional) update the watchers</span>
-<span class="sd">        real_time - (optional) run simulation in real time</span>
-<span class="sd">        show_progress - (optional) show progress bar</span>
-<span class="sd">        quiet - (optional) if True, do not show the status message when</span>
+<span class="sd">        time_step (float): time unit to advance the world</span>
+<span class="sd">        show (bool): update the watchers</span>
+<span class="sd">        real_time (float): run simulation in real time</span>
+<span class="sd">        show_progress (bool): show progress bar</span>
+<span class="sd">        quiet (bool): if True, do not show the status message when</span>
 <span class="sd">            completed</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">time_step</span> <span class="o">=</span> <span class="n">time_step</span> <span class="k">if</span> <span class="n">time_step</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_step</span>
@@ -2076,20 +2644,20 @@ a ground image to have already been set.</p>
   <tbody>
       <tr>
         <td><code>x</code></td>
-        <td><code></code></td>
-        <td><p>(int) the x coordinate</p></td>
+        <td><code>int</code></td>
+        <td><p>the x coordinate</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
         <td><code>y</code></td>
-        <td><code></code></td>
-        <td><p>(int) the y coordinate</p></td>
+        <td><code>int</code></td>
+        <td><p>the y coordinate</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
         <td><code>pen</code></td>
-        <td><code></code></td>
-        <td><p>(tuple) the (color, radius) to draw with</p></td>
+        <td><code>tuple</code></td>
+        <td><p>the (color, radius) to draw with</p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
@@ -2102,9 +2670,9 @@ a ground image to have already been set.</p>
 <span class="sd">    a ground image to have already been set.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        x: (int) the x coordinate</span>
-<span class="sd">        y: (int) the y coordinate</span>
-<span class="sd">        pen: (tuple) the (color, radius) to draw with</span>
+<span class="sd">        x (int): the x coordinate</span>
+<span class="sd">        y (int): the y coordinate</span>
+<span class="sd">        pen (tuple): the (color, radius) to draw with</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ground_image</span><span class="p">:</span>
         <span class="n">color</span><span class="p">,</span> <span class="n">radius</span> <span class="o">=</span> <span class="n">pen</span>
@@ -2138,11 +2706,40 @@ a ground image to have already been set.</p>
 
       <p>Set the background image</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>filename</code></td>
+        <td><code>str</code></td>
+        <td><p>the name of the image</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>show</code></td>
+        <td><code>bool</code></td>
+        <td><p>update the world now if True</p></td>
+        <td><code>True</code></td>
+      </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>robots/world.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">set_ground_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Set the background image</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filename (str): the name of the image</span>
+<span class="sd">        show (bool): update the world now if True</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">ground_image_filename</span> <span class="o">=</span> <span class="n">filename</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_reset_ground_image</span><span class="p">()</span>
@@ -2171,11 +2768,33 @@ a ground image to have already been set.</p>
 
       <p>Change the scale of the rendered world.</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>scale</code></td>
+        <td><code>float</code></td>
+        <td><p>the scale of the world (usually between 0.5 and 10)</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>robots/world.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">set_scale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Change the scale of the rendered world.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        scale (float): the scale of the world (usually between 0.5 and 10)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">scale</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">update_dimensions</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">)</span>
@@ -2244,6 +2863,56 @@ a ground image to have already been set.</p>
       <p>Run the simulator for N steps, or until one of the control
 functions returns True or Control+C is pressed.</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>steps</code></td>
+        <td><code>int</code></td>
+        <td><p>either a finite number, or infinity</p></td>
+        <td><code>1</code></td>
+      </tr>
+      <tr>
+        <td><code>time_step</code></td>
+        <td><code>float</code></td>
+        <td><p>time unit to advance the world</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>show</code></td>
+        <td><code>bool</code></td>
+        <td><p>update the watchers</p></td>
+        <td><code>True</code></td>
+      </tr>
+      <tr>
+        <td><code>real_time</code></td>
+        <td><code>bool</code></td>
+        <td><p>run simulation in real time</p></td>
+        <td><code>True</code></td>
+      </tr>
+      <tr>
+        <td><code>show_progress</code></td>
+        <td><code>bool</code></td>
+        <td><p>show progress bar</p></td>
+        <td><code>True</code></td>
+      </tr>
+      <tr>
+        <td><code>quiet</code></td>
+        <td><code>bool</code></td>
+        <td><p>if True, do not show the status message when
+completed</p></td>
+        <td><code>False</code></td>
+      </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>robots/world.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">steps</span><span class="p">(</span>
@@ -2261,16 +2930,16 @@ functions returns True or Control+C is pressed.</p>
 <span class="sd">    functions returns True or Control+C is pressed.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        steps - (optional) either a finite number, or infinity</span>
-<span class="sd">        function - (optional) either a single function that takes the</span>
+<span class="sd">        steps (int): either a finite number, or infinity</span>
+<span class="sd">        function (Function) either a single function that takes the</span>
 <span class="sd">            world, or a list of functions (or None) that each take</span>
 <span class="sd">            a robot. If any function returns True, then simulation will</span>
 <span class="sd">            stop.</span>
-<span class="sd">        time_step - (optional) time unit to advance the world</span>
-<span class="sd">        show - (optional) update the watchers</span>
-<span class="sd">        real_time - (optional) run simulation in real time</span>
-<span class="sd">        show_progress - (optional) show progress bar</span>
-<span class="sd">        quiet - (optional) if True, do not show the status message when</span>
+<span class="sd">        time_step (float): time unit to advance the world</span>
+<span class="sd">        show (bool): update the watchers</span>
+<span class="sd">        real_time (bool): run simulation in real time</span>
+<span class="sd">        show_progress (bool): show progress bar</span>
+<span class="sd">        quiet (bool): if True, do not show the status message when</span>
 <span class="sd">            completed</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;running&quot;</span>
@@ -2323,6 +2992,39 @@ functions returns True or Control+C is pressed.</p>
 
   </div>
 
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="aitk.robots.world.World.stop" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+<a href="#aitk.robots.world.World.stop" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Stop the simulator, if in thread or not.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>robots/world.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Stop the simulator, if in thread or not.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_stop</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;stopped&quot;</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_thread</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Stopping thread...&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_thread</span> <span class="o">=</span> <span class="kc">None</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
 
 
 
@@ -2494,12 +3196,34 @@ all of its robots.</p>
       <p>Update the world, robots, and devices. Optionally, draw the
 world.</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>show</code></td>
+        <td><code>bool</code></td>
+        <td><p>if True, draw the world.</p></td>
+        <td><code>True</code></td>
+      </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>robots/world.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Update the world, robots, and devices. Optionally, draw the</span>
 <span class="sd">    world.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        show (bool): if True, draw the world.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1">## Update robots:</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_draw_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_overlay_list</span><span class="p">[:]</span>
@@ -2513,6 +3237,68 @@ world.</p>
 
   </div>
 
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="aitk.robots.world.World.watch" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">watch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+
+<a href="#aitk.robots.world.World.watch" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Display a live (dynamically updated) view of the world.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>width</code></td>
+        <td><code>int</code></td>
+        <td><p>the width of the world</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>height</code></td>
+        <td><code>int</code></td>
+        <td><p>the height of the world</p></td>
+        <td><code>None</code></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>robots/world.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">watch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Display a live (dynamically updated) view of the world.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        width (int): the width of the world</span>
+<span class="sd">        height (int): the height of the world</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Force update:</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># Force draw:</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+    <span class="n">widget</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_widget</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">widget</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
 
 
 

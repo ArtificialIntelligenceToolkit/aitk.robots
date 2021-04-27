@@ -15,6 +15,15 @@ from .base import BaseDevice
 
 class SmellSensor(BaseDevice):
     def __init__(self, position=(0, 0), name="smell", **kwargs):
+        """
+        A smell sensor for sensing food.
+
+        Args:
+            position (Tuple[int, int]): the position of the
+                sensor in centimeters relative to the center
+                of the robot.
+            name (str): the name of the device
+        """
         config = {
             "position": position,
             "name": name,
@@ -29,6 +38,9 @@ class SmellSensor(BaseDevice):
         return "<SmellSensor %r position=%r>" % (self.name, self.position,)
 
     def initialize(self):
+        """
+        Internal method to set all settings to default values.
+        """
         self.type = "smell"
         self.name = "smell"
         self.value = 0.0
@@ -37,6 +49,12 @@ class SmellSensor(BaseDevice):
         self.dir_from_center = math.atan2(-self.position[0], self.position[1])
 
     def from_json(self, config):
+        """
+        Set the settings from a device config.
+
+        Args:
+            config (dict): a config dictionary
+        """
         valid_keys = set([
             "position", "name", "class"
         ])
@@ -51,6 +69,9 @@ class SmellSensor(BaseDevice):
             self.dir_from_center = math.atan2(-self.position[0], self.position[1])
 
     def to_json(self):
+        """
+        Save the internal settings to a config dictionary.
+        """
         config = {
             "class": self.__class__.__name__,
             "position": self.position,
@@ -62,6 +83,13 @@ class SmellSensor(BaseDevice):
         pass
 
     def update(self, draw_list=None):
+        """
+        Update the device.
+
+        Args:
+            draw_list (list): optional. If given, then the
+                method can add to it for drawing later.
+        """
         self.value = 0
         # Location of sensor:
         p = rotate_around(
@@ -73,6 +101,12 @@ class SmellSensor(BaseDevice):
         self.value = self.robot.world._grid.get(p[0], p[1])
 
     def draw(self, backend):
+        """
+        Draw the device on the backend.
+
+        Args:
+            backend (Backend): an aitk drawing backend
+        """
         backend.lineWidth(1)
         backend.set_stroke_style(BLACK)
         backend.set_fill_style(WHITE)
@@ -85,10 +119,23 @@ class SmellSensor(BaseDevice):
         return self.value
 
     def watch(self, title="Smell Sensor:"):
+        """
+        Create a dynamically updating view
+        of this sensor.
+
+        Args:
+            title (str): title of sensor
+        """
         widget = self.get_widget(title=title)
         return display(widget)
 
     def get_widget(self, title="Smell Sensor:"):
+        """
+        Return the dynamically updating widget.
+
+        Args:
+            title (str): title of sensor
+        """
         from ..watchers import AttributesWatcher
 
         if self.robot is None or self.robot.world is None:
@@ -109,7 +156,7 @@ class SmellSensor(BaseDevice):
         robot.
 
         Args:
-            position: (list/tuple of length 2) represents [x, y] in CM from
+            position (List[int, int]) represents [x, y] in CM from
                 center of robot
         """
         if len(position) != 2:

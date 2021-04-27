@@ -21,12 +21,12 @@ class Bulb(BaseDevice):
         Create a lightbulb.
 
         Args:
-            color: (Color) the color of the bulb
-            x: (int) the position of bulb on x dimension
-            y: (int) the position of bulb on y dimension
-            z: (float) the height of bulb from ground (range 0 to 1)
-            brightness: (number) the brightness of the bulb (default 50)
-            name: (str) the name of the bulb
+            color (Color): the color of the bulb
+            x (int): the position of bulb on x dimension
+            y (int): the position of bulb on y dimension
+            z (float): the height of bulb from ground (range 0 to 1)
+            brightness (float): the brightness of the bulb (default 50)
+            name (str): the name of the bulb
         """
         config = {
             "color": color,
@@ -45,12 +45,18 @@ class Bulb(BaseDevice):
         self.from_json(config)
 
     def initialize(self):
+        """
+        Internal method to set all settings to default values.
+        """
         self.type = "bulb"
         self.state = "on"
         self.dist_from_center = distance(0, 0, self._x, self._y)
         self.dir_from_center = math.atan2(-self._x, self._y)
 
     def to_json(self):
+        """
+        Save the internal settings to a config dictionary.
+        """
         config = {
             "class": self.__class__.__name__,
             "color": str(self.color),
@@ -63,6 +69,12 @@ class Bulb(BaseDevice):
         return config
 
     def from_json(self, config):
+        """
+        Set the settings from a device config.
+
+        Args:
+            config (dict): a config dictionary
+        """
         valid_keys = set(["x", "y", "z", "name", "color",
                           "brightness", "class"])
         self.verify_config(valid_keys, config)
@@ -87,11 +99,17 @@ class Bulb(BaseDevice):
         self.initialize()
 
     def on(self):
+        """
+        Turn the bulb "on".
+        """
         self.state = "on"
         if self.robot is not None and self.robot.world is not None:
             self.robot.world.update()
 
     def off(self):
+        """
+        Turn the bulb "off".
+        """
         self.state = "off"
         if self.robot is not None and self.robot.world is not None:
             self.robot.world.update()
@@ -129,6 +147,13 @@ class Bulb(BaseDevice):
                 return 0
 
     def get_position(self, world=True):
+        """
+        Get the relative or global position of the device.
+
+        Args:
+            world (bool): if True, return the global coordinates of the
+                device. Otherwsie, return the local, relative position.
+        """
         if self.robot is None:
             return self._x, self._y
         else:
@@ -177,17 +202,43 @@ class Bulb(BaseDevice):
         pass
 
     def update(self, draw_list=None):
+        """
+        Update the device.
+
+        Args:
+            draw_list (list): optional. If given, then the
+                method can add to it for drawing later.
+        """
         pass
 
     def draw(self, backend):
+        """
+        Draw the device on the backend.
+
+        Args:
+            backend (Backend): an aitk drawing backend
+        """
         # Drawn by world
         pass
 
-    def watch(self, title="Light Sensor:"):
+    def watch(self, title="Bulb:"):
+        """
+        Create a dynamically updating view
+        of this device.
+
+        Args:
+            title (str): title of device
+        """
         widget = self.get_widget(title=title)
         return display(widget)
 
-    def get_widget(self, title="Light Sensor:"):
+    def get_widget(self, title="Bulb:"):
+        """
+        Return the dynamically updating widget.
+
+        Args:
+            title (str): title of device
+        """
         from ..watchers import AttributesWatcher
 
         if self.robot is None or self.robot.world is None:

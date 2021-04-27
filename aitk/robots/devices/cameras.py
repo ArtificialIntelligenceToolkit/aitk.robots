@@ -42,19 +42,19 @@ class Camera(BaseDevice):
         A camera device.
 
         Args:
-            width: (int) width of camera in pixels
-            height: (int) height of camera in pixels
-            fov: (number) width of camera field of view in degrees. Can be
+            width (int): width of camera in pixels
+            height (int): height of camera in pixels
+            fov (float): width of camera field of view in degrees. Can be
                 180 or even 360 for wide angle cameras.
-            colorsFadeWithDistance: (float) colors get darker
+            colorsFadeWithDistance (float): colors get darker
                 faster with larger value
-            sizeFadeWithDistance: (float) size gets smaller faster
+            sizeFadeWithDistance (float): size gets smaller faster
                 with with larger value
-            reflectGround: (bool) ground reflects for 3D point cloud
-            reflectSky: (bool) sky reflects for 3D point cloud
-            max_range: (int) maximum range of camera
-            name: (str) the name of the camera
-            samples: (int) how many pixels should it sample
+            reflectGround (bool): ground reflects for 3D point cloud
+            reflectSky (bool): sky reflects for 3D point cloud
+            max_range (int): maximum range of camera
+            name (str): the name of the camera
+            samples (int): how many pixels should it sample
 
         Note: currently the camera faces forward.
         """
@@ -77,6 +77,9 @@ class Camera(BaseDevice):
         self.from_json(config)
 
     def initialize(self):
+        """
+        Internal method to set all settings to default values.
+        """
         # FIXME: camera is fixed at (0,0) facing forward
         self.type = "camera"
         self.bulbs_are_visible = True
@@ -96,9 +99,18 @@ class Camera(BaseDevice):
         self.reset()
 
     def reset(self):
+        """
+        Internal method to reset the camera data.
+        """
         self.hits = [[] for i in range(self.cameraShape[0])]
 
     def from_json(self, config):
+        """
+        Set the settings from a device config.
+
+        Args:
+            config (dict): a config dictionary
+        """
         valid_keys = set([
             "width", "name", "height", "colorsFadeWithDistance",
             "sizeFadeWithDistance", "reflectGround", "reflectSky",
@@ -131,6 +143,9 @@ class Camera(BaseDevice):
             self.position = config["position"]
 
     def to_json(self):
+        """
+        Save the internal settings to a config dictionary.
+        """
         return {
             "class": self.__class__.__name__,
             "width": self.cameraShape[0],
@@ -155,6 +170,13 @@ class Camera(BaseDevice):
         )
 
     def watch(self, **kwargs):
+        """
+        Create a dynamically updating view
+        of this device.
+
+        Args:
+            title (str): title of device
+        """
         if self.robot is None or self.robot.world is None:
             raise Exception("can't watch device until added to robot, and robot is in world")
 
@@ -163,6 +185,12 @@ class Camera(BaseDevice):
         self._watcher.watch()
 
     def get_widget(self, **kwargs):
+        """
+        Return the dynamically updating widget.
+
+        Args:
+            title (str): title of device
+        """
         from ..watchers import CameraWatcher
 
         if self._watcher is None:
@@ -200,6 +228,10 @@ class Camera(BaseDevice):
         """
         Cameras operate in a lazy way: they don't actually update
         until needed because they are so expensive.
+
+        Args:
+            draw_list (list): optional. If given, then the
+                method can add to it for drawing later.
         """
         pass
 
@@ -219,7 +251,12 @@ class Camera(BaseDevice):
 
     def draw(self, backend):
         """
-        Currently, cameras are fixed at 0,0 and face forwards.
+        Draw the device on the backend.
+
+        Args:
+            backend (Backend): an aitk drawing backend
+
+        NOTE: Currently, cameras are fixed at 0,0 and face forwards.
         """
         backend.set_fill(Color(0, 64, 0))
         backend.strokeStyle(None, 0)
@@ -251,14 +288,14 @@ class Camera(BaseDevice):
             p = rotate_around(0, 0, self.max_range, self.fov / 2,)
         backend.draw_line(0, 0, p[0], p[1])
 
-    def find_closest_wall(self, hits):
+    def _find_closest_wall(self, hits):
         for hit in reversed(hits):  # reverse make it closest first
             if hit.height < 1.0:  # skip non-walls
                 continue
             return hit.distance
         return float("inf")
 
-    def get_ground_color(self, area, i, j):
+    def _get_ground_color(self, area, i, j):
         if self.robot.world._ground_image is not None and area is not None:
             # i is width ray (camera width),
             # j is distance (height of camera/2, 64 to 128)
@@ -316,10 +353,24 @@ class Camera(BaseDevice):
         return self.robot.world.ground_color
 
     def display(self, type="color"):
+        """
+        Display an image of the camera.
+
+        Args:
+            type (str): the return type of image. Can be "color"
+                or "depth"
+        """
         image = self.get_image(type=type)
         display(image)
 
     def get_image(self, type="color"):
+        """
+        Get an image of the camera.
+
+        Args:
+            type (str): the return type of image. Can be "color"
+                or "depth"
+        """
         try:
             from PIL import Image
         except ImportError:
@@ -398,7 +449,7 @@ class Camera(BaseDevice):
                         else:
                             color = Color(0)
                     elif type == "color":
-                        color = self.get_ground_color(area, i, j)
+                        color = self._get_ground_color(area, i, j)
                     else:
                         color = Color(128 / 3)
                     pic_pixels[i, j] = color.to_tuple()
@@ -406,7 +457,7 @@ class Camera(BaseDevice):
         # Other robots, draw on top of walls:
         self.obstacles = {}
         for i in range(self.cameraShape[0]):
-            closest_wall_dist = self.find_closest_wall(self.hits[i])
+            closest_wall_dist = self._find_closest_wall(self.hits[i])
             hits = [hit for hit in self.hits[i] if hit.height < 1.0]  # obstacles
             for hit in hits:
                 if hit.distance > closest_wall_dist:
@@ -441,7 +492,7 @@ class Camera(BaseDevice):
                     b = avg * sc
                 hcolor = Color(r, g, b)
                 horizon = self.cameraShape[1] / 2
-                self.record_obstacle(
+                self._record_obstacle(
                     hit.robot,
                     i,
                     self.cameraShape[1] - 1 - round(distance_to),
@@ -453,13 +504,13 @@ class Camera(BaseDevice):
                             i, self.cameraShape[1] - j - 1 - round(distance_to)
                         ] = hcolor.to_tuple()
         if self.bulbs_are_visible:
-            self.show_bulbs(pic)
+            self._show_bulbs(pic)
         if self.food_is_visible:
-            self.show_food(pic)
-        self.show_obstacles(pic)
+            self._show_food(pic)
+        self._show_obstacles(pic)
         return pic
 
-    def show_bulbs(self, image):
+    def _show_bulbs(self, image):
         from PIL import ImageDraw, Image
 
         draw_list = []
@@ -510,7 +561,7 @@ class Camera(BaseDevice):
                     print(min_angle, angle, max_angle)
             image.paste(Image.alpha_composite(image, layer))
 
-    def show_food(self, image):
+    def _show_food(self, image):
         from PIL import ImageDraw, Image
 
         draw_list = []
@@ -551,7 +602,7 @@ class Camera(BaseDevice):
                                       fill=color.to_tuple())
             image.paste(Image.alpha_composite(image, layer))
 
-    def show_obstacles(self, image):
+    def _show_obstacles(self, image):
         # FIXME: show back to front
         # FIXME: how to show when partially behind wall?
         # data = {"robot": obj.has_image(), "min_x", "min_y", "max_x", "max_y"}
@@ -578,7 +629,7 @@ class Camera(BaseDevice):
                 except Exception:
                     print("Exception in processing image")
 
-    def record_obstacle(self, robot, x, y1, y2):
+    def _record_obstacle(self, robot, x, y1, y2):
         if robot.name not in self.obstacles:
             self.obstacles[robot.name] = {
                 "robot": robot,
@@ -601,6 +652,12 @@ class Camera(BaseDevice):
         )
 
     def get_point_cloud(self):
+        """
+        Get a 3D point cloud from the camera data.
+
+        Returns a list of [x, y, distance, red, green, blue]
+        for each (x,y) of the camera.
+        """
         depth_pic = self.get_image("depth")
         depth_pixels = depth_pic.load()
         color_pic = self.get_image("color")
@@ -634,7 +691,7 @@ class Camera(BaseDevice):
         Set the field of view angle in degrees of the camera.
 
         Args:
-            angle: (number) angle in degrees of field of view
+            angle (float): angle in degrees of field of view
         """
         # given in degrees
         # save in radians
@@ -648,8 +705,8 @@ class Camera(BaseDevice):
         Set the height and width of the camera in pixels.
 
         Args:
-            width: (int) width of camera in pixels
-            height: (int) height of camera in pixels
+            width (int): width of camera in pixels
+            height (int): height of camera in pixels
         """
         self.cameraShape[0] = width
         self.cameraShape[1] = height
@@ -660,7 +717,7 @@ class Camera(BaseDevice):
         Set the maximum distance the camera can see.
 
         Args:
-            max_range: (number) distance (in CM) the camera can see
+            max_range (float): distance (in CM) the camera can see
         """
         self.max_range = max_range
 
@@ -669,7 +726,7 @@ class Camera(BaseDevice):
         Set the width of the camera in pixels.
 
         Args:
-            width: (int) width of camera in pixels
+            width (int): width of camera in pixels
         """
         self.cameraShape[0] = width
         self.reset()
@@ -679,7 +736,7 @@ class Camera(BaseDevice):
         Set the height of the camera in pixels.
 
         Args:
-            height: (int) height of camera in pixels
+            height (int): height of camera in pixels
         """
         self.cameraShape[1] = height
         self.reset()
@@ -689,7 +746,7 @@ class Camera(BaseDevice):
         Set the name of the camera.
 
         Args:
-            name: (str) the name of the camera
+            name (str): the name of the camera
         """
         self.name = name
 
@@ -724,9 +781,9 @@ class GroundCamera(Camera):
         A downward-facing camera device.
 
         Args:
-            width: (int) width of camera in pixels
-            height: (int) height of camera in pixels
-            name: (str) the name of the camera
+            width (int): width of camera in pixels
+            height (int): height of camera in pixels
+            name (str): the name of the camera
         """
         config = {
             "width": width,
@@ -739,12 +796,21 @@ class GroundCamera(Camera):
         self.from_json(config)
 
     def initialize(self):
+        """
+        Internal method to set all settings to default values.
+        """
         self.type = "ground-camera"
         self.time = 0.0
         self.cameraShape = [15, 15]
         self.name = "ground-camera"
 
     def from_json(self, config):
+        """
+        Set the settings from a device config.
+
+        Args:
+            config (dict): a config dictionary
+        """
         if "width" in config:
             self.cameraShape[0] = config["width"]
         if "height" in config:
@@ -753,6 +819,9 @@ class GroundCamera(Camera):
             self.name = config["name"]
 
     def to_json(self):
+        """
+        Save the internal settings to a config dictionary.
+        """
         return {
             "class": self.__class__.__name__,
             "width": self.cameraShape[0],
@@ -769,12 +838,24 @@ class GroundCamera(Camera):
 
     def update(self, draw_list=None):
         """
+        Update the device.
+
+        Args:
+            draw_list (list): optional. If given, then the
+                method can add to it for drawing later.
+
         Cameras operate in a lazy way: they don't actually update
         until needed because they are so expensive.
         """
         pass
 
     def draw(self, backend):
+        """
+        Draw the device on the backend.
+
+        Args:
+            backend (Backend): an aitk drawing backend
+        """
         left = -(self.cameraShape[0] // 2) / self.robot.world.scale
         upper = -(self.cameraShape[1] // 2) / self.robot.world.scale
         right = (self.cameraShape[0] // 2) / self.robot.world.scale
@@ -786,6 +867,13 @@ class GroundCamera(Camera):
         backend.draw_line(left, lower, left, upper)
 
     def get_image(self, type=None):
+        """
+        Get an image of the camera.
+
+        Args:
+            type (str): the return type of image. Can be "color"
+                or "depth"
+        """
         # FIXME: would be faster to trim image down
         # before rotating
         center = (

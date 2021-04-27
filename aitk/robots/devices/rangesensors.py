@@ -33,12 +33,12 @@ class RangeSensor(BaseDevice):
         is the reading in CM.
 
         Args:
-            position: (int, int) the location on the robot in (x, y)
-            a: (number) the direction in degrees the sensor is
+            position (List[int, int]): the location on the robot in (x, y)
+            a (float): the direction in degrees the sensor is
                 facing.
-            max: (number) max distance in CM that the range sensor can sense
-            width: (number) 0 for laser, or wider for sonar
-            name: (str) the name of the sensor
+            max (float): max distance in CM that the range sensor can sense
+            width (float): 0 for laser, or wider for sonar
+            name (str): the name of the sensor
         """
         config = {
             "position": position,
@@ -54,6 +54,9 @@ class RangeSensor(BaseDevice):
         self.from_json(config)
 
     def initialize(self):
+        """
+        Internal method to set all settings to default values.
+        """
         self.type = "ir"
         self.time = 0.0
         self.reading = 1.0
@@ -67,10 +70,23 @@ class RangeSensor(BaseDevice):
         self.distance = self.reading * self.max
 
     def watch(self, title="Range Sensor:"):
+        """
+        Create a dynamically updating view
+        of this sensor.
+
+        Args:
+            title (str): title of sensor
+        """
         widget = self.get_widget(title=title)
         return display(widget)
 
     def get_widget(self, title=None, attributes=None):
+        """
+        Return the dynamically updating widget.
+
+        Args:
+            title (str): title of sensor
+        """
         from ..watchers import AttributesWatcher
 
         if self.robot is None or self.robot.world is None:
@@ -96,6 +112,12 @@ class RangeSensor(BaseDevice):
         return self._watcher.widget
 
     def from_json(self, config):
+        """
+        Set the settings from a device config.
+
+        Args:
+            config (dict): a config dictionary
+        """
         valid_keys = set([
             "position", "a", "max", "width", "name", "class"
         ])
@@ -119,6 +141,9 @@ class RangeSensor(BaseDevice):
         self.distance = self.reading * self.max
 
     def to_json(self):
+        """
+        Save the internal settings to a config dictionary.
+        """
         config = {
             "class": self.__class__.__name__,
             "position": self.position,
@@ -142,6 +167,13 @@ class RangeSensor(BaseDevice):
         pass
 
     def update(self, draw_list=None):
+        """
+        Update the device.
+
+        Args:
+            draw_list (list): optional. If given, then the
+                method can add to it for drawing later.
+        """
         # Update timestamp:
         self.time = self.robot.world.time
         # This changes:
@@ -187,6 +219,12 @@ class RangeSensor(BaseDevice):
                     self.set_distance(hits[-1].distance)
 
     def draw(self, backend):
+        """
+        Draw the device on the backend.
+
+        Args:
+            backend (Backend): an aitk drawing backend
+        """
         backend.set_fill(Color(128, 0, 128, 64))
         dist = self.get_distance()
         if self.width > 0:
@@ -267,7 +305,7 @@ class RangeSensor(BaseDevice):
         Set the name of the range sensor.
 
         Args:
-            name: (str) the name of the range sensor
+            name (str): the name of the range sensor
         """
         self.name = name
 
@@ -277,7 +315,7 @@ class RangeSensor(BaseDevice):
         usually do this manually.
 
         Args:
-            distance: (number) distance in CM to sensed object
+            distance (float): distance in CM to sensed object
         """
         self.distance = distance
         self.reading = distance / self.max
@@ -288,7 +326,7 @@ class RangeSensor(BaseDevice):
         usually do this manually.
 
         Args:
-            reading: (number) between 0 and 1
+            reading (float): between 0 and 1
         """
         self.reading = reading
         self.distance = reading * self.max
@@ -298,7 +336,7 @@ class RangeSensor(BaseDevice):
         Set the maximum distance in CM that this sensor can sense.
 
         Args:
-            max: (number) max distance in CM the sensor can sense.
+            max (float): max distance in CM the sensor can sense.
         """
         self.max = max
 
@@ -310,7 +348,7 @@ class RangeSensor(BaseDevice):
         robot.
 
         Args:
-            position: (list of length 2 numbers) the location
+            position (List[int, int]): the location
                 of the sensor in relationship to the center of the
                 robot.
         """
@@ -326,7 +364,7 @@ class RangeSensor(BaseDevice):
         Set the direction of the sensor.
 
         Args:
-            a: (number) the angle of the direction of sensor in degrees
+            a (float): the angle of the direction of sensor in degrees
         """
         self.a = degrees_to_world(a)
 
@@ -339,7 +377,7 @@ class RangeSensor(BaseDevice):
         minimum of the three.
 
         Args:
-            width: (number) angle in degrees
+            width (float): angle in degrees
         """
         self.width = width * PI_OVER_180  # save as radians
         if self.width == 0:

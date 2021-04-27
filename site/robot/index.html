@@ -938,8 +938,20 @@
 
       <p>The Robot class is the base class for all robots.</p>
 <p>Typically, you would use an existing robot subclass:</p>
-<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">robot</span> <span class="o">=</span> <span class="n">Scribbler</span><span class="p">()</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">robot</span> <span class="o">=</span> <span class="n">Vehicle</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">aitk.robots</span> <span class="kn">import</span> <span class="n">Scribbler</span><span class="p">,</span> <span class="n">Vehicle</span>
+
+<span class="n">robot1</span> <span class="o">=</span> <span class="n">Scribbler</span><span class="p">()</span>
+<span class="n">robot2</span> <span class="o">=</span> <span class="n">Vehicle</span><span class="p">()</span>
+</code></pre></div>
+<p>After creating a robot, you can then add devices to it,
+and then add it to a world.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">aitk.robots</span> <span class="kn">import</span> <span class="n">World</span><span class="p">,</span> <span class="n">Camera</span>
+
+<span class="n">world</span> <span class="o">=</span> <span class="n">World</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">robot1</span><span class="o">.</span><span class="n">add_device</span><span class="p">(</span><span class="n">Camera</span><span class="p">())</span>
+
+<span class="n">world</span><span class="o">.</span><span class="n">add_robot</span><span class="p">(</span><span class="n">robot1</span><span class="p">)</span>
+<span class="n">world</span><span class="o">.</span><span class="n">add_robot</span><span class="p">(</span><span class="n">robot2</span><span class="p">)</span>
 </code></pre></div>
 
 

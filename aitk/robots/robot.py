@@ -37,8 +37,23 @@ class Robot:
     Typically, you would use an existing robot subclass:
 
     ```python
-    >>> robot = Scribbler()
-    >>> robot = Vehicle()
+    from aitk.robots import Scribbler, Vehicle
+    
+    robot1 = Scribbler()
+    robot2 = Vehicle()
+    ```
+    
+    After creating a robot, you can then add devices to it,
+    and then add it to a world.
+    
+    ```python
+    from aitk.robots import World, Camera
+    
+    world = World(200, 200)
+    robot1.add_device(Camera())
+    
+    world.add_robot(robot1)
+    world.add_robot(robot2)
     ```
     """
     def __init__(

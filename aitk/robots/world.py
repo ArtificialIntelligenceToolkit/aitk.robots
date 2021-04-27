@@ -136,7 +136,8 @@ class Canvas:
 
 class World:
     """
-    The aitk.robots simulator world.
+    The aitk.robots simulator world. All simulations
+    begin with a world.
     """
 
     def __init__(
@@ -172,6 +173,12 @@ class World:
             quiet (bool): if True, don't print any messages
 
         You can also pass any valid item from the world config settings.
+        
+        ```python
+        from aitk.robots import World
+        
+        world = World(200, 200)
+        ```
         """
         # For faster-than real time display with synchronous backends,
         # keep processing time below this percentage of throttle_period:

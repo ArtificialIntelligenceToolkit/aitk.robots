@@ -564,6 +564,18 @@
   
 
           
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rangesensor/" class="md-nav__link">
+        RangeSensor
+      </a>
+    </li>
+  
+
+          
         </ul>
       </nav>
     </li>
@@ -888,6 +900,11 @@
 <a id="aitk.robots.robot.Robot"></a>
     <div class="doc doc-contents first">
 
+      <p>The Robot class is the base class for all robots.</p>
+<p>Typically, you would use an existing robot subclass:</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">robot</span> <span class="o">=</span> <span class="n">Scribbler</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">robot</span> <span class="o">=</span> <span class="n">Vehicle</span><span class="p">()</span>
+</code></pre></div>
 
 
 
@@ -933,99 +950,147 @@
   <tbody>
       <tr>
         <td><code>x</code></td>
-        <td><code></code></td>
-        <td><p>(int) starting location in the horizontal direction. Leave 0 to
+        <td><code>int</code></td>
+        <td><p>starting location in the horizontal direction. Leave 0 to
 place in a random location.</p></td>
         <td><code>0</code></td>
       </tr>
       <tr>
         <td><code>y</code></td>
-        <td><code></code></td>
-        <td><p>(int) starting location in the horizontal direction. Leave 0 to
+        <td><code>int</code></td>
+        <td><p>starting location in the horizontal direction. Leave 0 to
 place in a random location.</p></td>
         <td><code>0</code></td>
       </tr>
       <tr>
         <td><code>a</code></td>
-        <td><code></code></td>
-        <td><p>(number) starting angle in degrees.</p></td>
+        <td><code>float</code></td>
+        <td><p>starting angle in degrees.</p></td>
         <td><code>0</code></td>
       </tr>
       <tr>
         <td><code>color</code></td>
-        <td><code></code></td>
-        <td><p>(str) the name of a color</p></td>
+        <td><code>str</code></td>
+        <td><p>the name of a color</p></td>
         <td><code>&#39;red&#39;</code></td>
       </tr>
       <tr>
         <td><code>name</code></td>
-        <td><code></code></td>
-        <td><p>(str) a name to give your robot</p></td>
+        <td><code>str</code></td>
+        <td><p>a name to give your robot</p></td>
         <td><code>&#39;Robbie&#39;</code></td>
       </tr>
       <tr>
         <td><code>do_trace</code></td>
-        <td><code></code></td>
-        <td><p>(bool) should the robot leave a trace?</p></td>
+        <td><code>bool</code></td>
+        <td><p>should the robot leave a trace?</p></td>
         <td><code>True</code></td>
       </tr>
       <tr>
         <td><code>height</code></td>
-        <td><code></code></td>
-        <td><p>(number) height of robot (use number &lt; 1)</p></td>
+        <td><code>int</code></td>
+        <td><p>height of robot (use number &lt; 1)</p></td>
         <td><code>0.25</code></td>
       </tr>
       <tr>
         <td><code>max_trace_length</code></td>
-        <td><code></code></td>
-        <td><p>(number) max length of trace, in seconds</p></td>
+        <td><code>int</code></td>
+        <td><p>max length of trace, in seconds</p></td>
         <td><code>10</code></td>
       </tr>
       <tr>
         <td><code>state</code></td>
-        <td><code></code></td>
-        <td><p>(dict) serializable memory for a robot</p></td>
+        <td><code>dict</code></td>
+        <td><p>serializable memory for a robot</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
-        <td><code>va,</code></td>
-        <td><code>vx, vy</code></td>
-        <td><p>(numbers) velocities</p></td>
+        <td><code>va</code></td>
+        <td><code>float</code></td>
+        <td><p>angle velocity</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
-        <td><code>tva,</code></td>
-        <td><code>tvx, tvy</code></td>
-        <td><p>(numbers) target velocities</p></td>
+        <td><code>vx</code></td>
+        <td><code>float</code></td>
+        <td><p>x velocity</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
-        <td><code>va_max,</code></td>
-        <td><code>vx_max, vy_max</code></td>
-        <td><p>(numbers) max velocities</p></td>
+        <td><code>vy</code></td>
+        <td><code>float</code></td>
+        <td><p>y velocity</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
-        <td><code>va_ramp,</code></td>
-        <td><code>vx_ramp, vy_ramp</code></td>
-        <td><p>(numbers) linear accelerations</p></td>
+        <td><code>tva</code></td>
+        <td><code>float</code></td>
+        <td><p>angle target velocity</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>tvx</code></td>
+        <td><code>float</code></td>
+        <td><p>x target velocity</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>tvy</code></td>
+        <td><code>float</code></td>
+        <td><p>y target velocity</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>va_max</code></td>
+        <td><code>float</code></td>
+        <td><p>angle max velocity</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>vx_max</code></td>
+        <td><code>float</code></td>
+        <td><p>x max velocity</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>vy_max</code></td>
+        <td><code>float</code></td>
+        <td><p>y max velocity</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>va_ramp</code></td>
+        <td><code>float</code></td>
+        <td><p>angle linear acceleration</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>vx_ramp</code></td>
+        <td><code>float</code></td>
+        <td><p>x linear acceleration</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>vy_ramp</code></td>
+        <td><code>float</code></td>
+        <td><p>y linear acceleration</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
         <td><code>image_data</code></td>
-        <td><code></code></td>
-        <td><p>["dataset-name", index] to use a 3D set of images</p></td>
+        <td><code>dataset-name, index</code></td>
+        <td><p>to use a 3D set of images</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
         <td><code>body</code></td>
-        <td><code></code></td>
+        <td><code>List</code></td>
         <td><p>data structure that defines a robot body</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
         <td><code>devices</code></td>
-        <td><code></code></td>
+        <td><code>List</code></td>
         <td><p>list of serialized devices</p></td>
         <td><em>required</em></td>
       </tr>
@@ -1049,24 +1114,32 @@ place in a random location.</p></td>
 <span class="sd">    A simulated robot.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        x: (int) starting location in the horizontal direction. Leave 0 to</span>
+<span class="sd">        x (int): starting location in the horizontal direction. Leave 0 to</span>
 <span class="sd">            place in a random location.</span>
-<span class="sd">        y: (int) starting location in the horizontal direction. Leave 0 to</span>
+<span class="sd">        y (int): starting location in the horizontal direction. Leave 0 to</span>
 <span class="sd">            place in a random location.</span>
-<span class="sd">        a: (number) starting angle in degrees.</span>
-<span class="sd">        color: (str) the name of a color</span>
-<span class="sd">        name: (str) a name to give your robot</span>
-<span class="sd">        do_trace: (bool) should the robot leave a trace?</span>
-<span class="sd">        height: (number) height of robot (use number &lt; 1)</span>
-<span class="sd">        max_trace_length: (number) max length of trace, in seconds</span>
-<span class="sd">        state: (dict) serializable memory for a robot</span>
-<span class="sd">        va, vx, vy: (numbers) velocities</span>
-<span class="sd">        tva, tvx, tvy: (numbers) target velocities</span>
-<span class="sd">        va_max, vx_max, vy_max: (numbers) max velocities</span>
-<span class="sd">        va_ramp, vx_ramp, vy_ramp: (numbers) linear accelerations</span>
-<span class="sd">        image_data: [&quot;dataset-name&quot;, index] to use a 3D set of images</span>
-<span class="sd">        body: data structure that defines a robot body</span>
-<span class="sd">        devices: list of serialized devices</span>
+<span class="sd">        a (float): starting angle in degrees.</span>
+<span class="sd">        color (str): the name of a color</span>
+<span class="sd">        name (str): a name to give your robot</span>
+<span class="sd">        do_trace (bool): should the robot leave a trace?</span>
+<span class="sd">        height (int): height of robot (use number &lt; 1)</span>
+<span class="sd">        max_trace_length (int): max length of trace, in seconds</span>
+<span class="sd">        state (dict): serializable memory for a robot</span>
+<span class="sd">        va (float): angle velocity</span>
+<span class="sd">        vx (float): x velocity</span>
+<span class="sd">        vy (float): y velocity</span>
+<span class="sd">        tva (float): angle target velocity</span>
+<span class="sd">        tvx (float): x target velocity</span>
+<span class="sd">        tvy (float): y target velocity</span>
+<span class="sd">        va_max (float): angle max velocity</span>
+<span class="sd">        vx_max (float): x max velocity</span>
+<span class="sd">        vy_max (float): y max velocity</span>
+<span class="sd">        va_ramp (float): angle linear acceleration</span>
+<span class="sd">        vx_ramp (float): x linear acceleration</span>
+<span class="sd">        vy_ramp (float): y linear acceleration</span>
+<span class="sd">        image_data (dataset-name, index): to use a 3D set of images</span>
+<span class="sd">        body (List): data structure that defines a robot body</span>
+<span class="sd">        devices (List): list of serialized devices</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Get the args:</span>
     <span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
@@ -1109,11 +1182,33 @@ place in a random location.</p></td>
 
       <p>Add a device to a robot.</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>device</code></td>
+        <td><code>Device</code></td>
+        <td><p>the device to add</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>robots/robot.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">add_device</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Add a device to a robot.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        device (Device): the device to add</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">device</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_devices</span><span class="p">:</span>
         <span class="n">device</span><span class="o">.</span><span class="n">robot</span> <span class="o">=</span> <span class="bp">self</span>
@@ -1158,46 +1253,41 @@ the robot.</p>
   <tbody>
       <tr>
         <td><code>device_class</code></td>
-        <td><code></code></td>
+        <td><code>class</code></td>
         <td><p>a class or function that receives position,
 a, and kwargs, and returns a device</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
         <td><code>distance_from_center</code></td>
-        <td><code></code></td>
+        <td><code>float</code></td>
         <td><p>in CM</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
         <td><code>start_degree</code></td>
-        <td><code></code></td>
+        <td><code>float</code></td>
         <td><p>angle of first device (0 points right)</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
         <td><code>stop_degree</code></td>
-        <td><code></code></td>
+        <td><code>float</code></td>
         <td><p>angle of stop degree (counter clockwise)</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
         <td><code>count</code></td>
-        <td><code></code></td>
+        <td><code>int</code></td>
         <td><p>number of sensors to add</p></td>
         <td><em>required</em></td>
       </tr>
-      <tr>
-        <td><code>kwargs</code></td>
-        <td><code></code></td>
-        <td><p>additional args to pass to device_class</p></td>
-        <td><code>{}</code></td>
-      </tr>
   </tbody>
-</table>
+</table>      
+
 <p><strong>Examples:</strong></p>
     
-      <div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">robot</span><span class="o">.</span><span class="n">add_device_ring</span><span class="p">(</span><span class="n">RangeSensor</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">359</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+      <div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">robot</span><span class="o">.</span><span class="n">add_device_ring</span><span class="p">(</span><span class="n">RangeSensor</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">360</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 </code></pre></div>
 
         <details class="quote">
@@ -1209,18 +1299,19 @@ a, and kwargs, and returns a device</p></td>
 <span class="sd">    the robot.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        device_class: a class or function that receives position,</span>
+<span class="sd">        device_class (class): a class or function that receives position,</span>
 <span class="sd">            a, and kwargs, and returns a device</span>
-<span class="sd">        distance_from_center: in CM</span>
-<span class="sd">        start_degree: angle of first device (0 points right)</span>
-<span class="sd">        stop_degree: angle of stop degree (counter clockwise)</span>
-<span class="sd">        count: number of sensors to add</span>
-<span class="sd">        kwargs: additional args to pass to device_class</span>
+<span class="sd">        distance_from_center (float): in CM</span>
+<span class="sd">        start_degree (float): angle of first device (0 points right)</span>
+<span class="sd">        stop_degree (float): angle of stop degree (counter clockwise)</span>
+<span class="sd">        count (int): number of sensors to add</span>
+
+<span class="sd">    Note: use kwargs additional args to pass to device_class</span>
 
 <span class="sd">    Example:</span>
 
 <span class="sd">    ```python</span>
-<span class="sd">    &gt;&gt;&gt; robot.add_device_ring(RangeSensor, 10, 0, 359, 6, width=20)</span>
+<span class="sd">    &gt;&gt;&gt; robot.add_device_ring(RangeSensor, 10, 0, 360, 6, width=20)</span>
 <span class="sd">    ```</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">span</span> <span class="o">=</span> <span class="n">stop_degree</span> <span class="o">-</span> <span class="n">start_degree</span>
@@ -1249,7 +1340,26 @@ a, and kwargs, and returns a device</p></td>
     <div class="doc doc-contents ">
 
       <p>Set the target translate velocity.</p>
-<p>translate should be between 0 and 1, inclusive.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>translate</code></td>
+        <td><code>float</code></td>
+        <td><p>the amount to move the robot backward</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>      <p>Translate should be between 0 and 1, inclusive.</p>
 
         <details class="quote">
           <summary>Source code in <code>robots/robot.py</code></summary>
@@ -1257,7 +1367,10 @@ a, and kwargs, and returns a device</p></td>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Set the target translate velocity.</span>
 
-<span class="sd">    translate should be between 0 and 1, inclusive.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        translate (float): the amount to move the robot backward</span>
+
+<span class="sd">    Translate should be between 0 and 1, inclusive.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">translate</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tvx</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="o">-</span><span class="n">translate</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">vx_max</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -1284,13 +1397,77 @@ a, and kwargs, and returns a device</p></td>
     <div class="doc doc-contents ">
 
       <p>Cast a ray into this world and see what it hits.</p>
-<p>Returns list of hits, furthest away first (back to front)</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>x1</code></td>
+        <td><code>int</code></td>
+        <td><p>the x coordinate of ray origin</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>y1</code></td>
+        <td><code>int</code></td>
+        <td><p>the y coordinate of ray origin</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>a</code></td>
+        <td><code>int</code></td>
+        <td><p>the angle of the ray to cast</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>maxRange</code></td>
+        <td><code>float</code></td>
+        <td><p>the length of ray to cast</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>x2</code></td>
+        <td><code>int</code></td>
+        <td><p>the x coordinate of the endpoint</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>y2</code></td>
+        <td><code>int</code></td>
+        <td><p>the y coordinate of the endpoint</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>ignore_robots</code></td>
+        <td><code>List</code></td>
+        <td><p>list of robots to ignore</p></td>
+        <td><code>None</code></td>
+      </tr>
+  </tbody>
+</table>      <p>Returns list of hits, furthest away first (back to front)</p>
 
         <details class="quote">
           <summary>Source code in <code>robots/robot.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">cast_ray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">maxRange</span><span class="p">,</span> <span class="n">x2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ignore_robots</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Cast a ray into this world and see what it hits.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x1 (int): the x coordinate of ray origin</span>
+<span class="sd">        y1 (int): the y coordinate of ray origin</span>
+<span class="sd">        a (int): the angle of the ray to cast</span>
+<span class="sd">        maxRange (float): the length of ray to cast</span>
+<span class="sd">        x2 (int): the x coordinate of the endpoint</span>
+<span class="sd">        y2 (int): the y coordinate of the endpoint</span>
+<span class="sd">        ignore_robots (List): list of robots to ignore</span>
 
 <span class="sd">    Returns list of hits, furthest away first (back to front)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1317,11 +1494,33 @@ a, and kwargs, and returns a device</p></td>
 
       <p>Remove a device from a robot.</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>device</code></td>
+        <td><code>Device</code></td>
+        <td><p>the device to remove</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>robots/robot.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">del_device</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Remove a device from a robot.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        device (Device): the device to remove</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
         <span class="n">device</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">device</span><span class="p">]</span>
@@ -1352,11 +1551,35 @@ a, and kwargs, and returns a device</p></td>
 
       <p>Display the robot's image.</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>size</code></td>
+        <td><code>int</code></td>
+        <td><p>the size of the width and height of the
+image</p></td>
+        <td><code>100</code></td>
+      </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>robots/robot.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">display</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Display the robot&#39;s image.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        size (int): the size of the width and height of the</span>
+<span class="sd">            image</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">image</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_image</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
     <span class="n">display</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
@@ -1382,11 +1605,33 @@ a, and kwargs, and returns a device</p></td>
 
       <p>Draw the robot.</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>backend</code></td>
+        <td><code>Backend</code></td>
+        <td><p>the backend on which to draw</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>robots/robot.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">backend</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Draw the robot.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        backend (Backend): the backend on which to draw</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">do_trace</span><span class="p">:</span>
         <span class="n">time_step</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">time_step</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">world</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="mf">0.1</span>
@@ -1582,13 +1827,35 @@ otherwise.</p>
     <div class="doc doc-contents ">
 
       <p>Set the target translate velocity.</p>
-<p>Arg should be between 0 and 1, inclusive.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>translate</code></td>
+        <td><code>float</code></td>
+        <td><p>the amount to move the robot forward</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>      <p>Arg should be between 0 and 1, inclusive.</p>
 
         <details class="quote">
           <summary>Source code in <code>robots/robot.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">translate</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Set the target translate velocity.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        translate (float): the amount to move the robot forward</span>
 
 <span class="sd">    Arg should be between 0 and 1, inclusive.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1618,11 +1885,33 @@ otherwise.</p>
 
       <p>Load a robot from a JSON config dict.</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>config</code></td>
+        <td><code>dict</code></td>
+        <td><p>a config dict</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>robots/robot.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">from_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Load a robot from a JSON config dict.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        config (dict): a config dict</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">DEVICES</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;aitk.robots.devices&quot;</span><span class="p">)</span>
     <span class="n">valid_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span>
@@ -1762,8 +2051,8 @@ otherwise.</p>
   <tbody>
       <tr>
         <td><code>size</code></td>
-        <td><code></code></td>
-        <td><p>(int) size in pixels around robot</p></td>
+        <td><code>int</code></td>
+        <td><p>size in pixels around robot</p></td>
         <td><code>100</code></td>
       </tr>
   </tbody>
@@ -1775,7 +2064,7 @@ otherwise.</p>
 <span class="sd">    Get an image of the robot.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        size: (int) size in pixels around robot</span>
+<span class="sd">        size (int): size in pixels around robot</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">picture</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">get_image</span><span class="p">()</span>
     <span class="n">start_x</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span>
@@ -1817,13 +2106,35 @@ otherwise.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Return the 3D image in the proper angle.</p>
+      <p>Return the 3D image at the proper angle.</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>degrees</code></td>
+        <td><code>int</code></td>
+        <td><p>the angle of the image to get</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>robots/robot.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">get_image_3d</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">degrees</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return the 3D image in the proper angle.</span>
+<span class="sd">    Return the 3D image at the proper angle.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        degrees (int): the angle of the image to get</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_dataset_image</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image_data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">degrees</span><span class="p">)</span>
 </code></pre></div>
@@ -1939,12 +2250,36 @@ is in degrees.</p>
       <p>Get the current (or target) translate and rotate velocities
 of the robot.</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>target</code></td>
+        <td><code>bool</code></td>
+        <td><p>get the target velocities if True; get the actual
+velocities otherwise</p></td>
+        <td><code>False</code></td>
+      </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>robots/robot.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">get_velocity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get the current (or target) translate and rotate velocities</span>
 <span class="sd">    of the robot.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        target (bool): get the target velocities if True; get the actual</span>
+<span class="sd">            velocities otherwise</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">target</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vx</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">vx_max</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">va</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">va_max</span><span class="p">)</span>
@@ -1985,20 +2320,20 @@ of the robot.</p>
   <tbody>
       <tr>
         <td><code>size</code></td>
-        <td><code></code></td>
-        <td><p>(int) size in pixels around robot</p></td>
+        <td><code>int</code></td>
+        <td><p>size in pixels around robot</p></td>
         <td><code>None</code></td>
       </tr>
       <tr>
         <td><code>show_robot</code></td>
-        <td><code></code></td>
-        <td><p>(bool) show picture of robot</p></td>
+        <td><code>bool</code></td>
+        <td><p>show picture of robot</p></td>
         <td><code>None</code></td>
       </tr>
       <tr>
         <td><code>attributes</code></td>
-        <td><code></code></td>
-        <td><p>(list) items to include, or "all"</p></td>
+        <td><code>list</code></td>
+        <td><p>items to include, or "all"</p></td>
         <td><code>None</code></td>
       </tr>
   </tbody>
@@ -2010,9 +2345,9 @@ of the robot.</p>
 <span class="sd">    Get the robot widget.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        size: (int) size in pixels around robot</span>
-<span class="sd">        show_robot: (bool) show picture of robot</span>
-<span class="sd">        attributes: (list) items to include, or &quot;all&quot;</span>
+<span class="sd">        size (int): size in pixels around robot</span>
+<span class="sd">        show_robot (bool): show picture of robot</span>
+<span class="sd">        attributes (list): items to include, or &quot;all&quot;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">.watchers</span> <span class="kn">import</span> <span class="n">RobotWatcher</span>
 
@@ -2085,12 +2420,41 @@ a dataset?</p>
       <p>A move function that takes desired motor values
 and converts to trans and rotate.</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>left</code></td>
+        <td><code>float</code></td>
+        <td><p>the amount to move the left wheel</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>right</code></td>
+        <td><code>float</code></td>
+        <td><p>the amount to move the right wheel</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>robots/robot.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">motors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A move function that takes desired motor values</span>
 <span class="sd">    and converts to trans and rotate.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        left (float): the amount to move the left wheel</span>
+<span class="sd">        right (float): the amount to move the right wheel</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">trans</span> <span class="o">=</span> <span class="p">(</span><span class="n">right</span> <span class="o">+</span> <span class="n">left</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
     <span class="n">rotate</span> <span class="o">=</span> <span class="p">(</span><span class="n">right</span> <span class="o">-</span> <span class="n">left</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
@@ -2116,13 +2480,42 @@ and converts to trans and rotate.</p>
     <div class="doc doc-contents ">
 
       <p>Set the target translate and rotate velocities.</p>
-<p>Args should be between -1 and 1.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>translate</code></td>
+        <td><code>float</code></td>
+        <td><p>the amount to move the robot forward/backward</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>rotate</code></td>
+        <td><code>float</code></td>
+        <td><p>the amount to rotate the robot</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>      <p>Args should be between -1 and 1.</p>
 
         <details class="quote">
           <summary>Source code in <code>robots/robot.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">translate</span><span class="p">,</span> <span class="n">rotate</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Set the target translate and rotate velocities.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        translate (float): the amount to move the robot forward/backward</span>
+<span class="sd">        rotate (float): the amount to rotate the robot</span>
 
 <span class="sd">    Args should be between -1 and 1.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -2156,13 +2549,42 @@ and converts to trans and rotate.</p>
     <div class="doc doc-contents ">
 
       <p>Put the pen down to change the color of the background image.</p>
-<p>Note: not for use in a robot in a recorder.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>color</code></td>
+        <td><code>str</code></td>
+        <td><p>the color of the pen color to draw</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>radius</code></td>
+        <td><code>int</code></td>
+        <td><p>the size of the dot to draw</p></td>
+        <td><code>1</code></td>
+      </tr>
+  </tbody>
+</table>      
 
         <details class="quote">
           <summary>Source code in <code>robots/robot.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">pen_down</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Put the pen down to change the color of the background image.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        color (str): the color of the pen color to draw</span>
+<span class="sd">        radius (int): the size of the dot to draw</span>
 
 <span class="sd">    Note: not for use in a robot in a recorder.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -2293,13 +2715,35 @@ positive or from positive to negative.</p>
     <div class="doc doc-contents ">
 
       <p>Set the target rotate velocity.</p>
-<p>Arg should be between -1 and 1.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>rotate</code></td>
+        <td><code>float</code></td>
+        <td><p>the amount to rotate the robot</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>      <p>Arg should be between -1 and 1.</p>
 
         <details class="quote">
           <summary>Source code in <code>robots/robot.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">rotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rotate</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Set the target rotate velocity.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        rotate (float): the amount to rotate the robot</span>
 
 <span class="sd">    Arg should be between -1 and 1.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -2327,11 +2771,33 @@ positive or from positive to negative.</p>
 
       <p>Set the color of a robot, and its trace.</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>color</code></td>
+        <td><code>str</code></td>
+        <td><p>the color of the robot</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>robots/robot.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">set_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Set the color of a robot, and its trace.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        color (str): the color of the robot</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_set_color</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
 </code></pre></div>
@@ -2369,8 +2835,8 @@ positive or from positive to negative.</p>
   <tbody>
       <tr>
         <td><code>seconds</code></td>
-        <td><code></code></td>
-        <td><p>(number) the length of trace</p></td>
+        <td><code>float</code></td>
+        <td><p>the length of trace in seconds</p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
@@ -2382,7 +2848,7 @@ positive or from positive to negative.</p>
 <span class="sd">    Set the max length of trace, in seconds.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        seconds: (number) the length of trace</span>
+<span class="sd">        seconds (float): the length of trace in seconds</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">max_trace_length</span> <span class="o">=</span> <span class="n">seconds</span>
 </code></pre></div>
@@ -2406,13 +2872,56 @@ positive or from positive to negative.</p>
     <div class="doc doc-contents ">
 
       <p>Set the pose of the robot. a is in degrees.</p>
-<p>Note: the robot must be in a world.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>x</code></td>
+        <td><code>int</code></td>
+        <td><p>the x coordinate of the robot</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>y</code></td>
+        <td><code>int</code></td>
+        <td><p>the y coordinate of the robot</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>a</code></td>
+        <td><code>int</code></td>
+        <td><p>the angle of the robot in degrees (zero is to the left, 90 is up)</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>clear_trace</code></td>
+        <td><code>bool</code></td>
+        <td><p>if True, clear the robot's trace</p></td>
+        <td><code>True</code></td>
+      </tr>
+  </tbody>
+</table>      
 
         <details class="quote">
           <summary>Source code in <code>robots/robot.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">set_pose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">clear_trace</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Set the pose of the robot. a is in degrees.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x (int): the x coordinate of the robot</span>
+<span class="sd">        y (int): the y coordinate of the robot</span>
+<span class="sd">        a (int): the angle of the robot in degrees (zero is to the left, 90 is up)</span>
+<span class="sd">        clear_trace (bool): if True, clear the robot&#39;s trace</span>
 
 <span class="sd">    Note: the robot must be in a world.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -2448,13 +2957,35 @@ positive or from positive to negative.</p>
     <div class="doc doc-contents ">
 
       <p>Set the pose of the robot to a random location.</p>
-<p>Note: the robot must be in a world.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>clear_trace</code></td>
+        <td><code>bool</code></td>
+        <td><p>if True, clear the trace</p></td>
+        <td><code>True</code></td>
+      </tr>
+  </tbody>
+</table>      
 
         <details class="quote">
           <summary>Source code in <code>robots/robot.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">set_random_pose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clear_trace</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Set the pose of the robot to a random location.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        clear_trace (bool): if True, clear the trace</span>
 
 <span class="sd">    Note: the robot must be in a world.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -2504,8 +3035,8 @@ positive or from positive to negative.</p>
   <tbody>
       <tr>
         <td><code>text</code></td>
-        <td><code></code></td>
-        <td><p>(str) the text to show; use None to clear</p></td>
+        <td><code>str</code></td>
+        <td><p>the text to show; use None to clear</p></td>
         <td><code>None</code></td>
       </tr>
   </tbody>
@@ -2518,7 +3049,7 @@ positive or from positive to negative.</p>
 <span class="sd">    Show some text in the robot&#39;s speech bubble.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        text: (str) the text to show; use None to clear</span>
+<span class="sd">        text (str): the text to show; use None to clear</span>
 
 <span class="sd">    Note: not for use in a robot in a recorder.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -2676,13 +3207,35 @@ positive or from positive to negative.</p>
     <div class="doc doc-contents ">
 
       <p>Set the target translate velocity.</p>
-<p>Arg should be between -1 and 1.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>translate</code></td>
+        <td><code>float</code></td>
+        <td><p>the amount to move the robot forward/backward</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>      <p>Arg should be between -1 and 1.</p>
 
         <details class="quote">
           <summary>Source code in <code>robots/robot.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">translate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">translate</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Set the target translate velocity.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        translate (float): the amount to move the robot forward/backward</span>
 
 <span class="sd">    Arg should be between -1 and 1.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -2710,11 +3263,33 @@ positive or from positive to negative.</p>
 
       <p>Update the robot, and devices.</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>draw_list</code></td>
+        <td><code>List</code></td>
+        <td><p>list of items to draw</p></td>
+        <td><code>None</code></td>
+      </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>robots/robot.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">draw_list</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Update the robot, and devices.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        draw_list (List): list of items to draw</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Wrapped worlds:</span>
     <span class="n">wrapped</span> <span class="o">=</span> <span class="kc">False</span>
@@ -2844,20 +3419,20 @@ positive or from positive to negative.</p>
   <tbody>
       <tr>
         <td><code>size</code></td>
-        <td><code></code></td>
-        <td><p>(int) size in pixels around robot</p></td>
+        <td><code>int</code></td>
+        <td><p>size in pixels around robot</p></td>
         <td><code>None</code></td>
       </tr>
       <tr>
         <td><code>show_robot</code></td>
-        <td><code></code></td>
-        <td><p>(bool) show picture of robot</p></td>
+        <td><code>bool</code></td>
+        <td><p>show picture of robot</p></td>
         <td><code>None</code></td>
       </tr>
       <tr>
         <td><code>attributes</code></td>
-        <td><code></code></td>
-        <td><p>(list) items to include, or "all"</p></td>
+        <td><code>List</code></td>
+        <td><p>items to include, or "all"</p></td>
         <td><code>None</code></td>
       </tr>
   </tbody>
@@ -2869,9 +3444,9 @@ positive or from positive to negative.</p>
 <span class="sd">    Watch the robot stats with live updates.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        size: (int) size in pixels around robot</span>
-<span class="sd">        show_robot: (bool) show picture of robot</span>
-<span class="sd">        attributes: (list) items to include, or &quot;all&quot;</span>
+<span class="sd">        size (int): size in pixels around robot</span>
+<span class="sd">        show_robot (bool): show picture of robot</span>
+<span class="sd">        attributes (List): items to include, or &quot;all&quot;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">widget</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_widget</span><span class="p">(</span>
         <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span>

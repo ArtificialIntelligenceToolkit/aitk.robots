@@ -161,7 +161,7 @@ class Robot:
         Initialize the robot properties.
         """
         self.name = "Robbie"
-        self.state = {}
+        self.state = {} # type: Dict
         self._set_color("red")
         self.eat_food_distance = 20
         self.do_trace = True

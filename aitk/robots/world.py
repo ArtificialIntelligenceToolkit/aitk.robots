@@ -141,35 +141,35 @@ class World:
 
     def __init__(
         self,
-        width=500,
-        height=250,
-        seed=0,
-        scale=3.0,
-        boundary_wall=True,
-        boundary_wall_color="purple",
-        boundary_wall_width=1,
-        ground_color="green",
-        ground_image_filename=None,
-        filename=None,
-        quiet=False,
-        smell_cell_size=None,
+        width=500, # type: int
+        height=250,  # type: int
+        seed=0,  # type: int
+        scale=3.0, # type: float
+        boundary_wall=True,  # type: bool
+        boundary_wall_color="purple",  # type: str
+        boundary_wall_width=1,  # type: int
+        ground_color="green",  # type: str
+        ground_image_filename=None,  # type: str
+        filename=None,  # type: str
+        quiet=False,  # type: bool
+        smell_cell_size=None,  # type: int
         **kwargs
     ):
         """
-        The aitk.robots simulator world.
+        The constructor for the aitk.robots simulator world.
 
         Args:
-            width: (int) width of world in pixels
-            height: (int) height of world in pixels
-            seed: (int) random number generator seed
-            scale: (number) value to use in drawing the world
-            boundary_wall: (bool) draw a boundary around the world?
-            boundary_wall_color: (str) color name of boundary wall
-            boundary_wall_width: (int) width of boundary wall
-            ground_color: (str) color name
-            ground_image_filename: (str) image file used for backgound
-            filename: (str) name of json world file
-            quiet: (bool) if True, don't print any messages
+            width (int): width of world in pixels
+            height (int): height of world in pixels
+            seed (int): random number generator seed
+            scale (float): value to use in drawing the world
+            boundary_wall (bool): draw a boundary around the world?
+            boundary_wall_color (str): color name of boundary wall
+            boundary_wall_width (int): width of boundary wall
+            ground_color (str): color name
+            ground_image_filename (str): image file used for backgound
+            filename (str): name of json world file
+            quiet (bool): if True, don't print any messages
 
         You can also pass any valid item from the world config settings.
         """
@@ -225,8 +225,8 @@ class World:
         Get a PIL image of the world, or of a robot.
 
         Args:
-            index: (str or int, optional) - index of robot
-            size: (int, optional) - size of robot picture
+            index (str or int, optional): index of robot
+            size (int, optional): size of robot picture
         """
         try:
             picture = self._backend.get_image(self.time)
@@ -254,8 +254,8 @@ class World:
         Display a picture of the world, or of a robot.
 
         Args:
-            index: (str or int, optional) - index of robot
-            size: (int, optional) - size of robot picture
+            index (str or int, optional): index of robot
+            size (int, optional): size of robot picture
         """
         picture = self.get_image(index=index, size=size)
         display(picture)
@@ -303,7 +303,7 @@ class World:
         world.robots[item]
 
         Args:
-            item: (int or string) index or name of robot
+            item (int or string): index or name of robot
         """
         return self.robots[item]
 
@@ -313,7 +313,7 @@ class World:
         world.bulbs[item]
 
         Args:
-            item: (int or string) index or name of bulb
+            item (int or string): index or name of bulb
         """
         return self.bulbs[item]
 
@@ -475,6 +475,12 @@ class World:
         """
         Add food at x, y with a brightness of standard_deviation
         (in pixels).
+
+        Args:
+            x (int): the x coordinate
+            y (int): the y coordinate
+            standard_deviation (float): distance int pixels
+                of 1 standard deviation
         """
         self._add_food(x, y, standard_deviation)
         self._grid.need_update = True
@@ -596,6 +602,10 @@ class World:
     def save_as(self, filename):
         """
         Save the world config JSON as a new file.
+
+        Args:
+            filename (str): the name of the file to save
+                the world in
         """
         if not filename.endswith(".json"):
             filename = filename + ".json"
@@ -609,6 +619,10 @@ class World:
     def set_ground_image(self, filename, show=True):
         """
         Set the background image
+
+        Args:
+            filename (str): the name of the image
+            show (bool): update the world now if True
         """
         self.ground_image_filename = filename
         self._reset_ground_image()
@@ -638,9 +652,9 @@ class World:
         a ground image to have already been set.
 
         Args:
-            image: a Python Image Library image
-            x: (int) the x coordinate of upper lefthand corner
-            y: (int) the y coordinate of upper lefthand corner
+            image (Image): a Python Image Library image
+            x (int): the x coordinate of upper lefthand corner
+            y (int): the y coordinate of upper lefthand corner
         """
         if self._ground_image:
             self._ground_image.paste(image, (x, y))
@@ -651,9 +665,9 @@ class World:
         a ground image to have already been set.
 
         Args:
-            x: (int) the x coordinate
-            y: (int) the y coordinate
-            pen: (tuple) the (color, radius) to draw with
+            x (int): the x coordinate
+            y (int): the y coordinate
+            pen (tuple): the (color, radius) to draw with
         """
         if self._ground_image:
             color, radius = pen
@@ -672,9 +686,9 @@ class World:
         a ground image to have already been set.
 
         Args:
-            x: (int) the x coordinate
-            y: (int) the y coordinate
-            radius: (int) size of area
+            x (int): the x coordinate
+            y (int): the y coordinate
+            radius (int): size of area
         """
         if self._ground_image:
             results = []
@@ -690,6 +704,9 @@ class World:
     def set_scale(self, scale):
         """
         Change the scale of the rendered world.
+
+        Args:
+            scale (float): the scale of the world (usually between 0.5 and 10)
         """
         self.scale = scale
         self._backend.update_dimensions(self.width, self.height, self.scale)
@@ -699,6 +716,13 @@ class World:
         self.draw()  # force
 
     def watch(self, width=None, height=None):
+        """
+        Display a live (dynamically updated) view of the world.
+
+        Args:
+            width (int): the width of the world
+            height (int): the height of the world
+        """
         # Force update:
         self.update(show=True)
         # Force draw:
@@ -707,6 +731,13 @@ class World:
         display(widget)
 
     def get_widget(self, width=None, height=None):
+        """
+        Returns the IPython simulation widget.
+
+        Args:
+            width (int): the width of the world
+            height (int): the height of the world
+        """
         if isinstance(width, int):
             width = "%spx" % width
         if isinstance(height, int):
@@ -716,6 +747,9 @@ class World:
         return self._backend.get_widget(width=width, height=height)
 
     def record(self):
+        """
+        Create and return a world recorder.
+        """
         from .watchers import Recorder
 
         recorder = Recorder(self)
@@ -742,11 +776,22 @@ class World:
             watcher.update()
 
     def clear_watchers(self):
+        """
+        Clear all of the watchers.
+        """
         self._watchers[:] = []
 
     def add_bulb(self, color, x, y, z, brightness, name=None):
         """
         Add a bulb to the world.
+
+        Args:
+            color (str): the color of the light
+            x (int): the x coordinate
+            y (int): the y coordinate
+            z (int): the z coordinate
+            brightness (float): the distance in pixels of 1 standard deviation
+            name (str): the name of the bulb
         """
         self._add_bulb(color, x, y, z, brightness, name)
         self.update()  # request draw
@@ -760,6 +805,15 @@ class World:
     def add_wall(self, color, x1, y1, x2, y2, box=True, wtype="wall"):
         """
         Add a wall line or box of wall lines.
+
+        Args:
+            color (str): the color of the wall
+            x1 (int): the upper left x coordinate
+            y1 (int): the upper left y coordinate
+            x2 (int): the lower right x coordinate
+            y2 (int): the lower right y coordinate
+            box (bool): whether this is a box (True) or line (False)
+            wtype (str): "wall", "robot", or "boundary"
         """
         p1 = Point(x1, y1)
         p3 = Point(x2, y2)
@@ -787,7 +841,10 @@ class World:
 
     def del_robot(self, robot):
         """
-        Removed a robot from the world.
+        Remove a robot from the world.
+
+        Args:
+            robot (Robot): the robot to remove
         """
         if not isinstance(robot, Robot):
             # Then look it up by index/name/type:
@@ -832,6 +889,9 @@ class World:
         """
         Add a new robot to the world. If the robot's position is 0,0 then
         place it randomly in the world.
+
+        Args:
+            robot (Robot): the robot to add
         """
         if robot not in self._robots:
             if robot.x == 0 and robot.y == 0:
@@ -877,6 +937,9 @@ class World:
                 pass
 
     def stop(self):
+        """
+        Stop the simulator, if in thread or not.
+        """
         self._stop = True
         self.status = "stopped"
         if self._thread is not None:
@@ -899,17 +962,17 @@ class World:
         or Control+C is pressed.
 
         Args:
-            function - (optional) either a single function that takes the
+            function (Function): either a single function that takes the
                 world, or a list of functions (or None) that each take
                 a robot. If any function returns True, then simulation will
                 stop.
-            time_step - (optional) time unit to advance the world
-            show - (optional) update the watchers
-            real_time - (optional) run simulation in real time
-            show_progress - (optional) show progress bar
-            quiet - (optional) if True, do not show the status message when
+            time_step (float): time unit to advance the world
+            show (bool): update the watchers
+            real_time (bool): run simulation in real time
+            show_progress (bool): show progress bar
+            quiet (bool): if True, do not show the status message when
                 completed
-            background - (optional) if True, run in the background.
+            background (bool): if True, run in the background.
         """
         time_step = time_step if time_step is not None else self.time_step
         if background:
@@ -948,16 +1011,16 @@ class World:
         functions returns True or Control+C is pressed.
 
         Args:
-            seconds - (optional) how many simulation seconds to run
-            function - (optional) either a single function that takes the
+            seconds (float): how many simulation seconds to run
+            function (Function): either a single function that takes the
                 world, or a list of functions (or None) that each take
                 a robot. If any function returns True, then simulation will
                 stop.
-            time_step - (optional) time unit to advance the world
-            show - (optional) update the watchers
-            real_time - (optional) run simulation in real time
-            show_progress - (optional) show progress bar
-            quiet - (optional) if True, do not show the status message when
+            time_step (float): time unit to advance the world
+            show (bool): update the watchers
+            real_time (float): run simulation in real time
+            show_progress (bool): show progress bar
+            quiet (bool): if True, do not show the status message when
                 completed
         """
         time_step = time_step if time_step is not None else self.time_step
@@ -979,16 +1042,16 @@ class World:
         functions returns True or Control+C is pressed.
 
         Args:
-            steps - (optional) either a finite number, or infinity
-            function - (optional) either a single function that takes the
+            steps (int): either a finite number, or infinity
+            function (Function) either a single function that takes the
                 world, or a list of functions (or None) that each take
                 a robot. If any function returns True, then simulation will
                 stop.
-            time_step - (optional) time unit to advance the world
-            show - (optional) update the watchers
-            real_time - (optional) run simulation in real time
-            show_progress - (optional) show progress bar
-            quiet - (optional) if True, do not show the status message when
+            time_step (float): time unit to advance the world
+            show (bool): update the watchers
+            real_time (bool): run simulation in real time
+            show_progress (bool): show progress bar
+            quiet (bool): if True, do not show the status message when
                 completed
         """
         self.status = "running"
@@ -1050,9 +1113,9 @@ class World:
         Run the simulator for 1 step.
 
         Args:
-            time_step: (Number, optional) the time unit to advance the simulation
-            show: (bool) if True, update the watchers
-            real_time: (bool) if True, run in real time, even introducing a
+            time_step (float): the time unit to advance the simulation
+            show (bool): if True, update the watchers
+            real_time (bool): if True, run in real time, even introducing a
                 delay if necessary
         """
         if time_step is not None and not isinstance(time_step, Number):
@@ -1099,6 +1162,9 @@ class World:
         """
         Update the world, robots, and devices. Optionally, draw the
         world.
+
+        Args:
+            show (bool): if True, draw the world.
         """
         ## Update robots:
         self._draw_list = self._overlay_list[:]

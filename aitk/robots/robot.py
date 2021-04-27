@@ -31,6 +31,16 @@ from .utils import (
 )
 
 class Robot:
+    """
+    The Robot class is the base class for all robots.
+
+    Typically, you would use an existing robot subclass:
+
+    ```python
+    >>> robot = Scribbler()
+    >>> robot = Vehicle()
+    ```
+    """
     def __init__(
         self,
         x=0,
@@ -47,24 +57,32 @@ class Robot:
         A simulated robot.
 
         Args:
-            x: (int) starting location in the horizontal direction. Leave 0 to
+            x (int): starting location in the horizontal direction. Leave 0 to
                 place in a random location.
-            y: (int) starting location in the horizontal direction. Leave 0 to
+            y (int): starting location in the horizontal direction. Leave 0 to
                 place in a random location.
-            a: (number) starting angle in degrees.
-            color: (str) the name of a color
-            name: (str) a name to give your robot
-            do_trace: (bool) should the robot leave a trace?
-            height: (number) height of robot (use number < 1)
-            max_trace_length: (number) max length of trace, in seconds
-            state: (dict) serializable memory for a robot
-            va, vx, vy: (numbers) velocities
-            tva, tvx, tvy: (numbers) target velocities
-            va_max, vx_max, vy_max: (numbers) max velocities
-            va_ramp, vx_ramp, vy_ramp: (numbers) linear accelerations
-            image_data: ["dataset-name", index] to use a 3D set of images
-            body: data structure that defines a robot body
-            devices: list of serialized devices
+            a (float): starting angle in degrees.
+            color (str): the name of a color
+            name (str): a name to give your robot
+            do_trace (bool): should the robot leave a trace?
+            height (int): height of robot (use number < 1)
+            max_trace_length (int): max length of trace, in seconds
+            state (dict): serializable memory for a robot
+            va (float): angle velocity
+            vx (float): x velocity
+            vy (float): y velocity
+            tva (float): angle target velocity
+            tvx (float): x target velocity
+            tvy (float): y target velocity
+            va_max (float): angle max velocity
+            vx_max (float): x max velocity
+            vy_max (float): y max velocity
+            va_ramp (float): angle linear acceleration
+            vx_ramp (float): x linear acceleration
+            vy_ramp (float): y linear acceleration
+            image_data (dataset-name, index): to use a 3D set of images
+            body (List): data structure that defines a robot body
+            devices (List): list of serialized devices
         """
         # Get the args:
         config = {
@@ -190,6 +208,9 @@ class Robot:
     def from_json(self, config):
         """
         Load a robot from a JSON config dict.
+
+        Args:
+            config (dict): a config dict
         """
         DEVICES = importlib.import_module("aitk.robots.devices")
         valid_keys = set([
@@ -314,9 +335,9 @@ class Robot:
         Get the robot widget.
 
         Args:
-            size: (int) size in pixels around robot
-            show_robot: (bool) show picture of robot
-            attributes: (list) items to include, or "all"
+            size (int): size in pixels around robot
+            show_robot (bool): show picture of robot
+            attributes (list): items to include, or "all"
         """
         from .watchers import RobotWatcher
 
@@ -341,9 +362,9 @@ class Robot:
         Watch the robot stats with live updates.
 
         Args:
-            size: (int) size in pixels around robot
-            show_robot: (bool) show picture of robot
-            attributes: (list) items to include, or "all"
+            size (int): size in pixels around robot
+            show_robot (bool): show picture of robot
+            attributes (List): items to include, or "all"
         """
         widget = self.get_widget(
             size=size,
@@ -357,7 +378,7 @@ class Robot:
         Get an image of the robot.
 
         Args:
-            size: (int) size in pixels around robot
+            size (int): size in pixels around robot
         """
         picture = self.world.get_image()
         start_x = round(
@@ -383,6 +404,10 @@ class Robot:
     def display(self, size=100):
         """
         Display the robot's image.
+
+        Args:
+            size (int): the size of the width and height of the
+                image
         """
         image = self.get_image(size=size)
         display(image)
@@ -392,13 +417,16 @@ class Robot:
         Set the max length of trace, in seconds.
 
         Args:
-            seconds: (number) the length of trace
+            seconds (float): the length of trace in seconds
         """
         self.max_trace_length = seconds
 
     def set_color(self, color):
         """
         Set the color of a robot, and its trace.
+
+        Args:
+            color (str): the color of the robot
         """
         self._set_color(color)
 
@@ -414,6 +442,12 @@ class Robot:
     def set_pose(self, x=None, y=None, a=None, clear_trace=True):
         """
         Set the pose of the robot. a is in degrees.
+
+        Args:
+            x (int): the x coordinate of the robot
+            y (int): the y coordinate of the robot
+            a (int): the angle of the robot in degrees (zero is to the left, 90 is up)
+            clear_trace (bool): if True, clear the robot's trace
 
         Note: the robot must be in a world.
         """
@@ -432,6 +466,9 @@ class Robot:
     def set_random_pose(self, clear_trace=True):
         """
         Set the pose of the robot to a random location.
+
+        Args:
+            clear_trace (bool): if True, clear the trace
 
         Note: the robot must be in a world.
         """
@@ -467,6 +504,9 @@ class Robot:
     def del_device(self, device):
         """
         Remove a device from a robot.
+
+        Args:
+            device (Device): the device to remove
         """
         if isinstance(device, (str, int)):
             device = self[device]
@@ -479,6 +519,9 @@ class Robot:
     def add_device(self, device):
         """
         Add a device to a robot.
+
+        Args:
+            device (Device): the device to add
         """
         if device not in self._devices:
             device.robot = self
@@ -495,18 +538,19 @@ class Robot:
         the robot.
 
         Args:
-            device_class: a class or function that receives position,
+            device_class (class): a class or function that receives position,
                 a, and kwargs, and returns a device
-            distance_from_center: in CM
-            start_degree: angle of first device (0 points right)
-            stop_degree: angle of stop degree (counter clockwise)
-            count: number of sensors to add
-            kwargs: additional args to pass to device_class
+            distance_from_center (float): in CM
+            start_degree (float): angle of first device (0 points right)
+            stop_degree (float): angle of stop degree (counter clockwise)
+            count (int): number of sensors to add
+
+        Note: use kwargs additional args to pass to device_class
 
         Example:
 
         ```python
-        >>> robot.add_device_ring(RangeSensor, 10, 0, 359, 6, width=20)
+        >>> robot.add_device_ring(RangeSensor, 10, 0, 360, 6, width=20)
         ```
         """
         span = stop_degree - start_degree
@@ -551,6 +595,10 @@ class Robot:
         """
         A move function that takes desired motor values
         and converts to trans and rotate.
+
+        Args:
+            left (float): the amount to move the left wheel
+            right (float): the amount to move the right wheel
         """
         trans = (right + left) / 2.0
         rotate = (right - left) / 2.0
@@ -559,6 +607,10 @@ class Robot:
     def move(self, translate, rotate):
         """
         Set the target translate and rotate velocities.
+
+        Args:
+            translate (float): the amount to move the robot forward/backward
+            rotate (float): the amount to rotate the robot
 
         Args should be between -1 and 1.
         """
@@ -576,6 +628,9 @@ class Robot:
         """
         Set the target translate velocity.
 
+        Args:
+            translate (float): the amount to move the robot forward/backward
+
         Arg should be between -1 and 1.
         """
         # values between -1 and 1
@@ -584,6 +639,9 @@ class Robot:
     def forward(self, translate):
         """
         Set the target translate velocity.
+
+        Args:
+            translate (float): the amount to move the robot forward
 
         Arg should be between 0 and 1, inclusive.
         """
@@ -596,7 +654,10 @@ class Robot:
         """
         Set the target translate velocity.
 
-        translate should be between 0 and 1, inclusive.
+        Args:
+            translate (float): the amount to move the robot backward
+
+        Translate should be between 0 and 1, inclusive.
         """
         if 0 <= translate <= 1:
             self.tvx = round(-translate * self.vx_max, 1)
@@ -614,6 +675,9 @@ class Robot:
     def rotate(self, rotate):
         """
         Set the target rotate velocity.
+
+        Args:
+            rotate (float): the amount to rotate the robot
 
         Arg should be between -1 and 1.
         """
@@ -660,7 +724,7 @@ class Robot:
         Show some text in the robot's speech bubble.
 
         Args:
-            text: (str) the text to show; use None to clear
+            text (str): the text to show; use None to clear
 
         Note: not for use in a robot in a recorder.
         """
@@ -678,6 +742,10 @@ class Robot:
     def pen_down(self, color=None, radius=1):
         """
         Put the pen down to change the color of the background image.
+
+        Args:
+            color (str): the color of the pen color to draw
+            radius (int): the size of the dot to draw
 
         Note: not for use in a robot in a recorder.
         """
@@ -709,7 +777,10 @@ class Robot:
 
     def get_image_3d(self, degrees):
         """
-        Return the 3D image in the proper angle.
+        Return the 3D image at the proper angle.
+
+        Args:
+            degrees (int): the angle of the image to get
         """
         return self.get_dataset_image(self.image_data[1], degrees)
 
@@ -731,6 +802,10 @@ class Robot:
         """
         Get the current (or target) translate and rotate velocities
         of the robot.
+
+        Args:
+            target (bool): get the target velocities if True; get the actual
+                velocities otherwise
         """
         if not target:
             return (self.vx / self.vx_max, self.va / self.va_max)
@@ -740,6 +815,15 @@ class Robot:
     def cast_ray(self, x1, y1, a, maxRange, x2=None, y2=None, ignore_robots=None):
         """
         Cast a ray into this world and see what it hits.
+
+        Args:
+            x1 (int): the x coordinate of ray origin
+            y1 (int): the y coordinate of ray origin
+            a (int): the angle of the ray to cast
+            maxRange (float): the length of ray to cast
+            x2 (int): the x coordinate of the endpoint
+            y2 (int): the y coordinate of the endpoint
+            ignore_robots (List): list of robots to ignore
 
         Returns list of hits, furthest away first (back to front)
         """
@@ -919,6 +1003,9 @@ class Robot:
     def update(self, draw_list=None):
         """
         Update the robot, and devices.
+
+        Args:
+            draw_list (List): list of items to draw
         """
         # Wrapped worlds:
         wrapped = False
@@ -1049,6 +1136,9 @@ class Robot:
     def draw(self, backend):
         """
         Draw the robot.
+
+        Args:
+            backend (Backend): the backend on which to draw
         """
         if self.do_trace:
             time_step = self.world.time_step if self.world is not None else 0.1

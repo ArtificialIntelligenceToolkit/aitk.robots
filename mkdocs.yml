@@ -24,6 +24,7 @@ nav:
         - Robot: robot.md
         - Devices:
             - Camera: camera.md
+            - RangeSensor: rangesensor.md
 
 markdown_extensions:
   - markdown.extensions.admonition

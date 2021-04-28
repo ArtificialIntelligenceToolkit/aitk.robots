@@ -717,8 +717,8 @@ class Robot:
     def eat(self):
         """
         If the robot is close enough to food, then this
-        will eat it, removing from the world, and requesting
-        a redraw. Returns True if success, and False
+        will eat it, removing it from the world, and requesting
+        a redraw. Returns True if successfully eaten, and False
         otherwise.
 
         Note: it must be within robot.eat_food_distance
@@ -759,7 +759,7 @@ class Robot:
         Put the pen down to change the color of the background image.
 
         Args:
-            color (str): the color of the pen color to draw
+            color (str): the pen color to draw
             radius (int): the size of the dot to draw
 
         Note: not for use in a robot in a recorder.
@@ -895,7 +895,7 @@ class Robot:
 
     def reset(self):
         """
-        Reset the robot's internal stuff. Typeocally, called from the world.
+        Reset the robot's internal stuff. Typically, called from the world.
         """
         self.trace[:] = []
         self.text_trace[:] = []

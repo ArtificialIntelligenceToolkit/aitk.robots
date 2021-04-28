@@ -990,6 +990,12 @@ begin with a world.</p>
         <td><p>if True, don't print any messages</p></td>
         <td><code>False</code></td>
       </tr>
+      <tr>
+        <td><code>smell_cell_size</code></td>
+        <td><code>int</code></td>
+        <td><p>is set automatically based on world size</p></td>
+        <td><code>None</code></td>
+      </tr>
   </tbody>
 </table>      <p>You can also pass any valid item from the world config settings.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">aitk.robots</span> <span class="kn">import</span> <span class="n">World</span>
@@ -1030,6 +1036,7 @@ begin with a world.</p>
 <span class="sd">        ground_image_filename (str): image file used for backgound</span>
 <span class="sd">        filename (str): name of json world file</span>
 <span class="sd">        quiet (bool): if True, don&#39;t print any messages</span>
+<span class="sd">        smell_cell_size (int): is set automatically based on world size</span>
 
 <span class="sd">    You can also pass any valid item from the world config settings.</span>
 
@@ -1330,7 +1337,7 @@ place it randomly in the world.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Add a wall line or box of wall lines.</p>
+      <p>Add a wall as a line or as a box.</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1391,7 +1398,7 @@ place it randomly in the world.</p>
           <summary>Source code in <code>robots/world.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">add_wall</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">box</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">wtype</span><span class="o">=</span><span class="s2">&quot;wall&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Add a wall line or box of wall lines.</span>
+<span class="sd">    Add a wall as a line or as a box.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        color (str): the color of the wall</span>
@@ -3099,14 +3106,14 @@ completed</p></td>
 
     <div class="doc doc-contents ">
 
-      <p>Get a summary of information about the world and
+      <p>Print a summary of information about the world and
 all of its robots.</p>
 
         <details class="quote">
           <summary>Source code in <code>robots/world.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Get a summary of information about the world and</span>
+<span class="sd">    Print a summary of information about the world and</span>
 <span class="sd">    all of its robots.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;World details:&quot;</span><span class="p">)</span>

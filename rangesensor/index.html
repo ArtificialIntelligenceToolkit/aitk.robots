@@ -757,9 +757,12 @@
 
     <div class="doc doc-contents ">
 
-      <p>A range sensor that reads "reading" when no obstacle has been
-detected. "reading" is a ratio of distance/max, and "distance"
-is the reading in CM.</p>
+      <p>A range sensor calculates both a "distance" and a "reading".
+The "distance" is the actual distance to an obstacle in CM (when
+it is within the "max" distance).
+The reading is a ratio of distance/max. When no obstacle is sensed 
+the "reading" is 1.0 and as the robot approaches an obstacle the 
+"reading" decreases towards 0.0.</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -811,9 +814,12 @@ facing.</p></td>
     <span class="bp">self</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">a</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;sensor&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A range sensor that reads &quot;reading&quot; when no obstacle has been</span>
-<span class="sd">    detected. &quot;reading&quot; is a ratio of distance/max, and &quot;distance&quot;</span>
-<span class="sd">    is the reading in CM.</span>
+<span class="sd">    A range sensor calculates both a &quot;distance&quot; and a &quot;reading&quot;.</span>
+<span class="sd">    The &quot;distance&quot; is the actual distance to an obstacle in CM (when</span>
+<span class="sd">    it is within the &quot;max&quot; distance).</span>
+<span class="sd">    The reading is a ratio of distance/max. When no obstacle is sensed </span>
+<span class="sd">    the &quot;reading&quot; is 1.0 and as the robot approaches an obstacle the </span>
+<span class="sd">    &quot;reading&quot; decreases towards 0.0.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        position (List[int, int]): the location on the robot in (x, y)</span>

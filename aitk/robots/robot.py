@@ -77,7 +77,7 @@ class Robot:
             y (int): starting location in the horizontal direction. Leave 0 to
                 place in a random location.
             a (float): starting angle in degrees.
-            color (str): the name of a color
+            color (str): the name of a color for the robot
             name (str): a name to give your robot
             do_trace (bool): should the robot leave a trace?
             height (int): height of robot (use number < 1)
@@ -612,8 +612,8 @@ class Robot:
         and converts to trans and rotate.
 
         Args:
-            left (float): the amount to move the left wheel
-            right (float): the amount to move the right wheel
+            left (float): the speed to move the left wheel
+            right (float): the speed to move the right wheel
         """
         trans = (right + left) / 2.0
         rotate = (right - left) / 2.0
@@ -624,8 +624,8 @@ class Robot:
         Set the target translate and rotate velocities.
 
         Args:
-            translate (float): the amount to move the robot forward/backward
-            rotate (float): the amount to rotate the robot
+            translate (float): the speed to move the robot forward/backward
+            rotate (float): the speed to rotate the robot left/right
 
         Args should be between -1 and 1.
         """
@@ -644,7 +644,7 @@ class Robot:
         Set the target translate velocity.
 
         Args:
-            translate (float): the amount to move the robot forward/backward
+            translate (float): the speed to move the robot forward/backward
 
         Arg should be between -1 and 1.
         """
@@ -656,7 +656,7 @@ class Robot:
         Set the target translate velocity.
 
         Args:
-            translate (float): the amount to move the robot forward
+            translate (float): the speed to move the robot forward
 
         Arg should be between 0 and 1, inclusive.
         """
@@ -670,7 +670,7 @@ class Robot:
         Set the target translate velocity.
 
         Args:
-            translate (float): the amount to move the robot backward
+            translate (float): the speed to move the robot backward
 
         Translate should be between 0 and 1, inclusive.
         """
@@ -692,7 +692,7 @@ class Robot:
         Set the target rotate velocity.
 
         Args:
-            rotate (float): the amount to rotate the robot
+            rotate (float): the speed to rotate the robot
 
         Arg should be between -1 and 1.
         """

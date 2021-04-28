@@ -333,7 +333,7 @@ class Robot:
 
     def summary(self):
         """
-        Get a summary of information about the robot.
+        Prints a summary of information about the robot.
         """
         if len(self._devices) == 0:
             print("  This robot has no devices.")
@@ -480,7 +480,7 @@ class Robot:
 
     def set_random_pose(self, clear_trace=True):
         """
-        Set the pose of the robot to a random location.
+        Set the pose of the robot to a random open location in the world.
 
         Args:
             clear_trace (bool): if True, clear the trace
@@ -786,7 +786,7 @@ class Robot:
 
     def get_max_trace_length(self):
         """
-        Get the max step lengths of the trace.
+        Get the max length of the trace in seconds.
         """
         return self.max_trace_length
 

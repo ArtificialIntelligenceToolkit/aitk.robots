@@ -47,7 +47,7 @@ DEFAULT_HANDLER = signal.getsignal(signal.SIGINT)
 class Wall:
     """
     Class representing obstacles in the world. If the bounding box of
-    a robot, then robot will be that robot, else None.
+    a robot, then the parameter robot will be that robot, else None.
     """
 
     def __init__(self, color, robot, *lines, wtype=None):
@@ -171,6 +171,7 @@ class World:
             ground_image_filename (str): image file used for backgound
             filename (str): name of json world file
             quiet (bool): if True, don't print any messages
+            smell_cell_size (int): is set automatically based on world size
 
         You can also pass any valid item from the world config settings.
         
@@ -269,7 +270,7 @@ class World:
 
     def summary(self):
         """
-        Get a summary of information about the world and
+        Print a summary of information about the world and
         all of its robots.
         """
         print("World details:")
@@ -811,7 +812,7 @@ class World:
 
     def add_wall(self, color, x1, y1, x2, y2, box=True, wtype="wall"):
         """
-        Add a wall line or box of wall lines.
+        Add a wall as a line or as a box.
 
         Args:
             color (str): the color of the wall

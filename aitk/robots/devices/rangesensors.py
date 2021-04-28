@@ -28,9 +28,12 @@ class RangeSensor(BaseDevice):
         self, position=(8, 0), a=0, max=20, width=1.0, name="sensor", **kwargs
     ):
         """
-        A range sensor that reads "reading" when no obstacle has been
-        detected. "reading" is a ratio of distance/max, and "distance"
-        is the reading in CM.
+        A range sensor calculates both a "distance" and a "reading".
+        The "distance" is the actual distance to an obstacle in CM (when
+        it is within the "max" distance).
+        The reading is a ratio of distance/max. When no obstacle is sensed 
+        the "reading" is 1.0 and as the robot approaches an obstacle the 
+        "reading" decreases towards 0.0.
 
         Args:
             position (List[int, int]): the location on the robot in (x, y)

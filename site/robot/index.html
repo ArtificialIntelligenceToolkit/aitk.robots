@@ -1019,7 +1019,7 @@ place in a random location.</p></td>
       <tr>
         <td><code>color</code></td>
         <td><code>str</code></td>
-        <td><p>the name of a color</p></td>
+        <td><p>the name of a color for the robot</p></td>
         <td><code>&#39;red&#39;</code></td>
       </tr>
       <tr>
@@ -1167,7 +1167,7 @@ place in a random location.</p></td>
 <span class="sd">        y (int): starting location in the horizontal direction. Leave 0 to</span>
 <span class="sd">            place in a random location.</span>
 <span class="sd">        a (float): starting angle in degrees.</span>
-<span class="sd">        color (str): the name of a color</span>
+<span class="sd">        color (str): the name of a color for the robot</span>
 <span class="sd">        name (str): a name to give your robot</span>
 <span class="sd">        do_trace (bool): should the robot leave a trace?</span>
 <span class="sd">        height (int): height of robot (use number &lt; 1)</span>
@@ -1403,7 +1403,7 @@ a, and kwargs, and returns a device</p></td>
       <tr>
         <td><code>translate</code></td>
         <td><code>float</code></td>
-        <td><p>the amount to move the robot backward</p></td>
+        <td><p>the speed to move the robot backward</p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
@@ -1416,7 +1416,7 @@ a, and kwargs, and returns a device</p></td>
 <span class="sd">    Set the target translate velocity.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        translate (float): the amount to move the robot backward</span>
+<span class="sd">        translate (float): the speed to move the robot backward</span>
 
 <span class="sd">    Translate should be between 0 and 1, inclusive.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1828,8 +1828,8 @@ image</p></td>
     <div class="doc doc-contents ">
 
       <p>If the robot is close enough to food, then this
-will eat it, removing from the world, and requesting
-a redraw. Returns True if success, and False
+will eat it, removing it from the world, and requesting
+a redraw. Returns True if successfully eaten, and False
 otherwise.</p>
 <p>Note: it must be within robot.eat_food_distance</p>
 
@@ -1838,8 +1838,8 @@ otherwise.</p>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">eat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    If the robot is close enough to food, then this</span>
-<span class="sd">    will eat it, removing from the world, and requesting</span>
-<span class="sd">    a redraw. Returns True if success, and False</span>
+<span class="sd">    will eat it, removing it from the world, and requesting</span>
+<span class="sd">    a redraw. Returns True if successfully eaten, and False</span>
 <span class="sd">    otherwise.</span>
 
 <span class="sd">    Note: it must be within robot.eat_food_distance</span>
@@ -1890,7 +1890,7 @@ otherwise.</p>
       <tr>
         <td><code>translate</code></td>
         <td><code>float</code></td>
-        <td><p>the amount to move the robot forward</p></td>
+        <td><p>the speed to move the robot forward</p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
@@ -1903,7 +1903,7 @@ otherwise.</p>
 <span class="sd">    Set the target translate velocity.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        translate (float): the amount to move the robot forward</span>
+<span class="sd">        translate (float): the speed to move the robot forward</span>
 
 <span class="sd">    Arg should be between 0 and 1, inclusive.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -2205,13 +2205,13 @@ otherwise.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Get the max step lengths of the trace.</p>
+      <p>Get the max length of the trace in seconds.</p>
 
         <details class="quote">
           <summary>Source code in <code>robots/robot.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">get_max_trace_length</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Get the max step lengths of the trace.</span>
+<span class="sd">    Get the max length of the trace in seconds.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_trace_length</span>
 </code></pre></div>
@@ -2482,13 +2482,13 @@ and converts to trans and rotate.</p>
       <tr>
         <td><code>left</code></td>
         <td><code>float</code></td>
-        <td><p>the amount to move the left wheel</p></td>
+        <td><p>the speed to move the left wheel</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
         <td><code>right</code></td>
         <td><code>float</code></td>
-        <td><p>the amount to move the right wheel</p></td>
+        <td><p>the speed to move the right wheel</p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
@@ -2501,8 +2501,8 @@ and converts to trans and rotate.</p>
 <span class="sd">    and converts to trans and rotate.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        left (float): the amount to move the left wheel</span>
-<span class="sd">        right (float): the amount to move the right wheel</span>
+<span class="sd">        left (float): the speed to move the left wheel</span>
+<span class="sd">        right (float): the speed to move the right wheel</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">trans</span> <span class="o">=</span> <span class="p">(</span><span class="n">right</span> <span class="o">+</span> <span class="n">left</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
     <span class="n">rotate</span> <span class="o">=</span> <span class="p">(</span><span class="n">right</span> <span class="o">-</span> <span class="n">left</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
@@ -2543,13 +2543,13 @@ and converts to trans and rotate.</p>
       <tr>
         <td><code>translate</code></td>
         <td><code>float</code></td>
-        <td><p>the amount to move the robot forward/backward</p></td>
+        <td><p>the speed to move the robot forward/backward</p></td>
         <td><em>required</em></td>
       </tr>
       <tr>
         <td><code>rotate</code></td>
         <td><code>float</code></td>
-        <td><p>the amount to rotate the robot</p></td>
+        <td><p>the speed to rotate the robot left/right</p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
@@ -2562,8 +2562,8 @@ and converts to trans and rotate.</p>
 <span class="sd">    Set the target translate and rotate velocities.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        translate (float): the amount to move the robot forward/backward</span>
-<span class="sd">        rotate (float): the amount to rotate the robot</span>
+<span class="sd">        translate (float): the speed to move the robot forward/backward</span>
+<span class="sd">        rotate (float): the speed to rotate the robot left/right</span>
 
 <span class="sd">    Args should be between -1 and 1.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -2612,7 +2612,7 @@ and converts to trans and rotate.</p>
       <tr>
         <td><code>color</code></td>
         <td><code>str</code></td>
-        <td><p>the color of the pen color to draw</p></td>
+        <td><p>the pen color to draw</p></td>
         <td><code>None</code></td>
       </tr>
       <tr>
@@ -2631,7 +2631,7 @@ and converts to trans and rotate.</p>
 <span class="sd">    Put the pen down to change the color of the background image.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        color (str): the color of the pen color to draw</span>
+<span class="sd">        color (str): the pen color to draw</span>
 <span class="sd">        radius (int): the size of the dot to draw</span>
 
 <span class="sd">    Note: not for use in a robot in a recorder.</span>
@@ -2699,13 +2699,13 @@ and converts to trans and rotate.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Reset the robot's internal stuff. Typeocally, called from the world.</p>
+      <p>Reset the robot's internal stuff. Typically, called from the world.</p>
 
         <details class="quote">
           <summary>Source code in <code>robots/robot.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Reset the robot&#39;s internal stuff. Typeocally, called from the world.</span>
+<span class="sd">    Reset the robot&#39;s internal stuff. Typically, called from the world.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">trace</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">text_trace</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -2778,7 +2778,7 @@ positive or from positive to negative.</p>
       <tr>
         <td><code>rotate</code></td>
         <td><code>float</code></td>
-        <td><p>the amount to rotate the robot</p></td>
+        <td><p>the speed to rotate the robot</p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
@@ -2791,7 +2791,7 @@ positive or from positive to negative.</p>
 <span class="sd">    Set the target rotate velocity.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        rotate (float): the amount to rotate the robot</span>
+<span class="sd">        rotate (float): the speed to rotate the robot</span>
 
 <span class="sd">    Arg should be between -1 and 1.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -3004,7 +3004,7 @@ positive or from positive to negative.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Set the pose of the robot to a random location.</p>
+      <p>Set the pose of the robot to a random open location in the world.</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -3030,7 +3030,7 @@ positive or from positive to negative.</p>
           <summary>Source code in <code>robots/robot.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">set_random_pose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clear_trace</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Set the pose of the robot to a random location.</span>
+<span class="sd">    Set the pose of the robot to a random open location in the world.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        clear_trace (bool): if True, clear the trace</span>
@@ -3162,13 +3162,13 @@ positive or from positive to negative.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Get a summary of information about the robot.</p>
+      <p>Prints a summary of information about the robot.</p>
 
         <details class="quote">
           <summary>Source code in <code>robots/robot.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Get a summary of information about the robot.</span>
+<span class="sd">    Prints a summary of information about the robot.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_devices</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  This robot has no devices.&quot;</span><span class="p">)</span>
@@ -3270,7 +3270,7 @@ positive or from positive to negative.</p>
       <tr>
         <td><code>translate</code></td>
         <td><code>float</code></td>
-        <td><p>the amount to move the robot forward/backward</p></td>
+        <td><p>the speed to move the robot forward/backward</p></td>
         <td><em>required</em></td>
       </tr>
   </tbody>
@@ -3283,7 +3283,7 @@ positive or from positive to negative.</p>
 <span class="sd">    Set the target translate velocity.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        translate (float): the amount to move the robot forward/backward</span>
+<span class="sd">        translate (float): the speed to move the robot forward/backward</span>
 
 <span class="sd">    Arg should be between -1 and 1.</span>
 <span class="sd">    &quot;&quot;&quot;</span>

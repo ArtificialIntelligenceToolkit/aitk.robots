@@ -12,7 +12,6 @@ import math
 
 from PIL import Image, ImageDraw, ImageFont
 
-from aitk.utils import in_colab
 from ..utils import Color, arange, distance
 from ..colors import BLACK, WHITE
 from .base import Backend
@@ -100,8 +99,7 @@ class PILBackend(Backend):
         if self.widget is None:
             self.widget = Image(value=self.to_png())
             self.widget.layout.margin = "auto"
-            if not in_colab():
-                self.widget.layout.border = "10px solid rgb(0 177 255)"
+            self.widget.layout.border = "10px solid rgb(0 177 255)"
 
         if width is not None:
             self.widget.layout.width = width

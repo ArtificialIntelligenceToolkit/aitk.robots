@@ -30,6 +30,7 @@ from ipywidgets import (
     VBox,
 )
 
+from aitk.utils import in_colab
 from .utils import Point, arange, image_to_gif, image_to_png, progress_bar
 from .world import World
 
@@ -47,6 +48,8 @@ def make_attr_widget(obj, map, title, attrs, labels):
         map[labels[i]] = widget
         children.append(widget)
     box.children = children
+    if not in_colab():
+        box.layout.border = "10px solid rgb(0 177 255)"
     return box
 
 
@@ -244,6 +247,8 @@ class CameraWatcher(Watcher):
                 **kwargs
             )
         )
+        if not in_colab():
+            self.widget.layout.border = "10px solid rgb(0 177 255)"
         self.widget.add_class("pixelated")
         # Update and draw:
         self.draw()
@@ -298,6 +303,8 @@ class Recorder(Watcher):
             self.world._robots[i].text_trace = self.orig_world._robots[i].text_trace
             self.world._robots[i].pen_trace = self.orig_world._robots[i].pen_trace
         self.widget = Player("Time:", self.goto, 0, play_rate)
+        if not in_colab():
+            self.widget.layout.border = "10px solid rgb(0 177 255)"
 
     def draw(self):
         self.widget.update_length(len(self.states))

@@ -40,7 +40,7 @@ def make_backend(width, height, scale):
             
             return PILBackend(width, height, scale, **ARGS)
         except Exception:
-            print("Failed to make canvas backend")
+            print("Failed to make pil backend")
             return None
     elif BACKEND == "debug":
         from .debug import DebugBackend

@@ -7,6 +7,7 @@
 # https://github.com/ArtificialIntelligenceToolkit/aitk.robots
 # ************************************************************
 
+from collections import defaultdict
 import importlib
 import math
 import re
@@ -14,6 +15,7 @@ import re
 from .datasets import get_dataset
 from .utils import (
     arange,
+    print_once,
     cast_ray,
     display,
     Color,
@@ -38,20 +40,20 @@ class Robot:
 
     ```python
     from aitk.robots import Scribbler, Vehicle
-    
+
     robot1 = Scribbler()
     robot2 = Vehicle()
     ```
-    
+
     After creating a robot, you can then add devices to it,
     and then add it to a world.
-    
+
     ```python
     from aitk.robots import World, Camera
-    
+
     world = World(200, 200)
     robot1.add_device(Camera())
-    
+
     world.add_robot(robot1)
     world.add_robot(robot2)
     ```
@@ -176,7 +178,7 @@ class Robot:
         Initialize the robot properties.
         """
         self.name = "Robbie"
-        self.state = {} # type: Dict
+        self.state = defaultdict(int)
         self._set_color("red")
         self.eat_food_distance = 20
         self.do_trace = True
@@ -211,7 +213,7 @@ class Robot:
             Line(Point(1, 1), Point(-1, 1)),
             Line(Point(-1, 1), Point(-1, -1)),
         ]
-        self.state = {}
+        self.state = defaultdict(int)
         self.image_data = []
         self.get_dataset_image = None
         self._boundingbox = []
@@ -245,7 +247,8 @@ class Robot:
             self.name = config["name"]
 
         if "state" in config:
-            self.state = config["state"]
+            self.state = defaultdict(int)
+            self.state.update(config["state"])
 
         if "do_trace" in config:
             self.do_trace = config["do_trace"]
@@ -633,7 +636,7 @@ class Robot:
         # compute target velocities
         if self.world is not None:
             if self.world.status != "running":
-                print("This world is not running")
+                print_once("This world is not running")
         if translate is not None:
             self.tvx = round(translate * self.vx_max, 1)
         if rotate is not None:

@@ -11,8 +11,9 @@
 
 class Hit:
     def __init__(
-            self, robot, height, x, y, distance, color, start_x, start_y, boundary, angle
+            self, wall, robot, height, x, y, distance, color, start_x, start_y, boundary, angle
     ):
+        self.wall = wall
         self.robot = robot
         self.height = height
         self.x = x

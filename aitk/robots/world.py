@@ -34,6 +34,7 @@ from .utils import (
     json_dump,
     load_image,
     rotate_around,
+    print_once,
     progress_bar,
     PI_OVER_180,
     PI_OVER_2,
@@ -866,6 +867,19 @@ class World:
         self._complexity = self._compute_complexity()
         self.update()  # request draw
 
+    def _is_enclosed(self, robot, x, y):
+        # Determine if robot is contained in a wall box
+        # cast two rays in opposite directions
+        maxRange = max(self.width, self.height)
+        hits1 = cast_ray(self, robot, x, y, 0, maxRange,
+                         ignore_robots=[robot])
+        hits2 = cast_ray(self, robot, x, y, math.pi, maxRange,
+                         ignore_robots=[robot])
+        # if both hit part of same wall, then contained
+        return (len(hits1) > 0 and
+                len(hits2) > 0 and
+                hits1[-1].wall == hits2[-1].wall)
+
     def _find_random_pose(self, robot):
         """
         Add a robot to the world in a random position.
@@ -873,23 +887,34 @@ class World:
         pa = random.random() * math.pi * 2
         for i in range(100):
             too_close = False
+            # Propose a position:
             px = round(robot.radius + random.random() * (self.width - 2 * robot.radius))
             py = round(
                 robot.radius + random.random() * (self.height - 2 * robot.radius)
             )
+            # Check distance with other robots:
             for other in self._robots:
                 if distance(px, py, other.x, other.y) < robot.radius + other.radius:
                     too_close = True
                     break
 
-            for wall in self._walls:
-                for line in wall.lines:
-                    dist, location = distance_point_to_line((px, py), line.p1, line.p2)
-                    if dist < robot.radius:
-                        too_close = True
-                        break
+            # Check other non-robot walls:
             if not too_close:
-                return px, py, pa
+                for wall in self._walls:
+                    if wall.robot is not None:
+                        continue
+                    for line in wall.lines:
+                        dist, location = distance_point_to_line((px, py), line.p1, line.p2)
+                        if dist < robot.radius:
+                            too_close = True
+                            break
+                    if too_close:
+                        break
+            # If it isn't too close, check if enclosed:
+            if not too_close:
+                if not self._is_enclosed(robot, px, py):
+                    # If all good, return position
+                    return px, py, pa
 
         raise Exception("Couldn't find a place for robot after 100 tries; giving up")
 
@@ -1080,7 +1105,7 @@ class World:
                 if function is not None:
                     if isinstance(function, (list, tuple)):
                         if len(function) < len(self._robots):
-                            self._print_once("WARNING: you have not provided a controller function for every robot")
+                            print_once("WARNING: you have not provided a controller function for every robot")
                         # Deterministically run robots round-robin:
                         stop = any(
                             [
@@ -1106,11 +1131,6 @@ class World:
             )
         if show:
             self.draw()  # force to update any displays
-
-    def _print_once(self, message):
-        if message not in self._messages:
-            print(message)
-            self._messages.append(message)
 
     def _compute_complexity(self):
         # Proxy for how much drawing

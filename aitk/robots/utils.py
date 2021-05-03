@@ -26,10 +26,17 @@ PI_OVER_2 = math.pi / 2
 ONE80_OVER_PI = 180 / math.pi
 TWO_PI = math.pi * 2
 
+MESSAGES = set()
+
 try:
     from IPython.display import display
 except ImportError:
     display = print
+
+def print_once(message):
+    if message not in MESSAGES:
+        print(message)
+        MESSAGES.add(message)
 
 def compare(a, b):
     if a > b:
@@ -91,7 +98,7 @@ def cast_ray(world, robot, x1, y1, a, maxRange,
                 color = wall.robot.color if wall.robot else wall.color
                 boundary = len(wall.lines) == 1
                 hits.append(
-                    Hit(
+                    Hit(wall,
                         wall.robot,
                         height,
                         pos[0],

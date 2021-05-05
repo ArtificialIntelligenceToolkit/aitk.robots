@@ -569,6 +569,12 @@ class Color:
         new_color.blue /= number
         return new_color
 
+    def __eq__(self, other):
+        return (isinstance(other, Color) and
+                (self.red == other.red) and
+                (self.green == other.green) and
+                (self.blue == other.blue))
+
 
 class Point:
     def __init__(self, x, y):

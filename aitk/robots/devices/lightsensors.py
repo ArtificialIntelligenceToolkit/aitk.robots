@@ -10,11 +10,12 @@
 import math
 
 from ..colors import PURPLE, YELLOW, BLACK
-from ..utils import distance, rotate_around, normal_dist
+from ..utils import Color, distance, rotate_around, normal_dist
 from .base import BaseDevice
 
 class LightSensor(BaseDevice):
-    def __init__(self, position=(0, 0), name="light", **kwargs):
+    def __init__(self, position=(0, 0), name="light",
+                 color_sensitivity=None, **kwargs):
         """
         A light sensor for sensing bulbs.
 
@@ -23,10 +24,14 @@ class LightSensor(BaseDevice):
                 sensor in centimeters relative to the center
                 of the robot.
             name (str): the name of the device
+            color_sensitivity (Color): the name of the color
+                that the sensor is sensitive to. None means
+                that it is sensitive to all colors.
         """
         config = {
             "position": position,
             "name": name,
+            "color_sensitivity": color_sensitivity,
         }
         config.update(kwargs)
         self._watcher = None
@@ -35,7 +40,8 @@ class LightSensor(BaseDevice):
         self.from_json(config)
 
     def __repr__(self):
-        return "<LightSensor %r position=%r>" % (self.name, self.position,)
+        return "<LightSensor %r position=%r color_sensitivity=%r>" % (
+            self.name, self.position, self.color_sensitivity)
 
     def initialize(self):
         """
@@ -43,6 +49,7 @@ class LightSensor(BaseDevice):
         """
         self.type = "light"
         self.name = "light"
+        self.color_sensitivity = None
         self.value = 0.0
         # FIXME: add to config
         self.multiplier = 1000  # CM
@@ -58,12 +65,18 @@ class LightSensor(BaseDevice):
             config (dict): a config dictionary
         """
         valid_keys = set([
-            "position", "name", "class"
+            "position", "name", "class", "color_sensitivity"
         ])
         self.verify_config(valid_keys, config)
 
         if "name" in config:
             self.name = config["name"]
+        if "color_sensitivity" in config:
+            if config["color_sensitivity"] is not None:
+                self.color_sensitivity = Color(config["color_sensitivity"])
+            else:
+                self.color_sensitivity = None
+            config["color_sensitivity"] = self.color_sensitivity
         if "position" in config:
             self.position = config["position"]
             # Get location of sensor, doesn't change once position is set:
@@ -78,6 +91,7 @@ class LightSensor(BaseDevice):
             "class": self.__class__.__name__,
             "position": self.position,
             "name": self.name,
+            "color_sensitivity": str(self.color_sensitivity) if self.color_sensitivity is not None else None,
         }
         return config
 
@@ -105,13 +119,18 @@ class LightSensor(BaseDevice):
                 # You can't sense your own bulbs
                 continue
 
+            if ((self.color_sensitivity is not None) and
+                (self.color_sensitivity != bulb.color)):
+                # If sensitivity is set, if bulb doesn't match
+                # skip it
+                continue
+
             z, brightness, light_color = (  # noqa: F841
                 bulb.z,
                 bulb.brightness,
                 bulb.color,
             )
             x, y = bulb.get_position(world=True)
-            # FIXME: use bulb_color for filter?
 
             angle = math.atan2(x - p[0], y - p[1])
             dist = distance(x, y, p[0], p[1])
@@ -147,7 +166,10 @@ class LightSensor(BaseDevice):
         """
         backend.lineWidth(1)
         backend.set_stroke_style(BLACK)
-        backend.set_fill_style(YELLOW)
+        if self.color_sensitivity is not None:
+            backend.set_fill_style(self.color_sensitivity)
+        else:
+            backend.set_fill_style(YELLOW)
         backend.draw_circle(self.position[0], self.position[1], 2)
 
     def get_brightness(self):

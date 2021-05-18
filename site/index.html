@@ -14,7 +14,7 @@
         <link rel="canonical" href="https://github.com/ArtificialIntelligenceToolkit/aitk.robots/">
       
       <link rel="icon" href="assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.3">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.2">
     
     
       
@@ -22,7 +22,7 @@
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.e35208c4.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.6f955dcd.min.css">
       
         
         <link rel="stylesheet" href="assets/stylesheets/palette.ef6f36e2.min.css">
@@ -210,6 +210,13 @@
         <li class="md-nav__item">
   <a href="#introduction" class="md-nav__link">
     Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#goals" class="md-nav__link">
+    Goals
   </a>
   
 </li>
@@ -403,6 +410,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#goals" class="md-nav__link">
+    Goals
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#installation" class="md-nav__link">
     Installation
   </a>
@@ -425,7 +439,38 @@
                 <h1 id="welcome-to-aitkrobots">Welcome to aitk.robots<a class="headerlink" href="#welcome-to-aitkrobots" title="Permanent link">&para;</a></h1>
 <p>For full documentation visit <a href="https://github.com/ArtificialIntelligenceToolkit/aitk.robots/">github.com/ArtificialIntelligenceToolkit/aitk.robots</a>.</p>
 <h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>A lightweight Python robot simulator for JupyterLab, Notebooks,
+and other Python environments.</p>
+<p><img src="images/hello-world.png"></img></p>
+<h2 id="goals">Goals<a class="headerlink" href="#goals" title="Permanent link">&para;</a></h2>
+<ol>
+<li>A lightweight mobile robotics simulator</li>
+<li>Usable in the classroom, research, or exploration</li>
+<li>Explore wheeled robots with range, cameras, smell, and light sensors</li>
+<li>Operate quickly without a huge amount of resources</li>
+<li>Create reproducible experiments</li>
+<li>Designed for exposition, experimentation, and analysis</li>
+<li>Sensors designed for somewhat realistic problems (such as image recognition)</li>
+<li>Especially designed to work easily with Machine Learning and Artificial Intelligence systems</li>
+</ol>
 <h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
+<p>For the core operations, you will need to install just aitk.robots:</p>
+<div class="highlight"><pre><span></span><code>pip install aitk.robots
+</code></pre></div>
+<p>To use the Jupyter enhancements, you'll also need the browser-based
+extensions. You can install those with:</p>
+<div class="highlight"><pre><span></span><code>jupyter labextension install @jupyter-widgets/jupyterlab-manager
+</code></pre></div>
+<p>If not in a conda environment, then you will also need to:</p>
+<div class="highlight"><pre><span></span><code>jupyter nbextension enable --py widgetsnbextension
+</code></pre></div>
+<p>For additional information, please see:</p>
+<ul>
+<li><a href="https://github.com/ArtificialIntelligenceToolkit/aitk">aitk</a></li>
+<li><a href="https://github.com/ArtificialIntelligenceToolkit/aitk.robots">aitk.robots</a></li>
+<li><a href="https://github.com/ArtificialIntelligenceToolkit/aitk.networks">aitk.networks</a></li>
+<li><a href="https://github.com/ArtificialIntelligenceToolkit/aitk.utils">aitk.utils</a></li>
+</ul>
                 
               
               

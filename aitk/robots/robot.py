@@ -73,33 +73,32 @@ class Robot:
         """
         A simulated robot.
 
-        Args:
-            x (int): starting location in the horizontal direction. Leave 0 to
-                place in a random location.
-            y (int): starting location in the horizontal direction. Leave 0 to
-                place in a random location.
-            a (float): starting angle in degrees.
-            color (str): the name of a color for the robot
-            name (str): a name to give your robot
-            do_trace (bool): should the robot leave a trace?
-            height (int): height of robot (use number < 1)
-            max_trace_length (int): max length of trace, in seconds
-            state (dict): serializable memory for a robot
-            va (float): angle velocity
-            vx (float): x velocity
-            vy (float): y velocity
-            tva (float): angle target velocity
-            tvx (float): x target velocity
-            tvy (float): y target velocity
-            va_max (float): angle max velocity
-            vx_max (float): x max velocity
-            vy_max (float): y max velocity
-            va_ramp (float): angle linear acceleration
-            vx_ramp (float): x linear acceleration
-            vy_ramp (float): y linear acceleration
-            image_data (dataset-name, index): to use a 3D set of images
-            body (List): data structure that defines a robot body
-            devices (List): list of serialized devices
+        Option | Type | Description | Default
+        ------ | ---- | ----------- | -------
+        x      | int  | starting location in the horizontal direction. Leave 0 to place in a random location. | 0
+        y      | int  | starting location in the horizontal direction. Leave 0 to place in a random location. | 0
+        a      | float | starting angle in degrees. | 0
+        color  | str  | the name of a color for the robot | "red"
+        name   | str  | a name to give your robot | "Robbie"
+        do_trace | bool | should the robot leave a trace? | True
+        height | int  | height of robot use number < 1 | 0.25
+        max_trace_length | int | max length of trace, in seconds | 10
+        state  | dict | serializable memory for a robot | None
+        va     | float | angle velocity | None
+        vx     | float | x velocity | None
+        vy     | float | y velocity | None
+        tva    | float | angle target velocity | None
+        tvx    | float | x target velocity | None
+        tvy    | float | y target velocity | None
+        va_max | float | angle max velocity | None
+        vx_max | float | x max velocity | None
+        vy_max | float | y max velocity | None
+        va_ramp | float | angle linear acceleration | None
+        vx_ramp | float | x linear acceleration | None
+        vy_ramp | float | y linear acceleration | None
+        image_data | dataset-name, index | to use a 3D set of images | None
+        body   | List | data structure that defines a robot body | None
+        devices | List | list of serialized devices | None
         """
         # Get the args:
         config = {

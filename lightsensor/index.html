@@ -14,7 +14,7 @@
         <link rel="canonical" href="https://github.com/ArtificialIntelligenceToolkit/aitk.robots/lightsensor/">
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.3">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.2">
     
     
       
@@ -22,7 +22,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.e35208c4.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.6f955dcd.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ef6f36e2.min.css">
@@ -579,7 +579,7 @@
 
 
 <h2 id="aitk.robots.devices.lightsensors.LightSensor.__init__" class="doc doc-heading">
-<code class="codehilite language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;light&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+<code class="codehilite language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;light&#39;</span><span class="p">,</span> <span class="n">color_sensitivity</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-special"><code>special</code></small>
@@ -616,11 +616,20 @@ of the robot.</p></td>
         <td><p>the name of the device</p></td>
         <td><code>&#39;light&#39;</code></td>
       </tr>
+      <tr>
+        <td><code>color_sensitivity</code></td>
+        <td><code>Color</code></td>
+        <td><p>the name of the color
+that the sensor is sensitive to. None means
+that it is sensitive to all colors.</p></td>
+        <td><code>None</code></td>
+      </tr>
   </tbody>
 </table>
         <details class="quote">
           <summary>Source code in <code>robots/devices/lightsensors.py</code></summary>
-          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;light&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;light&quot;</span><span class="p">,</span>
+             <span class="n">color_sensitivity</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A light sensor for sensing bulbs.</span>
 
@@ -629,10 +638,14 @@ of the robot.</p></td>
 <span class="sd">            sensor in centimeters relative to the center</span>
 <span class="sd">            of the robot.</span>
 <span class="sd">        name (str): the name of the device</span>
+<span class="sd">        color_sensitivity (Color): the name of the color</span>
+<span class="sd">            that the sensor is sensitive to. None means</span>
+<span class="sd">            that it is sensitive to all colors.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="n">position</span><span class="p">,</span>
         <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+        <span class="s2">&quot;color_sensitivity&quot;</span><span class="p">:</span> <span class="n">color_sensitivity</span><span class="p">,</span>
     <span class="p">}</span>
     <span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_watcher</span> <span class="o">=</span> <span class="kc">None</span>
@@ -692,7 +705,10 @@ of the robot.</p></td>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">backend</span><span class="o">.</span><span class="n">lineWidth</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">backend</span><span class="o">.</span><span class="n">set_stroke_style</span><span class="p">(</span><span class="n">BLACK</span><span class="p">)</span>
-    <span class="n">backend</span><span class="o">.</span><span class="n">set_fill_style</span><span class="p">(</span><span class="n">YELLOW</span><span class="p">)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">color_sensitivity</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">backend</span><span class="o">.</span><span class="n">set_fill_style</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">color_sensitivity</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">backend</span><span class="o">.</span><span class="n">set_fill_style</span><span class="p">(</span><span class="n">YELLOW</span><span class="p">)</span>
     <span class="n">backend</span><span class="o">.</span><span class="n">draw_circle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
 </code></pre></div>
         </details>
@@ -745,12 +761,18 @@ of the robot.</p></td>
 <span class="sd">        config (dict): a config dictionary</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">valid_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span>
-        <span class="s2">&quot;position&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;class&quot;</span>
+        <span class="s2">&quot;position&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;class&quot;</span><span class="p">,</span> <span class="s2">&quot;color_sensitivity&quot;</span>
     <span class="p">])</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">verify_config</span><span class="p">(</span><span class="n">valid_keys</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="s2">&quot;name&quot;</span> <span class="ow">in</span> <span class="n">config</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="s2">&quot;color_sensitivity&quot;</span> <span class="ow">in</span> <span class="n">config</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;color_sensitivity&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">color_sensitivity</span> <span class="o">=</span> <span class="n">Color</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;color_sensitivity&quot;</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">color_sensitivity</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;color_sensitivity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">color_sensitivity</span>
     <span class="k">if</span> <span class="s2">&quot;position&quot;</span> <span class="ow">in</span> <span class="n">config</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">]</span>
         <span class="c1"># Get location of sensor, doesn&#39;t change once position is set:</span>
@@ -878,6 +900,7 @@ of the robot.</p></td>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;light&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;light&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">color_sensitivity</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="c1"># FIXME: add to config</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">multiplier</span> <span class="o">=</span> <span class="mi">1000</span>  <span class="c1"># CM</span>
@@ -977,6 +1000,7 @@ center of robot</p></td>
         <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
         <span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">,</span>
         <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="s2">&quot;color_sensitivity&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">color_sensitivity</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">color_sensitivity</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">}</span>
     <span class="k">return</span> <span class="n">config</span>
 </code></pre></div>
@@ -1044,13 +1068,18 @@ method can add to it for drawing later.</p></td>
             <span class="c1"># You can&#39;t sense your own bulbs</span>
             <span class="k">continue</span>
 
+        <span class="k">if</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">color_sensitivity</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span>
+            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">color_sensitivity</span> <span class="o">!=</span> <span class="n">bulb</span><span class="o">.</span><span class="n">color</span><span class="p">)):</span>
+            <span class="c1"># If sensitivity is set, if bulb doesn&#39;t match</span>
+            <span class="c1"># skip it</span>
+            <span class="k">continue</span>
+
         <span class="n">z</span><span class="p">,</span> <span class="n">brightness</span><span class="p">,</span> <span class="n">light_color</span> <span class="o">=</span> <span class="p">(</span>  <span class="c1"># noqa: F841</span>
             <span class="n">bulb</span><span class="o">.</span><span class="n">z</span><span class="p">,</span>
             <span class="n">bulb</span><span class="o">.</span><span class="n">brightness</span><span class="p">,</span>
             <span class="n">bulb</span><span class="o">.</span><span class="n">color</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">bulb</span><span class="o">.</span><span class="n">get_position</span><span class="p">(</span><span class="n">world</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="c1"># FIXME: use bulb_color for filter?</span>
 
         <span class="n">angle</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
         <span class="n">dist</span> <span class="o">=</span> <span class="n">distance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>

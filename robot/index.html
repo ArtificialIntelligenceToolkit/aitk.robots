@@ -984,166 +984,163 @@ and then add it to a world.</p>
     <div class="doc doc-contents ">
 
       <p>A simulated robot.</p>
-
-<p><strong>Parameters:</strong></p>
 <table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Type</th>
-      <th>Description</th>
-      <th>Default</th>
-    </tr>
-  </thead>
-  <tbody>
-      <tr>
-        <td><code>x</code></td>
-        <td><code>int</code></td>
-        <td><p>starting location in the horizontal direction. Leave 0 to
-place in a random location.</p></td>
-        <td><code>0</code></td>
-      </tr>
-      <tr>
-        <td><code>y</code></td>
-        <td><code>int</code></td>
-        <td><p>starting location in the horizontal direction. Leave 0 to
-place in a random location.</p></td>
-        <td><code>0</code></td>
-      </tr>
-      <tr>
-        <td><code>a</code></td>
-        <td><code>float</code></td>
-        <td><p>starting angle in degrees.</p></td>
-        <td><code>0</code></td>
-      </tr>
-      <tr>
-        <td><code>color</code></td>
-        <td><code>str</code></td>
-        <td><p>the name of a color for the robot</p></td>
-        <td><code>&#39;red&#39;</code></td>
-      </tr>
-      <tr>
-        <td><code>name</code></td>
-        <td><code>str</code></td>
-        <td><p>a name to give your robot</p></td>
-        <td><code>&#39;Robbie&#39;</code></td>
-      </tr>
-      <tr>
-        <td><code>do_trace</code></td>
-        <td><code>bool</code></td>
-        <td><p>should the robot leave a trace?</p></td>
-        <td><code>True</code></td>
-      </tr>
-      <tr>
-        <td><code>height</code></td>
-        <td><code>int</code></td>
-        <td><p>height of robot (use number &lt; 1)</p></td>
-        <td><code>0.25</code></td>
-      </tr>
-      <tr>
-        <td><code>max_trace_length</code></td>
-        <td><code>int</code></td>
-        <td><p>max length of trace, in seconds</p></td>
-        <td><code>10</code></td>
-      </tr>
-      <tr>
-        <td><code>state</code></td>
-        <td><code>dict</code></td>
-        <td><p>serializable memory for a robot</p></td>
-        <td><em>required</em></td>
-      </tr>
-      <tr>
-        <td><code>va</code></td>
-        <td><code>float</code></td>
-        <td><p>angle velocity</p></td>
-        <td><em>required</em></td>
-      </tr>
-      <tr>
-        <td><code>vx</code></td>
-        <td><code>float</code></td>
-        <td><p>x velocity</p></td>
-        <td><em>required</em></td>
-      </tr>
-      <tr>
-        <td><code>vy</code></td>
-        <td><code>float</code></td>
-        <td><p>y velocity</p></td>
-        <td><em>required</em></td>
-      </tr>
-      <tr>
-        <td><code>tva</code></td>
-        <td><code>float</code></td>
-        <td><p>angle target velocity</p></td>
-        <td><em>required</em></td>
-      </tr>
-      <tr>
-        <td><code>tvx</code></td>
-        <td><code>float</code></td>
-        <td><p>x target velocity</p></td>
-        <td><em>required</em></td>
-      </tr>
-      <tr>
-        <td><code>tvy</code></td>
-        <td><code>float</code></td>
-        <td><p>y target velocity</p></td>
-        <td><em>required</em></td>
-      </tr>
-      <tr>
-        <td><code>va_max</code></td>
-        <td><code>float</code></td>
-        <td><p>angle max velocity</p></td>
-        <td><em>required</em></td>
-      </tr>
-      <tr>
-        <td><code>vx_max</code></td>
-        <td><code>float</code></td>
-        <td><p>x max velocity</p></td>
-        <td><em>required</em></td>
-      </tr>
-      <tr>
-        <td><code>vy_max</code></td>
-        <td><code>float</code></td>
-        <td><p>y max velocity</p></td>
-        <td><em>required</em></td>
-      </tr>
-      <tr>
-        <td><code>va_ramp</code></td>
-        <td><code>float</code></td>
-        <td><p>angle linear acceleration</p></td>
-        <td><em>required</em></td>
-      </tr>
-      <tr>
-        <td><code>vx_ramp</code></td>
-        <td><code>float</code></td>
-        <td><p>x linear acceleration</p></td>
-        <td><em>required</em></td>
-      </tr>
-      <tr>
-        <td><code>vy_ramp</code></td>
-        <td><code>float</code></td>
-        <td><p>y linear acceleration</p></td>
-        <td><em>required</em></td>
-      </tr>
-      <tr>
-        <td><code>image_data</code></td>
-        <td><code>dataset-name, index</code></td>
-        <td><p>to use a 3D set of images</p></td>
-        <td><em>required</em></td>
-      </tr>
-      <tr>
-        <td><code>body</code></td>
-        <td><code>List</code></td>
-        <td><p>data structure that defines a robot body</p></td>
-        <td><em>required</em></td>
-      </tr>
-      <tr>
-        <td><code>devices</code></td>
-        <td><code>List</code></td>
-        <td><p>list of serialized devices</p></td>
-        <td><em>required</em></td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th>Option</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x</td>
+<td>int</td>
+<td>starting location in the horizontal direction. Leave 0 to place in a random location.</td>
+<td>0</td>
+</tr>
+<tr>
+<td>y</td>
+<td>int</td>
+<td>starting location in the horizontal direction. Leave 0 to place in a random location.</td>
+<td>0</td>
+</tr>
+<tr>
+<td>a</td>
+<td>float</td>
+<td>starting angle in degrees.</td>
+<td>0</td>
+</tr>
+<tr>
+<td>color</td>
+<td>str</td>
+<td>the name of a color for the robot</td>
+<td>"red"</td>
+</tr>
+<tr>
+<td>name</td>
+<td>str</td>
+<td>a name to give your robot</td>
+<td>"Robbie"</td>
+</tr>
+<tr>
+<td>do_trace</td>
+<td>bool</td>
+<td>should the robot leave a trace?</td>
+<td>True</td>
+</tr>
+<tr>
+<td>height</td>
+<td>int</td>
+<td>height of robot use number &lt; 1</td>
+<td>0.25</td>
+</tr>
+<tr>
+<td>max_trace_length</td>
+<td>int</td>
+<td>max length of trace, in seconds</td>
+<td>10</td>
+</tr>
+<tr>
+<td>state</td>
+<td>dict</td>
+<td>serializable memory for a robot</td>
+<td>None</td>
+</tr>
+<tr>
+<td>va</td>
+<td>float</td>
+<td>angle velocity</td>
+<td>None</td>
+</tr>
+<tr>
+<td>vx</td>
+<td>float</td>
+<td>x velocity</td>
+<td>None</td>
+</tr>
+<tr>
+<td>vy</td>
+<td>float</td>
+<td>y velocity</td>
+<td>None</td>
+</tr>
+<tr>
+<td>tva</td>
+<td>float</td>
+<td>angle target velocity</td>
+<td>None</td>
+</tr>
+<tr>
+<td>tvx</td>
+<td>float</td>
+<td>x target velocity</td>
+<td>None</td>
+</tr>
+<tr>
+<td>tvy</td>
+<td>float</td>
+<td>y target velocity</td>
+<td>None</td>
+</tr>
+<tr>
+<td>va_max</td>
+<td>float</td>
+<td>angle max velocity</td>
+<td>None</td>
+</tr>
+<tr>
+<td>vx_max</td>
+<td>float</td>
+<td>x max velocity</td>
+<td>None</td>
+</tr>
+<tr>
+<td>vy_max</td>
+<td>float</td>
+<td>y max velocity</td>
+<td>None</td>
+</tr>
+<tr>
+<td>va_ramp</td>
+<td>float</td>
+<td>angle linear acceleration</td>
+<td>None</td>
+</tr>
+<tr>
+<td>vx_ramp</td>
+<td>float</td>
+<td>x linear acceleration</td>
+<td>None</td>
+</tr>
+<tr>
+<td>vy_ramp</td>
+<td>float</td>
+<td>y linear acceleration</td>
+<td>None</td>
+</tr>
+<tr>
+<td>image_data</td>
+<td>dataset-name, index</td>
+<td>to use a 3D set of images</td>
+<td>None</td>
+</tr>
+<tr>
+<td>body</td>
+<td>List</td>
+<td>data structure that defines a robot body</td>
+<td>None</td>
+</tr>
+<tr>
+<td>devices</td>
+<td>List</td>
+<td>list of serialized devices</td>
+<td>None</td>
+</tr>
+</tbody>
 </table>
+
         <details class="quote">
           <summary>Source code in <code>robots/robot.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
@@ -1161,33 +1158,32 @@ place in a random location.</p></td>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A simulated robot.</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        x (int): starting location in the horizontal direction. Leave 0 to</span>
-<span class="sd">            place in a random location.</span>
-<span class="sd">        y (int): starting location in the horizontal direction. Leave 0 to</span>
-<span class="sd">            place in a random location.</span>
-<span class="sd">        a (float): starting angle in degrees.</span>
-<span class="sd">        color (str): the name of a color for the robot</span>
-<span class="sd">        name (str): a name to give your robot</span>
-<span class="sd">        do_trace (bool): should the robot leave a trace?</span>
-<span class="sd">        height (int): height of robot (use number &lt; 1)</span>
-<span class="sd">        max_trace_length (int): max length of trace, in seconds</span>
-<span class="sd">        state (dict): serializable memory for a robot</span>
-<span class="sd">        va (float): angle velocity</span>
-<span class="sd">        vx (float): x velocity</span>
-<span class="sd">        vy (float): y velocity</span>
-<span class="sd">        tva (float): angle target velocity</span>
-<span class="sd">        tvx (float): x target velocity</span>
-<span class="sd">        tvy (float): y target velocity</span>
-<span class="sd">        va_max (float): angle max velocity</span>
-<span class="sd">        vx_max (float): x max velocity</span>
-<span class="sd">        vy_max (float): y max velocity</span>
-<span class="sd">        va_ramp (float): angle linear acceleration</span>
-<span class="sd">        vx_ramp (float): x linear acceleration</span>
-<span class="sd">        vy_ramp (float): y linear acceleration</span>
-<span class="sd">        image_data (dataset-name, index): to use a 3D set of images</span>
-<span class="sd">        body (List): data structure that defines a robot body</span>
-<span class="sd">        devices (List): list of serialized devices</span>
+<span class="sd">    Option | Type | Description | Default</span>
+<span class="sd">    ------ | ---- | ----------- | -------</span>
+<span class="sd">    x      | int  | starting location in the horizontal direction. Leave 0 to place in a random location. | 0</span>
+<span class="sd">    y      | int  | starting location in the horizontal direction. Leave 0 to place in a random location. | 0</span>
+<span class="sd">    a      | float | starting angle in degrees. | 0</span>
+<span class="sd">    color  | str  | the name of a color for the robot | &quot;red&quot;</span>
+<span class="sd">    name   | str  | a name to give your robot | &quot;Robbie&quot;</span>
+<span class="sd">    do_trace | bool | should the robot leave a trace? | True</span>
+<span class="sd">    height | int  | height of robot use number &lt; 1 | 0.25</span>
+<span class="sd">    max_trace_length | int | max length of trace, in seconds | 10</span>
+<span class="sd">    state  | dict | serializable memory for a robot | None</span>
+<span class="sd">    va     | float | angle velocity | None</span>
+<span class="sd">    vx     | float | x velocity | None</span>
+<span class="sd">    vy     | float | y velocity | None</span>
+<span class="sd">    tva    | float | angle target velocity | None</span>
+<span class="sd">    tvx    | float | x target velocity | None</span>
+<span class="sd">    tvy    | float | y target velocity | None</span>
+<span class="sd">    va_max | float | angle max velocity | None</span>
+<span class="sd">    vx_max | float | x max velocity | None</span>
+<span class="sd">    vy_max | float | y max velocity | None</span>
+<span class="sd">    va_ramp | float | angle linear acceleration | None</span>
+<span class="sd">    vx_ramp | float | x linear acceleration | None</span>
+<span class="sd">    vy_ramp | float | y linear acceleration | None</span>
+<span class="sd">    image_data | dataset-name, index | to use a 3D set of images | None</span>
+<span class="sd">    body   | List | data structure that defines a robot body | None</span>
+<span class="sd">    devices | List | list of serialized devices | None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Get the args:</span>
     <span class="n">config</span> <span class="o">=</span> <span class="p">{</span>

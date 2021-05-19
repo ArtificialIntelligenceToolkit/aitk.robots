@@ -744,7 +744,7 @@ class Robot:
             for food in self.world._food[:]: # copy
                 if distance(self.x, self.y, food[0], food[1]) <= self.eat_food_distance:
                     success = True
-                    self.world._event("eat-food", self, food)
+                    self.world._event("eat-food", robot=self, food=food)
         return success
 
     def speak(self, text=None):

@@ -1844,11 +1844,8 @@ otherwise.</p>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">world</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">food</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">_food</span><span class="p">[:]:</span> <span class="c1"># copy</span>
             <span class="k">if</span> <span class="n">distance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">food</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">food</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eat_food_distance</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">food_eaten</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="n">success</span> <span class="o">=</span> <span class="kc">True</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">_food</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">food</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">_grid</span><span class="o">.</span><span class="n">need_update</span> <span class="o">=</span> <span class="kc">True</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">update</span><span class="p">()</span> <span class="c1"># request draw</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">_event</span><span class="p">(</span><span class="s2">&quot;eat-food&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">food</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">success</span>
 </code></pre></div>
         </details>
@@ -2978,6 +2975,13 @@ positive or from positive to negative.</p>
         <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">a</span> <span class="o">=</span> <span class="n">degrees_to_world</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_set_pose</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">clear_trace</span><span class="p">)</span>
+        <span class="c1"># Set all velocities to zero</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vx</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># velocity in x direction, CM per second</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vy</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># velocity in y direction, degrees per second</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">va</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># turn velocity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tvx</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tvy</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tva</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="c1"># Save the robot&#39;s pose to the config</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
@@ -3042,6 +3046,13 @@ positive or from positive to negative.</p>
         <span class="c1"># Direction is in radians, in world coordinates:</span>
         <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">_find_random_pose</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_set_pose</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">clear_trace</span><span class="p">)</span>
+        <span class="c1"># Set all velocities to zero</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vx</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># velocity in x direction, CM per second</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vy</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># velocity in y direction, degrees per second</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">va</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># turn velocity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tvx</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tvy</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tva</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="c1"># Save the robot&#39;s pose to the config</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>

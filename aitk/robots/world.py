@@ -196,7 +196,6 @@ class World:
             "quiet": quiet,
             "smell_cell_size": smell_cell_size,
         }
-        self._messages = []
         if filename is not None:
             config["filename"] = filename
         if ground_image_filename is not None:
@@ -209,6 +208,7 @@ class World:
             raise AttributeError(
                 "unknown arguments for World: %s" % list(kwargs.keys())
             )
+        self._events = []
         self._show_throttle_percentage = 0.40
         self._time_decimal_places = 1
         self._throttle_period = 0.1
@@ -228,6 +228,22 @@ class World:
 
     def __repr__(self):
         return "<World width=%r, height=%r>" % (self.width, self.height)
+
+    def _event(self, etype, **kwargs):
+        if etype == "eat-food":
+            robot = kwargs["robot"]
+            food = kwargs["food"]
+            robot.food_eaten += 1
+            self._food.remove(food)
+            self._grid.need_update = True
+            self._events.append((self.time, "eat-food", robot, food))
+        elif etype == "bulb-on":
+            bulb = kwargs["bulb"]
+            self._events.append((self.time, "bulb-on", bulb))
+        elif etype == "bulb-off":
+            bulb = kwargs["bulb"]
+            self._events.append((self.time, "bulb-off", bulb))
+        self.update() # request draw
 
     def get_image(self, index=None, size=100):
         """
@@ -365,6 +381,7 @@ class World:
         self._initialize()
         self._reset_watchers()
         self._food = []
+        self._events = []
         self._grid = None
         self.from_json(self.config)
         self.time = 0.0
@@ -808,7 +825,7 @@ class World:
 
     def _add_bulb(self, color, x, y, z, brightness, name=None):
         name = name if name is not None else "bulb-%s" % (len(self._bulbs) + 1)
-        bulb = Bulb(color, x, y, z, brightness, name)
+        bulb = Bulb(color, x, y, z, brightness, name, self)
         self._bulbs.append(bulb)
 
     def add_wall(self, color, x1, y1, x2, y2, box=True, wtype="wall"):

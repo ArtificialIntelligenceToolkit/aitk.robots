@@ -745,7 +745,7 @@ class Grid:
         Get the reading at the grid point.
         """
         x = max(min(self.width - 1, int(x)), 0)
-        y = max(min(self.height - 1, int(x)), 0)
+        y = max(min(self.height - 1, int(y)), 0)
         return self.grid[x][y]
 
     def get_image(self):

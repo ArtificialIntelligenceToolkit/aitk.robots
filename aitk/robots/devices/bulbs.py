@@ -16,7 +16,8 @@ class Bulb(BaseDevice):
     """
     Class representing lights in the world.
     """
-    def __init__(self, color, x=0, y=0, z=0, brightness=50, name=None, **kwargs):
+    def __init__(self, color, x=0, y=0, z=0, brightness=50, name=None,
+                 world=None, **kwargs):
         """
         Create a lightbulb.
 
@@ -27,6 +28,7 @@ class Bulb(BaseDevice):
             z (float): the height of bulb from ground (range 0 to 1)
             brightness (float): the brightness of the bulb (default 50)
             name (str): the name of the bulb
+            world (World): if bulb is in world
         """
         config = {
             "color": color,
@@ -42,6 +44,7 @@ class Bulb(BaseDevice):
         self.draw_rings = 7 # rings around bulb light in views
         self._watcher = None
         self.robot = None
+        self.world = world
         self.from_json(config)
 
     def initialize(self):
@@ -104,7 +107,9 @@ class Bulb(BaseDevice):
         """
         self.state = "on"
         if self.robot is not None and self.robot.world is not None:
-            self.robot.world.update()
+            self.robot.world._event("bulb-on", bulb=self)
+        elif self.world is not None:
+            self.world._event("bulb-on", bulb=self)
 
     def off(self):
         """
@@ -112,7 +117,9 @@ class Bulb(BaseDevice):
         """
         self.state = "off"
         if self.robot is not None and self.robot.world is not None:
-            self.robot.world.update()
+            self.robot.world._event("bulb-off", bulb=self)
+        elif self.world is not None:
+            self.world._event("bulb-off", bulb=self)
 
     @property
     def x(self):

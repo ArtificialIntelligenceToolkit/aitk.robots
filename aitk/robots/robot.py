@@ -476,6 +476,13 @@ class Robot:
             if a is not None:
                 a = degrees_to_world(a)
             self._set_pose(x, y, a, clear_trace)
+            # Set all velocities to zero
+            self.vx = 0.0  # velocity in x direction, CM per second
+            self.vy = 0.0  # velocity in y direction, degrees per second
+            self.va = 0.0  # turn velocity
+            self.tvx = 0.0
+            self.tvy = 0.0
+            self.tva = 0.0
             # Save the robot's pose to the config
             self.world.update()
             self.world.save()
@@ -497,6 +504,13 @@ class Robot:
             # Direction is in radians, in world coordinates:
             x, y, a = self.world._find_random_pose(self)
             self._set_pose(x, y, a, clear_trace)
+            # Set all velocities to zero
+            self.vx = 0.0  # velocity in x direction, CM per second
+            self.vy = 0.0  # velocity in y direction, degrees per second
+            self.va = 0.0  # turn velocity
+            self.tvx = 0.0
+            self.tvy = 0.0
+            self.tva = 0.0
             # Save the robot's pose to the config
             self.world.update()
             self.world.save()
@@ -729,11 +743,8 @@ class Robot:
         if self.world is not None:
             for food in self.world._food[:]: # copy
                 if distance(self.x, self.y, food[0], food[1]) <= self.eat_food_distance:
-                    self.food_eaten += 1
                     success = True
-                    self.world._food.remove(food)
-                    self.world._grid.need_update = True
-                    self.world.update() # request draw
+                    self.world._event("eat-food", self, food)
         return success
 
     def speak(self, text=None):

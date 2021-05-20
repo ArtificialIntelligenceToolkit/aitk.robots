@@ -516,6 +516,13 @@ class World:
     def _add_food(self, x, y, standard_deviation):
         self._food.append((x, y, standard_deviation))
 
+    def get_food(self):
+        """
+        Return a list of the food in the world in
+        (x, y, standard_deviation) form.
+        """
+        return self._food
+
     def _add_boundary_walls(self):
         """
         Add boundary walls around world.

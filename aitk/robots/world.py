@@ -175,10 +175,10 @@ class World:
             smell_cell_size (int): is set automatically based on world size
 
         You can also pass any valid item from the world config settings.
-        
+
         ```python
         from aitk.robots import World
-        
+
         world = World(200, 200)
         ```
         """
@@ -236,13 +236,16 @@ class World:
             robot.food_eaten += 1
             self._food.remove(food)
             self._grid.need_update = True
-            self._events.append((self.time, "eat-food", robot, food))
+            index = self._robots.index(robot)
+            self._events.append((self.time, "eat-food", index, food))
         elif etype == "bulb-on":
             bulb = kwargs["bulb"]
-            self._events.append((self.time, "bulb-on", bulb))
+            index = self._bulbs.index(bulb)
+            self._events.append((self.time, "bulb-on", index))
         elif etype == "bulb-off":
             bulb = kwargs["bulb"]
-            self._events.append((self.time, "bulb-off", bulb))
+            index = self._bulbs.index(bulb)
+            self._events.append((self.time, "bulb-off", index))
         self.update() # request draw
 
     def get_image(self, index=None, size=100):

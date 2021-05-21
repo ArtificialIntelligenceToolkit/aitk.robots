@@ -290,17 +290,17 @@ class _Player(threading.Thread):
 class Recorder(Watcher):
     def __init__(self, world, play_rate=0.1):
         super().__init__()
-        self.states = []
         self.orig_world = world
         # Copy of the world for creating playback:
-        self.world = World(**world.to_json())
+        self.states = []
+        self.last_index = 0
+        self.reset()
         # Copy items needed for playback
         for i in range(len(self.world._robots)):
             # Copy list references:
             self.world._robots[i].text_trace = self.orig_world._robots[i].text_trace
             self.world._robots[i].pen_trace = self.orig_world._robots[i].pen_trace
         self.widget = Player("Time:", self.goto, 0, play_rate)
-        self.widget.layout.border = "10px solid rgb(0 177 255)"
 
     def draw(self):
         self.widget.update_length(len(self.states))
@@ -323,7 +323,7 @@ class Recorder(Watcher):
         self.states.append(states)
 
     def reset(self):
-        self.states = []
+        self.world = World(**self.orig_world.to_json())
 
     def get_widget(self, play_rate=0.0):
         self.widget.player.time_wait = play_rate
@@ -345,9 +345,9 @@ class Recorder(Watcher):
         ]
 
     def goto(self, time):
-        index = round(time / 0.1)
         # place robots where they go in copy:
         if len(self.states) == 0:
+            self.reset()
             for i, orig_robot in enumerate(self.orig_world._robots):
                 x, y, a, vx, vy, va, stalled = (
                     orig_robot.x,
@@ -364,7 +364,11 @@ class Recorder(Watcher):
                 self.world.robots[i].va = va
                 self.world.robots[i].stalled = stalled
                 self.world.robots[i].trace[:] = []
+            # Init the food and lights
+            # Init food levels for robots
+            self.last_index = 0
         else:
+            index = round(time / 0.1)
             index = max(min(len(self.states) - 1, index), 0)
             for i, state in enumerate(self.states[index]):
                 x, y, a, vx, vy, va, stalled = state
@@ -377,6 +381,26 @@ class Recorder(Watcher):
                     self.world.robots[i].trace = self.get_trace(
                         i, index, self.world.robots[i].max_trace_length
                     )
+            # if last_index is > index:
+            #     Advance the food and lights from last_index
+            #     Advance food levels for robots
+            # else:
+            #     Replay from begining
+            #     Init food levels for robots and replay
+            for event in self.orig_world._events:
+                if event[0] < time:
+                    print("applying", event)
+                    if event[1] == "bulb-off":
+                        index = event[2]
+                        self.world._bulbs[index].state = "off"
+                    elif event[1] == "bulb-on":
+                        index = event[2]
+                        self.world._bulbs[index].state = "on"
+                    elif event[2] == "eat-food":
+                        index = event[2]
+                        self.world._food.remove(event[3])
+                        self.world._robots[index].food_eaten += 1
+            self.last_index = index
         self.world.time = time
         if self.world.time == 0:
             # In case it changed:
@@ -515,7 +539,7 @@ class Player(VBox):
             value=0.0,
             readout_format=".1f",
             style={"description_width": "initial"},
-            layout=Layout(width="100%"),
+            layout=Layout(width="75%"),
         )
         ## Hook them up:
         button_begin.on_click(lambda button: self.goto("begin"))

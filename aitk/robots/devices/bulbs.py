@@ -101,6 +101,22 @@ class Bulb(BaseDevice):
             self.brightness = config["brightness"]
         self.initialize()
 
+    def get_state(self):
+        """
+        Get the state of the bulb. Returns
+        "on" or "off".
+        """
+        return self.state
+
+    def flip(self):
+        """
+        Flips the state of the bulb.
+        """
+        if self.get_state() == "on":
+            self.off()
+        else:
+            self.on()
+
     def on(self):
         """
         Turn the bulb "on".

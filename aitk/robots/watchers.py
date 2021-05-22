@@ -85,6 +85,12 @@ class Watcher:
         """
         This method should return the widget associated with
         the watcher.
+
+        Args:
+            width (int): optional value to set width of watched item
+
+        Note: you may also set values for other layout attributes,
+            depending on details of watched widget.
         """
         self._inject_css()
         widget = self.get_widget(**kwargs)
@@ -331,15 +337,19 @@ class Recorder(Watcher):
         return self.widget
 
     def set_kwargs(self, **kwargs):
-        if "width" in kwargs:
-            width = kwargs["width"]
-            if isinstance(width, int):
-                button_width = width
-            else:
-                button_width = int("".join([ch for ch in width if ch.isnumeric()]))
+        for key in kwargs:
+            if key == "width":
+                width = kwargs["width"]
+                if isinstance(width, int):
+                    button_width = width
+                else:
+                    button_width = int("".join([ch for ch in width if ch.isnumeric()]))
 
-            self.widget.button_layout.width = "%spx" % button_width
-            self.widget.slider_layout.width = "%spx" % (button_width - 60)
+                self.widget.button_layout.width = "%spx" % button_width
+                self.widget.slider_layout.width = "%spx" % (button_width - 60)
+            else:
+                setattr(self.widget.button_layout, key, kwargs[key])
+                setattr(self.widget.slider_layout, key, kwargs[key])
 
     def display(self, play_rate=0.0):
         self.widget.player.time_wait = play_rate

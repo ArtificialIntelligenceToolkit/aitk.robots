@@ -24,6 +24,7 @@ from .devices import Bulb
 from .robot import Robot
 from .utils import (
     Color,
+    Food,
     Grid,
     Line,
     Point,
@@ -230,22 +231,25 @@ class World:
         return "<World width=%r, height=%r>" % (self.width, self.height)
 
     def _event(self, etype, **kwargs):
-        if etype == "eat-food":
+        if etype == "food-off":
             robot = kwargs["robot"]
             food = kwargs["food"]
             robot.food_eaten += 1
-            self._food.remove(food)
+            food.state = "off"
             self._grid.need_update = True
-            index = self._robots.index(robot)
-            self._events.append((self.time, "eat-food", index, food))
+            robot_index = self._robots.index(robot)
+            food_index = self._food.index(food)
+            self._events.append((self.time, "food-off", robot_index, food_index))
         elif etype == "bulb-on":
             bulb = kwargs["bulb"]
-            index = self._bulbs.index(bulb)
-            self._events.append((self.time, "bulb-on", index))
+            bulb_index = self._bulbs.index(bulb)
+            self._events.append((self.time, "bulb-on", bulb_index))
         elif etype == "bulb-off":
             bulb = kwargs["bulb"]
-            index = self._bulbs.index(bulb)
-            self._events.append((self.time, "bulb-off", index))
+            bulb_index = self._bulbs.index(bulb)
+            self._events.append((self.time, "bulb-off", bulb_index))
+        else:
+            raise Exception("unknown event: %s" % etype)
         self.update() # request draw
 
     def get_image(self, index=None, size=100):
@@ -311,7 +315,8 @@ class World:
         else:
             print("-" * 25)
             for food in self._food:
-                print("  x: %s, y: %s, brightness: %s" % (food[0], food[1], food[2]))
+                print("  x: %s, y: %s, brightness: %s, state: %s" % (
+                    food.x, food.y, food.standard_deviation, food.state))
         print("Lights:")
         if len(self._bulbs) == 0:
             print("  This world has no lights.")
@@ -481,7 +486,7 @@ class World:
             self._add_bulb(**bulb)
 
         for food in config.get("food", []):
-            # food x, y, standard_deviation
+            # food x, y, standard_deviation, state
             self._add_food(**food)
 
         ## Create robot, and add to world:
@@ -500,7 +505,7 @@ class World:
         # Update the backend if it already existed, but differs in config
         self._backend.update_dimensions(self.width, self.height, self.scale)
 
-    def add_food(self, x, y, standard_deviation):
+    def add_food(self, x, y, standard_deviation, state="on"):
         """
         Add food at x, y with a brightness of standard_deviation
         (in pixels).
@@ -511,18 +516,18 @@ class World:
             standard_deviation (float): distance int pixels
                 of 1 standard deviation
         """
-        self._add_food(x, y, standard_deviation)
+        self._add_food(x, y, standard_deviation, state)
         self._grid.need_update = True
         self.update()  # request draw
         self.save()
 
-    def _add_food(self, x, y, standard_deviation):
-        self._food.append((x, y, standard_deviation))
+    def _add_food(self, x, y, standard_deviation, state="on"):
+        self._food.append(Food(x, y, standard_deviation, state))
 
     def get_food(self):
         """
         Return a list of the food in the world in
-        (x, y, standard_deviation) form.
+        (x, y, standard_deviation, state) form.
         """
         return self._food
 
@@ -604,9 +609,10 @@ class World:
         for food in self._food:
             config["food"].append(
                 {
-                    "x": food[0],
-                    "y": food[1],
-                    "standard_deviation": food[2],
+                    "x": food.x,
+                    "y": food.y,
+                    "standard_deviation": food.standard_deviation,
+                    "state": food.state,
                 }
             )
 

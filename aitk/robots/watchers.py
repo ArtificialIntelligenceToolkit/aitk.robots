@@ -293,7 +293,7 @@ class Recorder(Watcher):
         self.orig_world = world
         # Copy of the world for creating playback:
         self.states = []
-        self.last_index = 0
+        self.last_time = 0
         self.reset()
         # Copy items needed for playback
         for i in range(len(self.world._robots)):
@@ -347,7 +347,7 @@ class Recorder(Watcher):
     def goto(self, time):
         # place robots where they go in copy:
         if len(self.states) == 0:
-            self.reset()
+            # Nothing has happened in world
             for i, orig_robot in enumerate(self.orig_world._robots):
                 x, y, a, vx, vy, va, stalled = (
                     orig_robot.x,
@@ -364,9 +364,7 @@ class Recorder(Watcher):
                 self.world.robots[i].va = va
                 self.world.robots[i].stalled = stalled
                 self.world.robots[i].trace[:] = []
-            # Init the food and lights
-            # Init food levels for robots
-            self.last_index = 0
+            self.last_time = time
         else:
             index = round(time / 0.1)
             index = max(min(len(self.states) - 1, index), 0)
@@ -381,26 +379,15 @@ class Recorder(Watcher):
                     self.world.robots[i].trace = self.get_trace(
                         i, index, self.world.robots[i].max_trace_length
                     )
-            # if last_index is > index:
-            #     Advance the food and lights from last_index
-            #     Advance food levels for robots
-            # else:
-            #     Replay from begining
-            #     Init food levels for robots and replay
-            for event in self.orig_world._events:
-                if event[0] < time:
-                    print("applying", event)
-                    if event[1] == "bulb-off":
-                        index = event[2]
-                        self.world._bulbs[index].state = "off"
-                    elif event[1] == "bulb-on":
-                        index = event[2]
-                        self.world._bulbs[index].state = "on"
-                    elif event[2] == "eat-food":
-                        index = event[2]
-                        self.world._food.remove(event[3])
-                        self.world._robots[index].food_eaten += 1
-            self.last_index = index
+            if time >= self.last_time: # forward in time
+                events = self.get_events(self.last_time, time)
+                for event in events:
+                    self.apply_event(event, forward=True)
+            else: # backward
+                events = reversed(self.get_events(time, self.last_time))
+                for event in events:
+                    self.apply_event(event, forward=False)
+            self.last_time = time
         self.world.time = time
         if self.world.time == 0:
             # In case it changed:
@@ -408,6 +395,37 @@ class Recorder(Watcher):
         self.world.update()
         picture = self.world.get_image()
         return picture
+
+    def get_events(self, start_time, stop_time):
+        return [event for event in self.orig_world._events
+                if start_time <= event[0] < stop_time]
+
+    def apply_event(self, event, forward=True):
+        # (time, "food-off", robot_index, food_index)
+        # (time, "bulb-on", bulb_index)
+        # (time, "bulb-off", bulb_index)
+        if event[1] == "bulb-off":
+            bulb_index = event[2]
+            if forward:
+                self.world._bulbs[bulb_index].state = "off"
+            else:
+                self.world._bulbs[bulb_index].state = "on"
+        elif event[1] == "bulb-on":
+            bulb_index = event[2]
+            if forward:
+                self.world._bulbs[bulb_index].state = "on"
+            else:
+                self.world._bulbs[bulb_index].state = "off"
+        elif event[1] == "food-off":
+            robot_index = event[2]
+            food_index = event[3]
+            self.world._grid.need_update = True
+            if forward:
+                self.world._robots[robot_index].food_eaten += 1
+                self.world._food[food_index].state = "off"
+            else:
+                self.world._robots[robot_index].food_eaten -= 1
+                self.world._food[food_index].state = "on"
 
     def save_as(
         self,

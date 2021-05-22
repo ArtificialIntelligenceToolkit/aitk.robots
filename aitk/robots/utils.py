@@ -33,6 +33,14 @@ try:
 except ImportError:
     display = print
 
+
+class Food():
+    def __init__(self, x, y, standard_deviation, state):
+        self.x = x
+        self.y = y
+        self.standard_deviation = standard_deviation
+        self.state = state
+
 def print_once(message):
     if message not in MESSAGES:
         print(message)
@@ -674,22 +682,25 @@ class Grid:
         return visited
 
     def spread(self, points):
+        # points are Food(x, y, standard_deviation, state)
         # Initialize grid with no values:
         grid = [[0 for y in range(self.height)]
                 for x in range(self.width)]
 
         # For each point, search out from there:
-        for px, py, sd in points:
+        for food in points:
+            if food.state == "off":
+                continue
             # make sure we search from a spot on the
             # grid
-            px = round_to(px, self.step)
-            py = round_to(py, self.step)
+            px = round_to(food.x, self.step)
+            py = round_to(food.y, self.step)
             values = self.bfs((px, py))
             for x in range(0, self.width, self.step):
                 for y in range(0, self.height, self.step):
                     dist = values.get((x,y), None)
                     if dist is not None:
-                        value = self.weight(dist, sd)
+                        value = self.weight(dist, food.standard_deviation)
                         for i in range(y, y + self.step):
                             for j in range(x, x + self.step):
                                 if 0 <= i < self.height and 0 <= j < self.width:
@@ -711,7 +722,7 @@ class Grid:
         """
         Update the grid with blooms of values
         to spread the values over the grid.
-        blooms are a list of (x, y, sd).
+        blooms are a list of Food(x, y, standard_deviation, state).
         """
         if self.need_update:
             self.grid = self.spread(blooms)

@@ -741,10 +741,10 @@ class Robot:
         """
         success = False
         if self.world is not None:
-            for food in self.world._food[:]: # copy
-                if distance(self.x, self.y, food[0], food[1]) <= self.eat_food_distance:
+            for food in [f for f in self.world._food if f.state == "on"]:
+                if distance(self.x, self.y, food.x, food.y) <= self.eat_food_distance:
                     success = True
-                    self.world._event("eat-food", robot=self, food=food)
+                    self.world._event("food-off", robot=self, food=food)
         return success
 
     def speak(self, text=None):

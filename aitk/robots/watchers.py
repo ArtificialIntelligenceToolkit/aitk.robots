@@ -325,9 +325,21 @@ class Recorder(Watcher):
     def reset(self):
         self.world = World(**self.orig_world.to_json())
 
-    def get_widget(self, play_rate=0.0):
+    def get_widget(self, play_rate=0.0, **kwargs):
         self.widget.player.time_wait = play_rate
+        self.set_kwargs(**kwargs)
         return self.widget
+
+    def set_kwargs(self, **kwargs):
+        if "width" in kwargs:
+            width = kwargs["width"]
+            if isinstance(width, int):
+                button_width = width
+            else:
+                button_width = int("".join([ch for ch in width if ch.isnumeric()]))
+
+            self.widget.button_layout.width = "%spx" % button_width
+            self.widget.slider_layout.width = "%spx" % (button_width - 60)
 
     def display(self, play_rate=0.0):
         self.widget.player.time_wait = play_rate
@@ -481,6 +493,8 @@ class Player(VBox):
         """
         function - takes a slider value and returns displayables
         """
+        self.button_layout = Layout(width="600px")
+        self.slider_layout = Layout(width="540px")
         self.player = _Player(self, play_rate)
         self.player.start()
         self.title = title
@@ -546,7 +560,7 @@ class Player(VBox):
                 button_end,
                 self.button_play,
             ],
-            layout=Layout(width="100%", height="50px"),
+            layout=self.button_layout
         )
         self.control_slider = FloatSlider(
             description=self.title,
@@ -557,7 +571,7 @@ class Player(VBox):
             value=0.0,
             readout_format=".1f",
             style={"description_width": "initial"},
-            layout=Layout(width="75%"),
+            layout=self.slider_layout,
         )
         ## Hook them up:
         button_begin.on_click(lambda button: self.goto("begin"))

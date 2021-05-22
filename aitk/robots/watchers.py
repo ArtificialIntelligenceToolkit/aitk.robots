@@ -30,7 +30,7 @@ from ipywidgets import (
     VBox,
 )
 
-from .utils import Point, arange, image_to_gif, image_to_png, progress_bar
+from .utils import Point, arange, image_to_gif, image_to_png, progress_bar, distance
 from .world import World
 
 
@@ -355,16 +355,25 @@ class Recorder(Watcher):
         self.widget.player.time_wait = play_rate
         display(self.widget)
 
-    def get_trace(self, robot_index, current_index, max_length):
+    def get_trace(self, robot_index, current_index, trace_time):
         # return as [Point(x,y), direction]
+        max_length = int(trace_time / 0.1)
         start_index = max(current_index - max_length, 0)
-        return [
+        points = [
             (Point(x, y), a)
             for (x, y, a, vx, vy, va, stalled) in [
                 state[robot_index]
                 for state in self.states[start_index : current_index + 1]
             ]
         ]
+        retval = []
+        min_dim = min(self.world.width, self.world.height) / 2
+        for point,a in points:
+            if len(retval) == 0 or distance(retval[-1][0].x, retval[-1][0].y, point.x, point.y) < min_dim:
+                retval.append((point, a))
+            else:
+                retval.extend([None, (point, a)])
+        return retval
 
     def goto(self, time):
         # place robots where they go in copy:

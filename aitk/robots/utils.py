@@ -390,7 +390,7 @@ class arange:
                 current += self.step
 
     def __len__(self):
-        return abs(self.stop - self.start) / abs(self.step)
+        return int(abs(self.stop - self.start) / abs(self.step))
 
 
 def distance(x1, y1, x2, y2):

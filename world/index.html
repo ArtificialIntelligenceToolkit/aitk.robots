@@ -14,7 +14,7 @@
         <link rel="canonical" href="https://github.com/ArtificialIntelligenceToolkit/aitk.robots/world/">
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.2">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.5">
     
     
       
@@ -22,7 +22,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.6f955dcd.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.bde7dde4.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ef6f36e2.min.css">
@@ -325,6 +325,13 @@
         <li class="md-nav__item">
   <a href="#aitk.robots.world.World.get_bulb" class="md-nav__link">
     get_bulb()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.world.World.get_food" class="md-nav__link">
+    get_food()
   </a>
   
 </li>
@@ -701,6 +708,13 @@
         <li class="md-nav__item">
   <a href="#aitk.robots.world.World.get_bulb" class="md-nav__link">
     get_bulb()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.world.World.get_food" class="md-nav__link">
+    get_food()
   </a>
   
 </li>
@@ -1191,7 +1205,7 @@ begin with a world.</p>
 
 
 <h2 id="aitk.robots.world.World.add_food" class="doc doc-heading">
-<code class="codehilite language-python"><span class="n">add_food</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">standard_deviation</span><span class="p">)</span></code>
+<code class="codehilite language-python"><span class="n">add_food</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">standard_deviation</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="s1">&#39;on&#39;</span><span class="p">)</span></code>
 
 
 <a href="#aitk.robots.world.World.add_food" class="headerlink" title="Permanent link">&para;</a></h2>
@@ -1235,7 +1249,7 @@ of 1 standard deviation</p></td>
 </table>
         <details class="quote">
           <summary>Source code in <code>robots/world.py</code></summary>
-          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">add_food</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">standard_deviation</span><span class="p">):</span>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">add_food</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">standard_deviation</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="s2">&quot;on&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Add food at x, y with a brightness of standard_deviation</span>
 <span class="sd">    (in pixels).</span>
@@ -1246,7 +1260,7 @@ of 1 standard deviation</p></td>
 <span class="sd">        standard_deviation (float): distance int pixels</span>
 <span class="sd">            of 1 standard deviation</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_add_food</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">standard_deviation</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_add_food</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">standard_deviation</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_grid</span><span class="o">.</span><span class="n">need_update</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>  <span class="c1"># request draw</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
@@ -1812,7 +1826,7 @@ place it randomly in the world.</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_bulb</span><span class="p">(</span><span class="o">**</span><span class="n">bulb</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">food</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;food&quot;</span><span class="p">,</span> <span class="p">[]):</span>
-        <span class="c1"># food x, y, standard_deviation</span>
+        <span class="c1"># food x, y, standard_deviation, state</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_food</span><span class="p">(</span><span class="o">**</span><span class="n">food</span><span class="p">)</span>
 
     <span class="c1">## Create robot, and add to world:</span>
@@ -1883,6 +1897,37 @@ world.bulbs[item]</p>
 <span class="sd">        item (int or string): index or name of bulb</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bulbs</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="aitk.robots.world.World.get_food" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">get_food</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+<a href="#aitk.robots.world.World.get_food" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Return a list of the food in the world in
+(x, y, standard_deviation, state) form.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>robots/world.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">get_food</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return a list of the food in the world in</span>
+<span class="sd">    (x, y, standard_deviation, state) form.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_food</span>
 </code></pre></div>
         </details>
     </div>
@@ -3135,7 +3180,8 @@ all of its robots.</p>
     <span class="k">else</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">25</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">food</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_food</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  x: </span><span class="si">%s</span><span class="s2">, y: </span><span class="si">%s</span><span class="s2">, brightness: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">food</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">food</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">food</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  x: </span><span class="si">%s</span><span class="s2">, y: </span><span class="si">%s</span><span class="s2">, brightness: </span><span class="si">%s</span><span class="s2">, state: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
+                <span class="n">food</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">food</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">food</span><span class="o">.</span><span class="n">standard_deviation</span><span class="p">,</span> <span class="n">food</span><span class="o">.</span><span class="n">state</span><span class="p">))</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Lights:&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_bulbs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  This world has no lights.&quot;</span><span class="p">)</span>
@@ -3230,9 +3276,10 @@ all of its robots.</p>
     <span class="k">for</span> <span class="n">food</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_food</span><span class="p">:</span>
         <span class="n">config</span><span class="p">[</span><span class="s2">&quot;food&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="p">{</span>
-                <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">food</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">food</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-                <span class="s2">&quot;standard_deviation&quot;</span><span class="p">:</span> <span class="n">food</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">food</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
+                <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">food</span><span class="o">.</span><span class="n">y</span><span class="p">,</span>
+                <span class="s2">&quot;standard_deviation&quot;</span><span class="p">:</span> <span class="n">food</span><span class="o">.</span><span class="n">standard_deviation</span><span class="p">,</span>
+                <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="n">food</span><span class="o">.</span><span class="n">state</span><span class="p">,</span>
             <span class="p">}</span>
         <span class="p">)</span>
 
@@ -3444,10 +3491,10 @@ world.</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../assets/javascripts/workers/search.d351de03.min.js", "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.4ea5477f.min.js"></script>
+      <script src="../assets/javascripts/bundle.a1609d9a.min.js"></script>
       
     
   </body>

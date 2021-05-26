@@ -566,11 +566,10 @@ class Camera(BaseDevice):
 
         draw_list = []
         for food in self.robot.world._food:
-            x, y, sd = food
-            hits = self.robot.cast_ray(x, y, 0, self.max_range,
+            hits = self.robot.cast_ray(food.x, food.y, 0, self.max_range,
                                        self.robot.x, self.robot.y)
             if len(hits) == 0:
-                draw_list.append((x, y, sd))
+                draw_list.append((food.x, food.y, food.standard_deviation))
 
         if len(draw_list) > 0:
             layer = Image.new('RGBA', self.cameraShape, (0, 0, 0, 0))

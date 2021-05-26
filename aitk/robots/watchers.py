@@ -428,6 +428,11 @@ class Recorder(Watcher):
         return picture
 
     def get_events(self, start_time, stop_time):
+        if (len(self.orig_world._events) > 0 and
+            (stop_time == self.orig_world._events[-1][0])):
+            # On the very last step, show things that happened
+            # after the beginning of step:
+            stop_time += 0.1
         return [event for event in self.orig_world._events
                 if start_time <= event[0] < stop_time]
 

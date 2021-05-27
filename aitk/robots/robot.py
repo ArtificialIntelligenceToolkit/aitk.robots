@@ -584,11 +584,15 @@ class Robot:
         >>> robot.add_device_ring(RangeSensor, 10, 0, 360, 6, width=20)
         ```
         """
+        if stop_degree < start_degree:
+            stop_degree += 360
         span = stop_degree - start_degree
         step_angle = span / count
-        for angle in arange(start_degree, stop_degree, step_angle):
+        angle = start_degree
+        for i in range(count):
             x, y = rotate_around(0, 0, distance_from_center, -angle * PI_OVER_180)
             self.add_device(device_class(position=(x, y), a=angle, **kwargs))
+            angle += step_angle
 
     def to_json(self):
         """

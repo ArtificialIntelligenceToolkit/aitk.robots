@@ -1134,6 +1134,8 @@ class World:
             ):
                 if self._stop:
                     self.status = "stopped"
+                    if not show_progress:
+                        raise KeyboardInterrupt()
                     break
                 if function is not None:
                     if isinstance(function, (list, tuple)):

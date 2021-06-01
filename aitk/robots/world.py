@@ -1022,6 +1022,7 @@ class World:
         show_progress=True,
         quiet=False,
         background=False,
+        interrupt=False,
     ):
         """
         Run the simulator until one of the control functions returns True
@@ -1039,6 +1040,8 @@ class World:
             quiet (bool): if True, do not show the status message when
                 completed
             background (bool): if True, run in the background.
+            interrupt (bool): if True, raise KeyboardInterrupt, otherwise
+                just stop and continue
         """
         time_step = time_step if time_step is not None else self.time_step
         if background:
@@ -1059,7 +1062,7 @@ class World:
                 print("The world is already running in the background. Use world.stop()")
         else:
             self.steps(
-                float("inf"), function, time_step, show, real_time, show_progress, quiet
+                float("inf"), function, time_step, show, real_time, show_progress, quiet, interrupt
             )
 
     def seconds(
@@ -1071,6 +1074,7 @@ class World:
         real_time=True,
         show_progress=True,
         quiet=False,
+        interrupt=False,
     ):
         """
         Run the simulator for N seconds, or until one of the control
@@ -1088,10 +1092,12 @@ class World:
             show_progress (bool): show progress bar
             quiet (bool): if True, do not show the status message when
                 completed
+            interrupt (bool): if True, raise KeyboardInterrupt, otherwise
+                just stop and continue
         """
         time_step = time_step if time_step is not None else self.time_step
         steps = round(seconds / time_step)
-        self.steps(steps, function, time_step, show, real_time, show_progress, quiet)
+        self.steps(steps, function, time_step, show, real_time, show_progress, quiet, interrupt)
 
     def steps(
         self,
@@ -1102,6 +1108,7 @@ class World:
         real_time=True,
         show_progress=True,
         quiet=False,
+        interrupt=False,
     ):
         """
         Run the simulator for N steps, or until one of the control
@@ -1119,6 +1126,8 @@ class World:
             show_progress (bool): show progress bar
             quiet (bool): if True, do not show the status message when
                 completed
+            interrupt (bool): if True, raise KeyboardInterrupt, otherwise
+                just stop and continue
         """
         self.status = "running"
         time_step = time_step if time_step is not None else self.time_step
@@ -1134,7 +1143,7 @@ class World:
             ):
                 if self._stop:
                     self.status = "stopped"
-                    if not show_progress:
+                    if interrupt:
                         raise KeyboardInterrupt()
                     break
                 if function is not None:

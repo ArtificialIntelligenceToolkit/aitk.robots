@@ -483,6 +483,7 @@ class Robot:
             self.tvx = 0.0
             self.tvy = 0.0
             self.tva = 0.0
+            self.stalled = False
             # Save the robot's pose to the config
             self.world.update()
             self.world.save()
@@ -511,6 +512,7 @@ class Robot:
             self.tvx = 0.0
             self.tvy = 0.0
             self.tva = 0.0
+            self.stalled = False
             # Save the robot's pose to the config
             self.world.update()
             self.world.save()

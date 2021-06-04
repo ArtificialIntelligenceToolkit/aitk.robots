@@ -5,7 +5,7 @@
 A lightweight Python robot simulator for JupyterLab, Notebooks,
 and other Python environments.
 
-<img src="docs/images/hello-world.png"></img>
+<img src="https://artificialintelligencetoolkit.github.io/aitk.robots/images/hello-world.png"></img>
 
 ## Goals
 

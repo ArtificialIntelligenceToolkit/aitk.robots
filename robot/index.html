@@ -14,7 +14,7 @@
         <link rel="canonical" href="https://github.com/ArtificialIntelligenceToolkit/aitk.robots/robot/">
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.5">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.6">
     
     
       
@@ -22,10 +22,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.bde7dde4.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.875de78c.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ef6f36e2.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.f1a3b89f.min.css">
         
       
     
@@ -1358,11 +1358,15 @@ a, and kwargs, and returns a device</p></td>
 <span class="sd">    &gt;&gt;&gt; robot.add_device_ring(RangeSensor, 10, 0, 360, 6, width=20)</span>
 <span class="sd">    ```</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">stop_degree</span> <span class="o">&lt;</span> <span class="n">start_degree</span><span class="p">:</span>
+        <span class="n">stop_degree</span> <span class="o">+=</span> <span class="mi">360</span>
     <span class="n">span</span> <span class="o">=</span> <span class="n">stop_degree</span> <span class="o">-</span> <span class="n">start_degree</span>
     <span class="n">step_angle</span> <span class="o">=</span> <span class="n">span</span> <span class="o">/</span> <span class="n">count</span>
-    <span class="k">for</span> <span class="n">angle</span> <span class="ow">in</span> <span class="n">arange</span><span class="p">(</span><span class="n">start_degree</span><span class="p">,</span> <span class="n">stop_degree</span><span class="p">,</span> <span class="n">step_angle</span><span class="p">):</span>
+    <span class="n">angle</span> <span class="o">=</span> <span class="n">start_degree</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">count</span><span class="p">):</span>
         <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">rotate_around</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">distance_from_center</span><span class="p">,</span> <span class="o">-</span><span class="n">angle</span> <span class="o">*</span> <span class="n">PI_OVER_180</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add_device</span><span class="p">(</span><span class="n">device_class</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">a</span><span class="o">=</span><span class="n">angle</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+        <span class="n">angle</span> <span class="o">+=</span> <span class="n">step_angle</span>
 </code></pre></div>
         </details>
     </div>
@@ -2982,6 +2986,7 @@ positive or from positive to negative.</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">tvx</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tvy</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tva</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stalled</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="c1"># Save the robot&#39;s pose to the config</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
@@ -3053,6 +3058,7 @@ positive or from positive to negative.</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">tvx</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tvy</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tva</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stalled</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="c1"># Save the robot&#39;s pose to the config</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
@@ -3596,7 +3602,7 @@ positive or from positive to negative.</p>
     <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../assets/javascripts/workers/search.d351de03.min.js", "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.a1609d9a.min.js"></script>
+      <script src="../assets/javascripts/bundle.34eae1b6.min.js"></script>
       
     
   </body>

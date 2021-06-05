@@ -14,7 +14,7 @@
         <link rel="canonical" href="https://github.com/ArtificialIntelligenceToolkit/aitk.robots/world/">
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.5">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.6">
     
     
       
@@ -22,10 +22,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.bde7dde4.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.875de78c.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ef6f36e2.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.f1a3b89f.min.css">
         
       
     
@@ -2361,7 +2361,7 @@ last save.</p>
 
 
 <h2 id="aitk.robots.world.World.run" class="doc doc-heading">
-<code class="codehilite language-python"><span class="n">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">time_step</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">real_time</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_progress</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+<code class="codehilite language-python"><span class="n">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">time_step</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">real_time</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_progress</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">interrupt</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
 
 <a href="#aitk.robots.world.World.run" class="headerlink" title="Permanent link">&para;</a></h2>
@@ -2428,6 +2428,13 @@ completed</p></td>
         <td><p>if True, run in the background.</p></td>
         <td><code>False</code></td>
       </tr>
+      <tr>
+        <td><code>interrupt</code></td>
+        <td><code>bool</code></td>
+        <td><p>if True, raise KeyboardInterrupt, otherwise
+just stop and continue</p></td>
+        <td><code>False</code></td>
+      </tr>
   </tbody>
 </table>
         <details class="quote">
@@ -2441,6 +2448,7 @@ completed</p></td>
     <span class="n">show_progress</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">quiet</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">background</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">interrupt</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Run the simulator until one of the control functions returns True</span>
@@ -2458,6 +2466,8 @@ completed</p></td>
 <span class="sd">        quiet (bool): if True, do not show the status message when</span>
 <span class="sd">            completed</span>
 <span class="sd">        background (bool): if True, run in the background.</span>
+<span class="sd">        interrupt (bool): if True, raise KeyboardInterrupt, otherwise</span>
+<span class="sd">            just stop and continue</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">time_step</span> <span class="o">=</span> <span class="n">time_step</span> <span class="k">if</span> <span class="n">time_step</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_step</span>
     <span class="k">if</span> <span class="n">background</span><span class="p">:</span>
@@ -2478,7 +2488,7 @@ completed</p></td>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The world is already running in the background. Use world.stop()&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="p">(</span>
-            <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">),</span> <span class="n">function</span><span class="p">,</span> <span class="n">time_step</span><span class="p">,</span> <span class="n">show</span><span class="p">,</span> <span class="n">real_time</span><span class="p">,</span> <span class="n">show_progress</span><span class="p">,</span> <span class="n">quiet</span>
+            <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">),</span> <span class="n">function</span><span class="p">,</span> <span class="n">time_step</span><span class="p">,</span> <span class="n">show</span><span class="p">,</span> <span class="n">real_time</span><span class="p">,</span> <span class="n">show_progress</span><span class="p">,</span> <span class="n">quiet</span><span class="p">,</span> <span class="n">interrupt</span>
         <span class="p">)</span>
 </code></pre></div>
         </details>
@@ -2619,7 +2629,7 @@ save it back to disc if it was loaded from disk.</p>
 
 
 <h2 id="aitk.robots.world.World.seconds" class="doc doc-heading">
-<code class="codehilite language-python"><span class="n">seconds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span> <span class="n">function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">time_step</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">real_time</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_progress</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+<code class="codehilite language-python"><span class="n">seconds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span> <span class="n">function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">time_step</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">real_time</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_progress</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">interrupt</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
 
 <a href="#aitk.robots.world.World.seconds" class="headerlink" title="Permanent link">&para;</a></h2>
@@ -2686,6 +2696,13 @@ stop.</p></td>
 completed</p></td>
         <td><code>False</code></td>
       </tr>
+      <tr>
+        <td><code>interrupt</code></td>
+        <td><code>bool</code></td>
+        <td><p>if True, raise KeyboardInterrupt, otherwise
+just stop and continue</p></td>
+        <td><code>False</code></td>
+      </tr>
   </tbody>
 </table>
         <details class="quote">
@@ -2699,6 +2716,7 @@ completed</p></td>
     <span class="n">real_time</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">show_progress</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">quiet</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">interrupt</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Run the simulator for N seconds, or until one of the control</span>
@@ -2716,10 +2734,12 @@ completed</p></td>
 <span class="sd">        show_progress (bool): show progress bar</span>
 <span class="sd">        quiet (bool): if True, do not show the status message when</span>
 <span class="sd">            completed</span>
+<span class="sd">        interrupt (bool): if True, raise KeyboardInterrupt, otherwise</span>
+<span class="sd">            just stop and continue</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">time_step</span> <span class="o">=</span> <span class="n">time_step</span> <span class="k">if</span> <span class="n">time_step</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_step</span>
     <span class="n">steps</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">seconds</span> <span class="o">/</span> <span class="n">time_step</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="p">(</span><span class="n">steps</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span> <span class="n">time_step</span><span class="p">,</span> <span class="n">show</span><span class="p">,</span> <span class="n">real_time</span><span class="p">,</span> <span class="n">show_progress</span><span class="p">,</span> <span class="n">quiet</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="p">(</span><span class="n">steps</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span> <span class="n">time_step</span><span class="p">,</span> <span class="n">show</span><span class="p">,</span> <span class="n">real_time</span><span class="p">,</span> <span class="n">show_progress</span><span class="p">,</span> <span class="n">quiet</span><span class="p">,</span> <span class="n">interrupt</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
@@ -2965,7 +2985,7 @@ a ground image to have already been set.</p>
 
 
 <h2 id="aitk.robots.world.World.steps" class="doc doc-heading">
-<code class="codehilite language-python"><span class="n">steps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">time_step</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">real_time</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_progress</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+<code class="codehilite language-python"><span class="n">steps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">time_step</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">real_time</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_progress</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">interrupt</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
 
 <a href="#aitk.robots.world.World.steps" class="headerlink" title="Permanent link">&para;</a></h2>
@@ -3023,6 +3043,13 @@ functions returns True or Control+C is pressed.</p>
 completed</p></td>
         <td><code>False</code></td>
       </tr>
+      <tr>
+        <td><code>interrupt</code></td>
+        <td><code>bool</code></td>
+        <td><p>if True, raise KeyboardInterrupt, otherwise
+just stop and continue</p></td>
+        <td><code>False</code></td>
+      </tr>
   </tbody>
 </table>
         <details class="quote">
@@ -3036,6 +3063,7 @@ completed</p></td>
     <span class="n">real_time</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">show_progress</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">quiet</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">interrupt</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Run the simulator for N steps, or until one of the control</span>
@@ -3053,6 +3081,8 @@ completed</p></td>
 <span class="sd">        show_progress (bool): show progress bar</span>
 <span class="sd">        quiet (bool): if True, do not show the status message when</span>
 <span class="sd">            completed</span>
+<span class="sd">        interrupt (bool): if True, raise KeyboardInterrupt, otherwise</span>
+<span class="sd">            just stop and continue</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;running&quot;</span>
     <span class="n">time_step</span> <span class="o">=</span> <span class="n">time_step</span> <span class="k">if</span> <span class="n">time_step</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_step</span>
@@ -3068,6 +3098,8 @@ completed</p></td>
         <span class="p">):</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stop</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;stopped&quot;</span>
+                <span class="k">if</span> <span class="n">interrupt</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">KeyboardInterrupt</span><span class="p">()</span>
                 <span class="k">break</span>
             <span class="k">if</span> <span class="n">function</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
@@ -3494,7 +3526,7 @@ world.</p>
     <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../assets/javascripts/workers/search.d351de03.min.js", "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.a1609d9a.min.js"></script>
+      <script src="../assets/javascripts/bundle.34eae1b6.min.js"></script>
       
     
   </body>

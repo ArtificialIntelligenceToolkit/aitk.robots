@@ -1,7 +1,5 @@
 # Welcome to aitk.robots
 
-For full documentation visit [github.com/ArtificialIntelligenceToolkit/aitk.robots](https://github.com/ArtificialIntelligenceToolkit/aitk.robots/).
-
 ## Introduction
 
 A lightweight Python robot simulator for JupyterLab, Notebooks,
@@ -41,9 +39,12 @@ If not in a conda environment, then you will also need to:
 jupyter nbextension enable --py widgetsnbextension
 ```
 
-For additional information, please see:
+## Source Code
+
+For additional information, please see these github repositories:
 
 * [aitk](https://github.com/ArtificialIntelligenceToolkit/aitk)
 * [aitk.robots](https://github.com/ArtificialIntelligenceToolkit/aitk.robots)
 * [aitk.networks](https://github.com/ArtificialIntelligenceToolkit/aitk.networks)
 * [aitk.utils](https://github.com/ArtificialIntelligenceToolkit/aitk.utils)
+* [aitk.algorithms](https://github.com/ArtificialIntelligenceToolkit/aitk.algorithms)

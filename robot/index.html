@@ -2910,7 +2910,7 @@ positive or from positive to negative.</p>
 
 
 <h2 id="aitk.robots.robot.Robot.set_pose" class="doc doc-heading">
-<code class="codehilite language-python"><span class="n">set_pose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">clear_trace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
+<code class="codehilite language-python"><span class="n">set_pose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">clear_trace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
 
 
 <a href="#aitk.robots.robot.Robot.set_pose" class="headerlink" title="Permanent link">&para;</a></h2>
@@ -2954,12 +2954,19 @@ positive or from positive to negative.</p>
         <td><p>if True, clear the robot's trace</p></td>
         <td><code>True</code></td>
       </tr>
+      <tr>
+        <td><code>show</code></td>
+        <td><code>bool</code></td>
+        <td><p>if True, show the updated world</p></td>
+        <td><code>True</code></td>
+      </tr>
   </tbody>
 </table>      
 
         <details class="quote">
           <summary>Source code in <code>robots/robot.py</code></summary>
-          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">set_pose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">clear_trace</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">set_pose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">clear_trace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+             <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Set the pose of the robot. a is in degrees.</span>
 
@@ -2968,6 +2975,7 @@ positive or from positive to negative.</p>
 <span class="sd">        y (int): the y coordinate of the robot</span>
 <span class="sd">        a (int): the angle of the robot in degrees (zero is to the left, 90 is up)</span>
 <span class="sd">        clear_trace (bool): if True, clear the robot&#39;s trace</span>
+<span class="sd">        show (bool): if True, show the updated world</span>
 
 <span class="sd">    Note: the robot must be in a world.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -2988,7 +2996,7 @@ positive or from positive to negative.</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">tva</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stalled</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="c1"># Save the robot&#39;s pose to the config</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">show</span><span class="o">=</span><span class="n">show</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
 </code></pre></div>
         </details>
@@ -3003,7 +3011,7 @@ positive or from positive to negative.</p>
 
 
 <h2 id="aitk.robots.robot.Robot.set_random_pose" class="doc doc-heading">
-<code class="codehilite language-python"><span class="n">set_random_pose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clear_trace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
+<code class="codehilite language-python"><span class="n">set_random_pose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clear_trace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
 
 
 <a href="#aitk.robots.robot.Robot.set_random_pose" class="headerlink" title="Permanent link">&para;</a></h2>
@@ -3029,17 +3037,24 @@ positive or from positive to negative.</p>
         <td><p>if True, clear the trace</p></td>
         <td><code>True</code></td>
       </tr>
+      <tr>
+        <td><code>show</code></td>
+        <td><code>bool</code></td>
+        <td><p>if True, show the updated world</p></td>
+        <td><code>True</code></td>
+      </tr>
   </tbody>
 </table>      
 
         <details class="quote">
           <summary>Source code in <code>robots/robot.py</code></summary>
-          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">set_random_pose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clear_trace</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">set_random_pose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clear_trace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Set the pose of the robot to a random open location in the world.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        clear_trace (bool): if True, clear the trace</span>
+<span class="sd">        show (bool): if True, show the updated world</span>
 
 <span class="sd">    Note: the robot must be in a world.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -3060,7 +3075,7 @@ positive or from positive to negative.</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">tva</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stalled</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="c1"># Save the robot&#39;s pose to the config</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">show</span><span class="o">=</span><span class="n">show</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
 </code></pre></div>
         </details>

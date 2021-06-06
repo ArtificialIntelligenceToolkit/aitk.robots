@@ -3093,8 +3093,12 @@ just stop and continue</p></td>
     <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_no_interrupt</span><span class="p">():</span>
         <span class="n">start_real_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">monotonic</span><span class="p">()</span>
         <span class="n">start_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span>
+        <span class="c1"># If you want to show, and in google colab, then</span>
+        <span class="c1"># we use tqdm&#39;s update to force widget updates</span>
         <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">progress_bar</span><span class="p">(</span>
-            <span class="n">step_iter</span><span class="p">,</span> <span class="n">show_progress</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quiet</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_step_display</span>
+            <span class="n">step_iter</span><span class="p">,</span>
+            <span class="p">(</span><span class="n">show_progress</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quiet</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">show</span> <span class="ow">and</span> <span class="n">in_colab</span><span class="p">()),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_step_display</span>
         <span class="p">):</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stop</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;stopped&quot;</span>

@@ -456,7 +456,8 @@ class Robot:
             self.color.red * 0.75, self.color.green * 0.75, self.color.blue * 0.75,
         )
 
-    def set_pose(self, x=None, y=None, a=None, clear_trace=True):
+    def set_pose(self, x=None, y=None, a=None, clear_trace=True,
+                 show=True):
         """
         Set the pose of the robot. a is in degrees.
 
@@ -485,7 +486,7 @@ class Robot:
             self.tva = 0.0
             self.stalled = False
             # Save the robot's pose to the config
-            self.world.update()
+            self.world.update(show=show)
             self.world.save()
 
     def set_random_pose(self, clear_trace=True):

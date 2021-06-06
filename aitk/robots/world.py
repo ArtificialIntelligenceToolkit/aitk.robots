@@ -32,6 +32,7 @@ from .utils import (
     distance,
     distance_point_to_line,
     format_time,
+    in_colab,
     json_dump,
     load_image,
     rotate_around,
@@ -1138,8 +1139,12 @@ class World:
         with self._no_interrupt():
             start_real_time = time.monotonic()
             start_time = self.time
+            # If you want to show, and in google colab, then
+            # we use tqdm's update to force widget updates
             for step in progress_bar(
-                step_iter, show_progress and not quiet, self._step_display
+                step_iter,
+                (show_progress and not quiet) or in_colab(),
+                self._step_display
             ):
                 if self._stop:
                     self.status = "stopped"

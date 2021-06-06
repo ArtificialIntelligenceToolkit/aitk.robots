@@ -29,10 +29,18 @@ TWO_PI = math.pi * 2
 MESSAGES = set()
 
 try:
+    _in_colab = 'google.colab' in str(get_ipython())
+except Exception:
+    _in_colab = False
+
+try:
     from IPython.display import display
 except ImportError:
     display = print
 
+
+def in_colab():
+    return _in_colab
 
 class Food():
     def __init__(self, x, y, standard_deviation, state):

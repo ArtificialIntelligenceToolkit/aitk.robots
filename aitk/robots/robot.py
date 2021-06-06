@@ -466,6 +466,7 @@ class Robot:
             y (int): the y coordinate of the robot
             a (int): the angle of the robot in degrees (zero is to the left, 90 is up)
             clear_trace (bool): if True, clear the robot's trace
+            show (bool): if True, show the updated world
 
         Note: the robot must be in a world.
         """
@@ -489,12 +490,13 @@ class Robot:
             self.world.update(show=show)
             self.world.save()
 
-    def set_random_pose(self, clear_trace=True):
+    def set_random_pose(self, clear_trace=True, show=True):
         """
         Set the pose of the robot to a random open location in the world.
 
         Args:
             clear_trace (bool): if True, clear the trace
+            show (bool): if True, show the updated world
 
         Note: the robot must be in a world.
         """
@@ -515,7 +517,7 @@ class Robot:
             self.tva = 0.0
             self.stalled = False
             # Save the robot's pose to the config
-            self.world.update()
+            self.world.update(show=show)
             self.world.save()
 
     def _set_pose(self, x=None, y=None, a=None, clear_trace=True):

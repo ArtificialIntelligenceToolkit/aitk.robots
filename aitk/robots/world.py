@@ -1143,7 +1143,7 @@ class World:
             # we use tqdm's update to force widget updates
             for step in progress_bar(
                 step_iter,
-                (show_progress and not quiet) or in_colab(),
+                (show_progress and not quiet) or (show and in_colab()),
                 self._step_display
             ):
                 if self._stop:

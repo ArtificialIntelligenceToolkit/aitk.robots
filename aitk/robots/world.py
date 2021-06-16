@@ -425,13 +425,15 @@ class World:
         Load a json config file.
         """
         self.config = config
+
+        if "quiet" in config:
+            self.quiet = config["quiet"]
+
         seed = config.get("seed", 0)
         self.set_seed(seed)
 
         if "filename" in config:
             self.filename = config["filename"]
-        if "quiet" in config:
-            self.quiet = config["quiet"]
         if "width" in config:
             self.width = config["width"]
         if "height" in config:

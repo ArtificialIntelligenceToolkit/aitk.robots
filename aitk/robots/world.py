@@ -44,6 +44,13 @@ from .utils import (
     TWO_PI,
 )
 
+try:
+    from IPython.display import display, clear_output
+except ImportError:
+    display = print
+    def clear_output(wait=True):
+        pass
+
 DEFAULT_HANDLER = signal.getsignal(signal.SIGINT)
 
 
@@ -230,6 +237,9 @@ class World:
 
     def __repr__(self):
         return "<World width=%r, height=%r>" % (self.width, self.height)
+
+    def _repr_png_(self):
+        return self._backend.to_png()
 
     def _event(self, etype, **kwargs):
         if etype == "food-off":
@@ -1143,6 +1153,8 @@ class World:
             start_time = self.time
             # If you want to show, and in google colab, then
             # we use tqdm's update to force widget updates
+            if show and in_colab():
+                clear_output(wait=True)
             for step in progress_bar(
                 step_iter,
                 (show_progress and not quiet) or (show and in_colab()),
@@ -1170,7 +1182,6 @@ class World:
                     if stop:
                         break
                 self._step(time_step, show=show, real_time=real_time)
-
         self.status = "stopped"
         stop_real_time = time.monotonic()
         stop_time = self.time

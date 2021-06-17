@@ -589,10 +589,15 @@ class Robot:
         >>> robot.add_device_ring(RangeSensor, 10, 0, 360, 6, width=20)
         ```
         """
+        if isinstance(device_class, str):
+            DEVICES = importlib.import_module("aitk.robots.devices")
+            device_class = getattr(DEVICES, device_class)
+
         if stop_degree < start_degree:
             stop_degree += 360
+
         span = stop_degree - start_degree
-        step_angle = span / count
+        step_angle = span / (count - 1)
         angle = start_degree
         for i in range(count):
             x, y = rotate_around(0, 0, distance_from_center, -angle * PI_OVER_180)

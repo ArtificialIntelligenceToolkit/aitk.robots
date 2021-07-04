@@ -424,7 +424,7 @@ class Recorder(Watcher):
             # In case it changed:
             self.world._reset_ground_image()
         self.world.update()
-        picture = self.world.get_image()
+        picture = self.world.get_image(copy=False)
         return picture
 
     def get_events(self, start_time, stop_time):

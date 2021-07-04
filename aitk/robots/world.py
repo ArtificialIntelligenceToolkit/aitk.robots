@@ -263,13 +263,15 @@ class World:
             raise Exception("unknown event: %s" % etype)
         self.update() # request draw
 
-    def get_image(self, index=None, size=100):
+    def get_image(self, index=None, size=100, copy=True):
         """
-        Get a PIL image of the world, or of a robot.
+        Get a PIL image (copy) of the world, or of a robot.
 
         Args:
             index (str or int, optional): index of robot
             size (int, optional): size of robot picture
+            copy (bool, optional): get a copy of image if True,
+                otherwise return a reference to world image
         """
         try:
             picture = self._backend.get_image(self.time)
@@ -290,6 +292,8 @@ class World:
                 picture = picture.crop(rectangle)
                 return picture
         else:
+            if copy:
+                picture = picture.copy()
             return picture
 
     def display(self, index=None, size=100):

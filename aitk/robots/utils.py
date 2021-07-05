@@ -17,6 +17,11 @@ from datetime import datetime, timedelta
 from functools import wraps
 import random
 
+try:
+    import numpy as np
+except ImportError:
+    np = None
+
 from .color_data import COLORS
 from .config import get_aitk_search_paths
 from .hit import Hit
@@ -401,9 +406,23 @@ class arange:
         return int(abs(self.stop - self.start) / abs(self.step))
 
 
-def distance(x1, y1, x2, y2):
-    return math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2))
+def distance(x1, y1, x2=None, y2=None):
+    """
+    Takes either (x, y) from two points, or two points
+    and returns the distance between them.
+    """
+    if x2 is None:
+        if np is not None:
+            # Works with more than two dimensions:
+            a1 = np.array(x1)
+            a2 = np.array(y1)
+            return np.sqrt(np.sum((a1 - a2) ** 2))
+        else:
+            x1, y1, x2, y2 = x1[0], x1[1], y1[0], y1[1]
 
+    d1 = (x1 - x2)
+    d2 = (y1 - y2)
+    return math.sqrt(d1 * d1 + d2 * d2)
 
 def distance_point_to_line_3d(point, line_start, line_end):
     """

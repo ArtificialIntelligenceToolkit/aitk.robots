@@ -9,7 +9,8 @@
 # *************************************
 
 import aitk.robots
-from aitk.robots import Color, Robot, Scribbler, World
+from aitk.robots import Robot, Scribbler, World
+from aitk.utils import Color
 
 from PIL import Image
 

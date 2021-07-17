@@ -9,7 +9,6 @@
 # *************************************
 
 from aitk.robots import (
-    Color,
     Robot,
     Scribbler,
     World,

@@ -9,9 +9,14 @@
 
 import math
 
-from ..colors import PURPLE, WHITE, BLACK
 from ..utils import distance, rotate_around
 from .base import BaseDevice
+
+from aitk.utils import Color
+
+PURPLE = Color("purple")
+WHITE = Color("white")
+BLACK = Color("black")
 
 class SmellSensor(BaseDevice):
     def __init__(self, position=(0, 0), name="smell", **kwargs):

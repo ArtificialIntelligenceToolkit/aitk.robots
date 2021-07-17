@@ -22,7 +22,6 @@ try:
 except ImportError:
     np = None
 
-from .color_data import COLORS
 from .config import get_aitk_search_paths
 from .hit import Hit
 
@@ -525,90 +524,6 @@ class throttle(object):
                 return fn(*args, **kwargs)
 
         return wrapper
-
-
-class Color:
-    def __init__(self, red, green=None, blue=None, alpha=None):
-        self.name = None
-        if isinstance(red, str):
-            if red.startswith("#"):
-                # encoded hex color
-                red, green, blue, alpha = self.hex_to_rgba(red)
-            else:
-                # color name
-                self.name = red
-                hex_string = COLORS.get(red, "#00000000")
-                red, green, blue, alpha = self.hex_to_rgba(hex_string)
-        elif isinstance(red, (list, tuple)):
-            if len(red) == 3:
-                red, green, blue = red
-                alpha = 255
-            else:
-                red, green, blue, alpha = red
-        elif isinstance(red, Color):
-            red, green, blue, alpha = red.red, red.green, red.blue, red.alpha
-
-        self.red = red
-        if green is not None:
-            self.green = green
-        else:
-            self.green = red
-        if blue is not None:
-            self.blue = blue
-        else:
-            self.blue = red
-        if alpha is not None:
-            self.alpha = alpha
-        else:
-            self.alpha = 255
-
-    def hex_to_rgba(self, hex_string):
-        r_hex = hex_string[1:3]
-        g_hex = hex_string[3:5]
-        b_hex = hex_string[5:7]
-        if len(hex_string) > 7:
-            a_hex = hex_string[7:9]
-        else:
-            a_hex = "FF"
-        return int(r_hex, 16), int(g_hex, 16), int(b_hex, 16), int(a_hex, 16)
-
-    def __str__(self):
-        if self.name is not None:
-            return self.name
-        else:
-            return self.to_hexcode()
-
-    def __repr__(self):
-        return "<Color%s>" % (self.to_tuple(),)
-
-    def to_tuple(self):
-        return (int(self.red), int(self.green), int(self.blue), int(self.alpha))
-
-    def rgb(self):
-        return "rgb(%d,%d,%d)" % (int(self.red), int(self.green), int(self.blue))
-
-    def to_hexcode(self):
-        return "#%02X%02X%02X%02X" % self.to_tuple()
-
-    def __add__(self, other):
-        new_color = Color(self)
-        new_color.red += other.red
-        new_color.green += other.green
-        new_color.blue += other.blue
-        return new_color
-
-    def __truediv__(self, number):
-        new_color = Color(self)
-        new_color.red /= number
-        new_color.green /= number
-        new_color.blue /= number
-        return new_color
-
-    def __eq__(self, other):
-        return (isinstance(other, Color) and
-                (self.red == other.red) and
-                (self.green == other.green) and
-                (self.blue == other.blue))
 
 
 class Point:

@@ -9,8 +9,9 @@
 
 import math
 
-from ..colors import BLACK
+from aitk.utils import Color
 
+BLACK = Color("black")
 
 class Backend:
     width = 0

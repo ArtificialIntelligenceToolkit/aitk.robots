@@ -12,7 +12,6 @@ import math
 from ..utils import (
     distance,
     display,
-    Color,
     PI_OVER_180,
     PI_OVER_2,
     TWO_PI,
@@ -20,8 +19,11 @@ from ..utils import (
     rotate_around,
     uniform_angle,
 )
-from ..colors import WHITE
 from .base import BaseDevice
+
+from aitk.utils import Color
+
+WHITE = Color("white")
 
 class Camera(BaseDevice):
     def __init__(

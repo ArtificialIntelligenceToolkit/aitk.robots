@@ -9,8 +9,10 @@
 
 import math
 
-from ..utils import distance, rotate_around, Color
+from ..utils import distance, rotate_around
 from .base import BaseDevice
+
+from aitk.utils import Color
 
 class Bulb(BaseDevice):
     """

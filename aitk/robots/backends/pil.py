@@ -12,10 +12,12 @@ import math
 
 from PIL import Image, ImageDraw, ImageFont
 
-from aitk.utils import get_font
-from ..utils import Color, arange, distance
-from ..colors import BLACK, WHITE
+from aitk.utils import get_font, Color
+from ..utils import arange, distance
 from .base import Backend
+
+BLACK = Color("black")
+WHITE = Color("white")
 
 DEFAULT_FONT_NAMES = (
     get_font("FreeMonoBold.ttf"),

@@ -9,9 +9,14 @@
 
 import math
 
-from ..colors import PURPLE, YELLOW, BLACK
-from ..utils import Color, distance, rotate_around, normal_dist
+from ..utils import distance, rotate_around, normal_dist
 from .base import BaseDevice
+
+from aitk.utils import Color
+
+PURPLE = Color("purple")
+YELLOW = Color("yellow")
+BLACK = Color("black")
 
 class LightSensor(BaseDevice):
     def __init__(self, position=(0, 0), name="light",

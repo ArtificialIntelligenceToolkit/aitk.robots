@@ -11,7 +11,6 @@ import math
 
 from ..utils import (
     display,
-    Color,
     arange,
     distance,
     degrees_to_world,
@@ -22,6 +21,8 @@ from ..utils import (
     PI_OVER_2,
 )
 from .base import BaseDevice
+
+from aitk.utils import Color
 
 class RangeSensor(BaseDevice):
     def __init__(

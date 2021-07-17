@@ -13,8 +13,10 @@ import math
 from PIL import Image
 from svgwrite import Drawing
 
-from ..utils import Color
 from .base import Backend
+
+from aitk.utils import Color
+
 
 # First attempt, replicating the low-level SVG badly
 # Second attempt should implement the HIGH-LEVEL API

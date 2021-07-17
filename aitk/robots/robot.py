@@ -18,7 +18,6 @@ from .utils import (
     print_once,
     cast_ray,
     display,
-    Color,
     Line,
     Point,
     degrees_to_world,
@@ -31,6 +30,8 @@ from .utils import (
     TWO_PI,
     world_to_degrees,
 )
+
+from aitk.utils import Color
 
 class Robot:
     """

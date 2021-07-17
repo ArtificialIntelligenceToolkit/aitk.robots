@@ -23,7 +23,6 @@ from .backends import make_backend
 from .devices import Bulb
 from .robot import Robot
 from .utils import (
-    Color,
     Food,
     Grid,
     Line,
@@ -43,6 +42,8 @@ from .utils import (
     ONE80_OVER_PI,
     TWO_PI,
 )
+
+from aitk.utils import Color
 
 try:
     from IPython.display import display, clear_output

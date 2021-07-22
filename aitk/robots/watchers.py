@@ -462,6 +462,16 @@ class Recorder(Watcher):
             else:
                 self.world._robots[robot_index].food_eaten -= 1
                 self.world._food[food_index].state = "on"
+        elif event[1] == "beacon-on":
+            if forward:
+                self.world.beacon.state = "on"
+            else:
+                self.world.beacon.state = "off"
+        elif event[1] == "beacon-off":
+            if forward:
+                self.world.beacon.state = "off"
+            else:
+                self.world.beacon.state = "on"
 
     def save_as(
         self,

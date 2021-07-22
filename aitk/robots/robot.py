@@ -1228,6 +1228,8 @@ class Robot:
         for device in self._devices:
             if device.type == "bulb":
                 device.draw(backend)
+            elif device.type == "beacon":
+                device.draw(backend)
 
         # body:
         for shape in self.body:
@@ -1258,7 +1260,7 @@ class Robot:
 
         # Draw on top of robot:
         for device in self._devices:
-            if device.type != "bulb":
+            if device.type not in ["bulb", "beacon"]:
                 device.draw(backend)
 
         backend.popMatrix()

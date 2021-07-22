@@ -20,7 +20,7 @@ from itertools import count
 from numbers import Number
 
 from .backends import make_backend
-from .devices import Bulb
+from .devices import Bulb, Beacon
 from .robot import Robot
 from .utils import (
     Food,
@@ -212,6 +212,7 @@ class World:
             config["ground_image_filename"] = ground_image_filename
         config["walls"] = kwargs.pop("walls", [])
         config["bulbs"] = kwargs.pop("bulbs", [])
+        config["beacon"] = kwargs.pop("beacon", None)
         config["robots"] = kwargs.pop("robots", [])
         config["food"] = kwargs.pop("food", [])
         if len(kwargs) != 0:
@@ -228,6 +229,7 @@ class World:
         self._watchers = []
         self._robots = []
         self._bulbs = []
+        self._beacon = None
         self._backend = None
         self._recording = False
         self.config = config.copy()
@@ -260,6 +262,10 @@ class World:
             bulb = kwargs["bulb"]
             bulb_index = self._bulbs.index(bulb)
             self._events.append((self.time, "bulb-off", bulb_index))
+        elif etype == "beacon-on":
+            self._events.append((self.time, "beacon-on"))
+        elif etype == "beacon-off":
+            self._events.append((self.time, "beacon-off"))
         else:
             raise Exception("unknown event: %s" % etype)
         self.update() # request draw
@@ -317,27 +323,30 @@ class World:
         if self.filename:
             print("This world was loaded from %r" % self.filename)
         print("Size: %s x %s" % (self.width, self.height))
+        print("-" * 25)
         print("Robots:")
+        print("-" * 25)
         if len(self._robots) == 0:
             print("  This world has no robots.")
         else:
-            print("-" * 25)
             for i, robot in enumerate(self._robots):
                 print("  .robots[%s or %r]: %r" % (i, robot.name, robot))
                 robot.summary()
+        print("-" * 25)
         print("Food:")
+        print("-" * 25)
         if len(self._food) == 0:
             print("  This world has no food.")
         else:
-            print("-" * 25)
             for food in self._food:
                 print("  x: %s, y: %s, brightness: %s, state: %s" % (
                     food.x, food.y, food.standard_deviation, food.state))
+        print("-" * 25)
         print("Lights:")
+        print("-" * 25)
         if len(self._bulbs) == 0:
             print("  This world has no lights.")
         else:
-            print("-" * 25)
             for bulb in self._bulbs:
                 print("  x: %s, y: %s, brightness: %s, name: %r, color: %s" % (
                     bulb.x,
@@ -345,6 +354,14 @@ class World:
                     bulb.brightness,
                     bulb.name,
                     bulb.color))
+        print("-" * 25)
+        print("Beacon:")
+        print("-" * 25)
+        if self.beacon is None:
+            print("  This world has no beacon.")
+        else:
+            x, y = self.beacon.get_position(world=True)
+            print("  x: %s, y: %s" % (x, y))
 
     def get_robot(self, item):
         """
@@ -365,6 +382,24 @@ class World:
             item (int or string): index or name of bulb
         """
         return self.bulbs[item]
+
+    @property
+    def beacon(self):
+        """
+        Get the beacon.
+        """
+        if self._beacon is not None:
+            return self._beacon
+
+        for robot in self.robots:
+            for device in robot._devices:
+                if device.type == "beacon":
+                    return device
+        return None
+
+    @beacon.setter
+    def beacon(self, value):
+        self._beacon = value
 
     def _initialize(self):
         """
@@ -393,6 +428,7 @@ class World:
         self._ground_image_pixels = None
         self._walls = []
         self._bulbs.clear()
+        self._beacon = None
         self._complexity = 0
         self.smell_cell_size = None
 
@@ -499,6 +535,11 @@ class World:
                     box=False,
                 )
 
+        beacon = config.get("beacon", None)
+        if beacon is not None:
+            # beacon is {x, y, z}
+            self._add_beacon(**beacon)
+
         for bulb in config.get("bulbs", []):
             # bulbs are {x, y, z, color, brightness}
             self._add_bulb(**bulb)
@@ -587,9 +628,16 @@ class World:
             "smell_cell_size": self.smell_cell_size,
             "walls": [],
             "bulbs": [],
+            "beacon": None,
             "robots": [],
             "food": [],
         }
+        if self._beacon is not None:
+            config["beacon"] = {
+                "x": self._beacon.x,
+                "y": self._beacon.y,
+                "z": self._beacon.z,
+            }
         for wall in self._walls:
             # Not a boundary wall or robot bounding box:
             if wall.wtype == "wall":
@@ -861,6 +909,23 @@ class World:
         name = name if name is not None else "bulb-%s" % (len(self._bulbs) + 1)
         bulb = Bulb(color, x, y, z, brightness, name, self)
         self._bulbs.append(bulb)
+
+    def add_beacon(self, x, y, z):
+        """
+        Add a beacon to the world.
+
+        Args:
+            x (int): the x coordinate
+            y (int): the y coordinate
+            z (int): the z coordinate
+        """
+        self._add_beacon(x, y, z)
+        self.update()  # request draw
+        self.save()
+
+    def _add_beacon(self, x, y, z):
+        beacon = Beacon(x, y, z, self)
+        self._beacon = beacon
 
     def add_wall(self, color, x1, y1, x2, y2, box=True, wtype="wall"):
         """
@@ -1391,6 +1456,13 @@ class World:
             ## Draw robots:
             for robot in self._robots:
                 robot.draw(self._backend)
+
+            # Draw the beacon:
+            if self.beacon is not None:
+                if self.beacon.state == "on":
+                    x, y = self.beacon.get_position(world=True)
+                    self._backend.set_fill_style(Color("blue"))
+                    self._backend.draw_circle(x, y, 5)
 
             text = format_time(self.time)
             self._backend.draw_status(text)

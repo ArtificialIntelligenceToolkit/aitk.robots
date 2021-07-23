@@ -33,7 +33,6 @@ class Beacon(BaseDevice):
         }
         config.update(kwargs)
         self.name = "beacon"
-        self.segments = 4
         self.state = "on"
         self._watcher = None
         self.robot = None

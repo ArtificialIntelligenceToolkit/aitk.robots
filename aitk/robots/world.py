@@ -910,20 +910,20 @@ class World:
         bulb = Bulb(color, x, y, z, brightness, name, self)
         self._bulbs.append(bulb)
 
-    def add_beacon(self, x, y, z):
+    def add_beacon(self, x, y, z=0):
         """
         Add a beacon to the world.
 
         Args:
             x (int): the x coordinate
             y (int): the y coordinate
-            z (int): the z coordinate
+            z (int): optional, the z coordinate
         """
         self._add_beacon(x, y, z)
         self.update()  # request draw
         self.save()
 
-    def _add_beacon(self, x, y, z):
+    def _add_beacon(self, x, y, z=0):
         beacon = Beacon(x, y, z, self)
         self._beacon = beacon
 

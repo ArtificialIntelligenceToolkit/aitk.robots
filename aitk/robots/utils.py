@@ -257,7 +257,7 @@ def format_time(time):
     hours = time // 3600
     minutes = (time % 3600) // 60
     seconds = (time % 3600) % 60
-    return "%02d:%02d:%04.1f" % (hours, minutes, seconds)
+    return "%02d:%02d:%04.2f" % (hours, minutes, seconds)
 
 
 def load_world(filename=None):

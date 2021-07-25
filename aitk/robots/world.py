@@ -219,6 +219,7 @@ class World:
             raise AttributeError(
                 "unknown arguments for World: %s" % list(kwargs.keys())
             )
+        self.time_step = 0.10  # seconds
         self._events = []
         self._show_throttle_percentage = 0.40
         self._time_decimal_places = 1
@@ -417,7 +418,6 @@ class World:
         self._stop = False  # should stop?
         self._thread = None
         self.status = "stopped"
-        self.time_step = 0.10  # seconds
         self.time = 0.0  # seconds
         self.boundary_wall = True
         self.boundary_wall_width = 1
@@ -1144,7 +1144,7 @@ class World:
             else:
                 print("The world is already running in the background. Use world.stop()")
         else:
-            self.steps(
+            return self.steps(
                 float("inf"), function, time_step, show, real_time, show_progress, quiet, interrupt
             )
 
@@ -1180,7 +1180,7 @@ class World:
         """
         time_step = time_step if time_step is not None else self.time_step
         steps = round(seconds / time_step)
-        self.steps(steps, function, time_step, show, real_time, show_progress, quiet, interrupt)
+        return self.steps(steps, function, time_step, show, real_time, show_progress, quiet, interrupt)
 
     def steps(
         self,
@@ -1213,6 +1213,7 @@ class World:
                 just stop and continue
         """
         self.status = "running"
+        stop_values = []
         time_step = time_step if time_step is not None else self.time_step
         if steps == float("inf"):
             step_iter = count()
@@ -1240,15 +1241,14 @@ class World:
                         if len(function) < len(self._robots):
                             print_once("WARNING: you have not provided a controller function for every robot")
                         # Deterministically run robots round-robin:
-                        stop = any(
-                            [
-                                function[i](self._robots[i])
-                                for i in range(len(function))
-                                if function[i] is not None
-                            ]
-                        )
+                        stop_values = [
+                            function[i](self._robots[i])
+                            for i in range(len(function))
+                            if function[i] is not None
+                        ]
                     else:
-                        stop = function(self)
+                        stop_values = [function(self)]
+                    stop = any(stop_values)
                     if stop:
                         break
                 self._step(time_step, show=show, real_time=real_time)
@@ -1263,6 +1263,8 @@ class World:
             )
         if show:
             self.draw()  # force to update any displays
+        for value in stop_values:
+            return value
 
     def _compute_complexity(self):
         # Proxy for how much drawing

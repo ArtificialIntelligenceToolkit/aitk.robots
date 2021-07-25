@@ -253,8 +253,22 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#aitk.robots.world.World.beacon" class="md-nav__link">
+    beacon
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#aitk.robots.world.World.__init__" class="md-nav__link">
     __init__()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.world.World.add_beacon" class="md-nav__link">
+    add_beacon()
   </a>
   
 </li>
@@ -636,8 +650,22 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#aitk.robots.world.World.beacon" class="md-nav__link">
+    beacon
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#aitk.robots.world.World.__init__" class="md-nav__link">
     __init__()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aitk.robots.world.World.add_beacon" class="md-nav__link">
+    add_beacon()
   </a>
   
 </li>
@@ -907,6 +935,29 @@ begin with a world.</p>
 
 
 
+  <div class="doc doc-object doc-attribute">
+
+
+
+<h2 id="aitk.robots.world.World.beacon" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">beacon</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-property"><code>property</code></small>
+      <small class="doc doc-property doc-property-writable"><code>writable</code></small>
+  </span>
+
+<a href="#aitk.robots.world.World.beacon" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Get the beacon.</p>
+    </div>
+
+  </div>
+
+
+
 
 
 
@@ -1080,12 +1131,14 @@ begin with a world.</p>
         <span class="n">config</span><span class="p">[</span><span class="s2">&quot;ground_image_filename&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ground_image_filename</span>
     <span class="n">config</span><span class="p">[</span><span class="s2">&quot;walls&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;walls&quot;</span><span class="p">,</span> <span class="p">[])</span>
     <span class="n">config</span><span class="p">[</span><span class="s2">&quot;bulbs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;bulbs&quot;</span><span class="p">,</span> <span class="p">[])</span>
+    <span class="n">config</span><span class="p">[</span><span class="s2">&quot;beacon&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;beacon&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="n">config</span><span class="p">[</span><span class="s2">&quot;robots&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;robots&quot;</span><span class="p">,</span> <span class="p">[])</span>
     <span class="n">config</span><span class="p">[</span><span class="s2">&quot;food&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;food&quot;</span><span class="p">,</span> <span class="p">[])</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
             <span class="s2">&quot;unknown arguments for World: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">list</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
         <span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">time_step</span> <span class="o">=</span> <span class="mf">0.10</span>  <span class="c1"># seconds</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_events</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_show_throttle_percentage</span> <span class="o">=</span> <span class="mf">0.40</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_time_decimal_places</span> <span class="o">=</span> <span class="mi">1</span>
@@ -1096,6 +1149,7 @@ begin with a world.</p>
     <span class="bp">self</span><span class="o">.</span><span class="n">_watchers</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_robots</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_bulbs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_beacon</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_recording</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -1109,6 +1163,73 @@ begin with a world.</p>
 
   </div>
 
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="aitk.robots.world.World.add_beacon" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">add_beacon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></code>
+
+
+<a href="#aitk.robots.world.World.add_beacon" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Add a beacon to the world.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>x</code></td>
+        <td><code>int</code></td>
+        <td><p>the x coordinate</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>y</code></td>
+        <td><code>int</code></td>
+        <td><p>the y coordinate</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>z</code></td>
+        <td><code>int</code></td>
+        <td><p>optional, the z coordinate</p></td>
+        <td><code>0</code></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>robots/world.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">add_beacon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add a beacon to the world.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x (int): the x coordinate</span>
+<span class="sd">        y (int): the y coordinate</span>
+<span class="sd">        z (int): optional, the z coordinate</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_add_beacon</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>  <span class="c1"># request draw</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
 
 
 
@@ -1715,6 +1836,13 @@ place it randomly in the world.</p>
         <span class="k">for</span> <span class="n">robot</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_robots</span><span class="p">:</span>
             <span class="n">robot</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="p">)</span>
 
+        <span class="c1"># Draw the beacon:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">beacon</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">beacon</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="s2">&quot;on&quot;</span><span class="p">:</span>
+                <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beacon</span><span class="o">.</span><span class="n">get_position</span><span class="p">(</span><span class="n">world</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">set_fill_style</span><span class="p">(</span><span class="n">Color</span><span class="p">(</span><span class="s2">&quot;blue&quot;</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">draw_circle</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
         <span class="n">text</span> <span class="o">=</span> <span class="n">format_time</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">draw_status</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
 
@@ -1764,13 +1892,15 @@ place it randomly in the world.</p>
 <span class="sd">    Load a json config file.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
+
+    <span class="k">if</span> <span class="s2">&quot;quiet&quot;</span> <span class="ow">in</span> <span class="n">config</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">quiet</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;quiet&quot;</span><span class="p">]</span>
+
     <span class="n">seed</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;seed&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="s2">&quot;filename&quot;</span> <span class="ow">in</span> <span class="n">config</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;filename&quot;</span><span class="p">]</span>
-    <span class="k">if</span> <span class="s2">&quot;quiet&quot;</span> <span class="ow">in</span> <span class="n">config</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">quiet</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;quiet&quot;</span><span class="p">]</span>
     <span class="k">if</span> <span class="s2">&quot;width&quot;</span> <span class="ow">in</span> <span class="n">config</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;width&quot;</span><span class="p">]</span>
     <span class="k">if</span> <span class="s2">&quot;height&quot;</span> <span class="ow">in</span> <span class="n">config</span><span class="p">:</span>
@@ -1820,6 +1950,11 @@ place it randomly in the world.</p>
                 <span class="n">wall</span><span class="p">[</span><span class="s2">&quot;p2&quot;</span><span class="p">][</span><span class="s2">&quot;y&quot;</span><span class="p">],</span>
                 <span class="n">box</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="p">)</span>
+
+    <span class="n">beacon</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;beacon&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">beacon</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># beacon is {x, y, z}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_beacon</span><span class="p">(</span><span class="o">**</span><span class="n">beacon</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">bulb</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bulbs&quot;</span><span class="p">,</span> <span class="p">[]):</span>
         <span class="c1"># bulbs are {x, y, z, color, brightness}</span>
@@ -2017,14 +2152,14 @@ a ground image to have already been set.</p>
 
 
 <h2 id="aitk.robots.world.World.get_image" class="doc doc-heading">
-<code class="codehilite language-python"><span class="n">get_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span></code>
+<code class="codehilite language-python"><span class="n">get_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
 
 
 <a href="#aitk.robots.world.World.get_image" class="headerlink" title="Permanent link">&para;</a></h2>
 
     <div class="doc doc-contents ">
 
-      <p>Get a PIL image of the world, or of a robot.</p>
+      <p>Get a PIL image (copy) of the world, or of a robot.</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2049,17 +2184,26 @@ a ground image to have already been set.</p>
         <td><p>size of robot picture</p></td>
         <td><code>100</code></td>
       </tr>
+      <tr>
+        <td><code>copy</code></td>
+        <td><code>bool</code></td>
+        <td><p>get a copy of image if True,
+otherwise return a reference to world image</p></td>
+        <td><code>True</code></td>
+      </tr>
   </tbody>
 </table>
         <details class="quote">
           <summary>Source code in <code>robots/world.py</code></summary>
-          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">get_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">get_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Get a PIL image of the world, or of a robot.</span>
+<span class="sd">    Get a PIL image (copy) of the world, or of a robot.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        index (str or int, optional): index of robot</span>
 <span class="sd">        size (int, optional): size of robot picture</span>
+<span class="sd">        copy (bool, optional): get a copy of image if True,</span>
+<span class="sd">            otherwise return a reference to world image</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">picture</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">get_image</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
@@ -2080,6 +2224,8 @@ a ground image to have already been set.</p>
             <span class="n">picture</span> <span class="o">=</span> <span class="n">picture</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="n">rectangle</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">picture</span>
     <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">copy</span><span class="p">:</span>
+            <span class="n">picture</span> <span class="o">=</span> <span class="n">picture</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">picture</span>
 </code></pre></div>
         </details>
@@ -2487,7 +2633,7 @@ just stop and continue</p></td>
         <span class="k">else</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The world is already running in the background. Use world.stop()&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="p">(</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="p">(</span>
             <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">),</span> <span class="n">function</span><span class="p">,</span> <span class="n">time_step</span><span class="p">,</span> <span class="n">show</span><span class="p">,</span> <span class="n">real_time</span><span class="p">,</span> <span class="n">show_progress</span><span class="p">,</span> <span class="n">quiet</span><span class="p">,</span> <span class="n">interrupt</span>
         <span class="p">)</span>
 </code></pre></div>
@@ -2739,7 +2885,7 @@ just stop and continue</p></td>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">time_step</span> <span class="o">=</span> <span class="n">time_step</span> <span class="k">if</span> <span class="n">time_step</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_step</span>
     <span class="n">steps</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">seconds</span> <span class="o">/</span> <span class="n">time_step</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="p">(</span><span class="n">steps</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span> <span class="n">time_step</span><span class="p">,</span> <span class="n">show</span><span class="p">,</span> <span class="n">real_time</span><span class="p">,</span> <span class="n">show_progress</span><span class="p">,</span> <span class="n">quiet</span><span class="p">,</span> <span class="n">interrupt</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="p">(</span><span class="n">steps</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span> <span class="n">time_step</span><span class="p">,</span> <span class="n">show</span><span class="p">,</span> <span class="n">real_time</span><span class="p">,</span> <span class="n">show_progress</span><span class="p">,</span> <span class="n">quiet</span><span class="p">,</span> <span class="n">interrupt</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
@@ -3085,6 +3231,7 @@ just stop and continue</p></td>
 <span class="sd">            just stop and continue</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;running&quot;</span>
+    <span class="n">stop_values</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">time_step</span> <span class="o">=</span> <span class="n">time_step</span> <span class="k">if</span> <span class="n">time_step</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_step</span>
     <span class="k">if</span> <span class="n">steps</span> <span class="o">==</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">):</span>
         <span class="n">step_iter</span> <span class="o">=</span> <span class="n">count</span><span class="p">()</span>
@@ -3095,6 +3242,8 @@ just stop and continue</p></td>
         <span class="n">start_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span>
         <span class="c1"># If you want to show, and in google colab, then</span>
         <span class="c1"># we use tqdm&#39;s update to force widget updates</span>
+        <span class="k">if</span> <span class="n">show</span> <span class="ow">and</span> <span class="n">in_colab</span><span class="p">():</span>
+            <span class="n">clear_output</span><span class="p">(</span><span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">progress_bar</span><span class="p">(</span>
             <span class="n">step_iter</span><span class="p">,</span>
             <span class="p">(</span><span class="n">show_progress</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quiet</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">show</span> <span class="ow">and</span> <span class="n">in_colab</span><span class="p">()),</span>
@@ -3110,19 +3259,17 @@ just stop and continue</p></td>
                     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">function</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_robots</span><span class="p">):</span>
                         <span class="n">print_once</span><span class="p">(</span><span class="s2">&quot;WARNING: you have not provided a controller function for every robot&quot;</span><span class="p">)</span>
                     <span class="c1"># Deterministically run robots round-robin:</span>
-                    <span class="n">stop</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span>
-                        <span class="p">[</span>
-                            <span class="n">function</span><span class="p">[</span><span class="n">i</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">_robots</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-                            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">function</span><span class="p">))</span>
-                            <span class="k">if</span> <span class="n">function</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-                        <span class="p">]</span>
-                    <span class="p">)</span>
+                    <span class="n">stop_values</span> <span class="o">=</span> <span class="p">[</span>
+                        <span class="n">function</span><span class="p">[</span><span class="n">i</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">_robots</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">function</span><span class="p">))</span>
+                        <span class="k">if</span> <span class="n">function</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                    <span class="p">]</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">stop</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+                    <span class="n">stop_values</span> <span class="o">=</span> <span class="p">[</span><span class="n">function</span><span class="p">(</span><span class="bp">self</span><span class="p">)]</span>
+                <span class="n">stop</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="n">stop_values</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">stop</span><span class="p">:</span>
                     <span class="k">break</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_step</span><span class="p">(</span><span class="n">time_step</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="n">show</span><span class="p">,</span> <span class="n">real_time</span><span class="o">=</span><span class="n">real_time</span><span class="p">)</span>
-
     <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;stopped&quot;</span>
     <span class="n">stop_real_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">monotonic</span><span class="p">()</span>
     <span class="n">stop_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span>
@@ -3134,6 +3281,8 @@ just stop and continue</p></td>
         <span class="p">)</span>
     <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>  <span class="c1"># force to update any displays</span>
+    <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">stop_values</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">value</span>
 </code></pre></div>
         </details>
     </div>
@@ -3202,27 +3351,30 @@ all of its robots.</p>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;This world was loaded from </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Size: </span><span class="si">%s</span><span class="s2"> x </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">25</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Robots:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">25</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_robots</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  This world has no robots.&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">25</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">robot</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_robots</span><span class="p">):</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  .robots[</span><span class="si">%s</span><span class="s2"> or </span><span class="si">%r</span><span class="s2">]: </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">robot</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">robot</span><span class="p">))</span>
             <span class="n">robot</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">25</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Food:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">25</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_food</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  This world has no food.&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">25</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">food</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_food</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  x: </span><span class="si">%s</span><span class="s2">, y: </span><span class="si">%s</span><span class="s2">, brightness: </span><span class="si">%s</span><span class="s2">, state: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
                 <span class="n">food</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">food</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">food</span><span class="o">.</span><span class="n">standard_deviation</span><span class="p">,</span> <span class="n">food</span><span class="o">.</span><span class="n">state</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">25</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Lights:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">25</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_bulbs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  This world has no lights.&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">25</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">bulb</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bulbs</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  x: </span><span class="si">%s</span><span class="s2">, y: </span><span class="si">%s</span><span class="s2">, brightness: </span><span class="si">%s</span><span class="s2">, name: </span><span class="si">%r</span><span class="s2">, color: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
                 <span class="n">bulb</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
@@ -3230,6 +3382,14 @@ all of its robots.</p>
                 <span class="n">bulb</span><span class="o">.</span><span class="n">brightness</span><span class="p">,</span>
                 <span class="n">bulb</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
                 <span class="n">bulb</span><span class="o">.</span><span class="n">color</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">25</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Beacon:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">25</span><span class="p">)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">beacon</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  This world has no beacon.&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beacon</span><span class="o">.</span><span class="n">get_position</span><span class="p">(</span><span class="n">world</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  x: </span><span class="si">%s</span><span class="s2">, y: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
 </code></pre></div>
         </details>
     </div>
@@ -3272,9 +3432,16 @@ all of its robots.</p>
         <span class="s2">&quot;smell_cell_size&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">smell_cell_size</span><span class="p">,</span>
         <span class="s2">&quot;walls&quot;</span><span class="p">:</span> <span class="p">[],</span>
         <span class="s2">&quot;bulbs&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s2">&quot;beacon&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
         <span class="s2">&quot;robots&quot;</span><span class="p">:</span> <span class="p">[],</span>
         <span class="s2">&quot;food&quot;</span><span class="p">:</span> <span class="p">[],</span>
     <span class="p">}</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beacon</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;beacon&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beacon</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
+            <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beacon</span><span class="o">.</span><span class="n">y</span><span class="p">,</span>
+            <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beacon</span><span class="o">.</span><span class="n">z</span><span class="p">,</span>
+        <span class="p">}</span>
     <span class="k">for</span> <span class="n">wall</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_walls</span><span class="p">:</span>
         <span class="c1"># Not a boundary wall or robot bounding box:</span>
         <span class="k">if</span> <span class="n">wall</span><span class="o">.</span><span class="n">wtype</span> <span class="o">==</span> <span class="s2">&quot;wall&quot;</span><span class="p">:</span>

@@ -1358,10 +1358,15 @@ a, and kwargs, and returns a device</p></td>
 <span class="sd">    &gt;&gt;&gt; robot.add_device_ring(RangeSensor, 10, 0, 360, 6, width=20)</span>
 <span class="sd">    ```</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">device_class</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">DEVICES</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;aitk.robots.devices&quot;</span><span class="p">)</span>
+        <span class="n">device_class</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">DEVICES</span><span class="p">,</span> <span class="n">device_class</span><span class="p">)</span>
+
     <span class="k">if</span> <span class="n">stop_degree</span> <span class="o">&lt;</span> <span class="n">start_degree</span><span class="p">:</span>
         <span class="n">stop_degree</span> <span class="o">+=</span> <span class="mi">360</span>
+
     <span class="n">span</span> <span class="o">=</span> <span class="n">stop_degree</span> <span class="o">-</span> <span class="n">start_degree</span>
-    <span class="n">step_angle</span> <span class="o">=</span> <span class="n">span</span> <span class="o">/</span> <span class="n">count</span>
+    <span class="n">step_angle</span> <span class="o">=</span> <span class="n">span</span> <span class="o">/</span> <span class="p">(</span><span class="n">count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">angle</span> <span class="o">=</span> <span class="n">start_degree</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">count</span><span class="p">):</span>
         <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">rotate_around</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">distance_from_center</span><span class="p">,</span> <span class="o">-</span><span class="n">angle</span> <span class="o">*</span> <span class="n">PI_OVER_180</span><span class="p">)</span>
@@ -1726,6 +1731,8 @@ image</p></td>
     <span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_devices</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">device</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;bulb&quot;</span><span class="p">:</span>
             <span class="n">device</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">backend</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">device</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;beacon&quot;</span><span class="p">:</span>
+            <span class="n">device</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">backend</span><span class="p">)</span>
 
     <span class="c1"># body:</span>
     <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">:</span>
@@ -1756,7 +1763,7 @@ image</p></td>
 
     <span class="c1"># Draw on top of robot:</span>
     <span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_devices</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">device</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="s2">&quot;bulb&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">device</span><span class="o">.</span><span class="n">type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;bulb&quot;</span><span class="p">,</span> <span class="s2">&quot;beacon&quot;</span><span class="p">]:</span>
             <span class="n">device</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">backend</span><span class="p">)</span>
 
     <span class="n">backend</span><span class="o">.</span><span class="n">popMatrix</span><span class="p">()</span>

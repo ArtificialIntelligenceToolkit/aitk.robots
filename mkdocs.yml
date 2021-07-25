@@ -23,8 +23,10 @@ nav:
         - World: world.md
         - Robot: robot.md
         - Devices:
+            - Beacon: beacon.md
             - Bulb: bulb.md
             - Cameras: camera.md
+            - Compass: compass.md
             - RangeSensor: rangesensor.md
             - LightSensor: lightsensor.md
             - SmellSensor: smellsensor.md

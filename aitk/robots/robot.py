@@ -598,7 +598,11 @@ class Robot:
             stop_degree += 360
 
         span = stop_degree - start_degree
-        step_angle = span / (count - 1)
+        if span == 360:
+            step_angle = span / count
+        else:
+            step_angle = span / (count - 1)
+
         angle = start_degree
         for i in range(count):
             x, y = rotate_around(0, 0, distance_from_center, -angle * PI_OVER_180)

@@ -50,6 +50,7 @@ class Compass(BaseDevice):
         self.type = "compass"
         self.name = "compass"
         self.value = 0.0
+        self.values = [0, 0, 0, 0]
         self.length = 30  # CM
         self.position = [0, 0]
         self.dist_from_center = distance(0, 0, self.position[0], self.position[1])
@@ -169,6 +170,40 @@ class Compass(BaseDevice):
         """
         widget = self.get_widget(title=title)
         return display(widget)
+
+    def get_value(self):
+        """
+        Get the direction to the beacon. The value
+        is in radians, with 0 pointing straight ahead of the
+        robot, and increasing counter-clockwise back
+        to 2 pi.
+        """
+        return self.value
+
+    def get_values(self):
+        """
+        Get the values of the compass as an array of zeros
+        and a single 1 in the quadrant indicating where the beacon
+        is relative to the robot.
+
+        The indices of the array are as shown relative to the
+        robot:
+
+        \  0  /
+         \   /
+          \ /
+        1     3
+          / \
+         /   \
+        /  2  \
+
+        where 0=front, 1=left, 2=back, and 3=right.
+
+        So that the meaning of the array is:
+
+        [front, left, back, right]
+        """
+        return self.values
 
     def get_widget(self, title="Compass:"):
         """

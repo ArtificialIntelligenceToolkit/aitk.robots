@@ -1462,9 +1462,11 @@ class World:
             # Draw the beacon:
             if self.beacon is not None:
                 if self.beacon.state == "on":
-                    x, y = self.beacon.get_position(world=True)
                     self._backend.set_fill_style(Color("blue"))
-                    self._backend.draw_circle(x, y, 5)
+                else:
+                    self._backend.set_fill_style(Color("black"))
+                x, y = self.beacon.get_position(world=True)
+                self._backend.draw_circle(x, y, 5)
 
             text = format_time(self.time)
             self._backend.draw_status(text)

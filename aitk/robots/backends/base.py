@@ -107,8 +107,10 @@ class Backend:
                     points[i][0], points[i][1], points[i + 1][0], points[i + 1][1]
                 )
 
-    def set_stroke_style(self, color):
+    def set_stroke_style(self, color, width=None):
         self.stroke_style = color.to_hexcode()
+        if width is not None:
+            self.line_width = width
 
     def set_fill_style(self, color):
         self.fill_style = color.to_hexcode()

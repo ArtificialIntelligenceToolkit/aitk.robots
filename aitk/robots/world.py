@@ -45,6 +45,9 @@ from .utils import (
 
 from aitk.utils import Color
 
+BLACK = Color("black")
+BLUE = Color("blue")
+
 try:
     from IPython.display import display, clear_output
 except ImportError:
@@ -1462,10 +1465,11 @@ class World:
             # Draw the beacon:
             if self.beacon is not None:
                 if self.beacon.state == "on":
-                    self._backend.set_fill_style(Color("blue"))
+                    self._backend.set_fill_style(BLUE)
                 else:
-                    self._backend.set_fill_style(Color("black"))
+                    self._backend.set_fill_style(BLACK)
                 x, y = self.beacon.get_position(world=True)
+                self._backend.strokeStyle(BLACK, 1)
                 self._backend.draw_circle(x, y, 5)
 
             text = format_time(self.time)

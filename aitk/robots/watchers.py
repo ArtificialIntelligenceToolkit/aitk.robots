@@ -440,6 +440,7 @@ class Recorder(Watcher):
         # (time, "food-off", robot_index, food_index)
         # (time, "bulb-on", bulb_index)
         # (time, "bulb-off", bulb_index)
+        # (time, "bulb-color", bulb_index, color)
         if event[1] == "bulb-off":
             bulb_index = event[2]
             if forward:
@@ -452,6 +453,14 @@ class Recorder(Watcher):
                 self.world._bulbs[bulb_index].state = "on"
             else:
                 self.world._bulbs[bulb_index].state = "off"
+        elif event[1] == "bulb-color":
+            bulb_index = event[2]
+            previous_color = event[3]
+            new_color = event[4]
+            if forward:
+                self.world._bulbs[bulb_index].color = new_color
+            else:
+                self.world._bulbs[bulb_index].color = previous_color
         elif event[1] == "food-off":
             robot_index = event[2]
             food_index = event[3]

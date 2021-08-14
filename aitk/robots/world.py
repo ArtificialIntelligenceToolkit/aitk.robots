@@ -36,14 +36,13 @@ from .utils import (
     load_image,
     rotate_around,
     print_once,
-    progress_bar,
     PI_OVER_180,
     PI_OVER_2,
     ONE80_OVER_PI,
     TWO_PI,
 )
 
-from aitk.utils import Color
+from aitk.utils import Color, progress_bar
 
 BLACK = Color("black")
 BLUE = Color("blue")
@@ -262,6 +261,12 @@ class World:
             bulb = kwargs["bulb"]
             bulb_index = self._bulbs.index(bulb)
             self._events.append((self.time, "bulb-on", bulb_index))
+        elif etype == "bulb-color":
+            bulb = kwargs["bulb"]
+            previous_color = kwargs["previous_color"]
+            new_color = kwargs["new_color"]
+            bulb_index = self._bulbs.index(bulb)
+            self._events.append((self.time, "bulb-color", bulb_index, previous_color, new_color))
         elif etype == "bulb-off":
             bulb = kwargs["bulb"]
             bulb_index = self._bulbs.index(bulb)

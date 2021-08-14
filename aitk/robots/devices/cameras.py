@@ -559,8 +559,6 @@ class Camera(BaseDevice):
                     drawing.ellipse((x - radius, y - radius,
                                      x + radius, y + radius),
                                     fill=color.to_tuple())
-                else:
-                    print(min_angle, angle, max_angle)
             image.paste(Image.alpha_composite(image, layer))
 
     def _show_food(self, image):

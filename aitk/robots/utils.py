@@ -144,26 +144,6 @@ def rotate_around(x1, y1, length, angle):
     return [x1 + length * math.cos(-angle),
             y1 - length * math.sin(-angle)]
 
-def progress_bar(range, show_progress=True, progress_type="tqdm"):
-    """
-    Wrap a range/iter in a progress bar (or not).
-    """
-    try:
-        import tqdm
-        import tqdm.notebook
-    except ImportError:
-        tqdm = None
-
-    if progress_type is None or tqdm is None or show_progress is False:
-        return range
-    elif progress_type == "tqdm":
-        return tqdm.tqdm(range)
-    elif progress_type == "notebook":
-        return tqdm.notebook.tqdm(range)
-    else:
-        return range
-
-
 def dot(v, w):
     x, y, z = v
     X, Y, Z = w

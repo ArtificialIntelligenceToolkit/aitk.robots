@@ -139,6 +139,17 @@ class Bulb(BaseDevice):
         elif self.world is not None:
             self.world._event("bulb-off", bulb=self)
 
+    def set_color(self, color):
+        """
+        Set bulb color.
+        """
+        new_color = Color(color)
+        if self.robot is not None and self.robot.world is not None:
+            self.robot.world._event("bulb-color", bulb=self, previous_color=self.color, new_color=new_color)
+        elif self.world is not None:
+            self.world._event("bulb-color", bulb=self, previous_color=self.color, new_color=new_color)
+        self.color = new_color
+
     @property
     def x(self):
         if self.robot is None:

@@ -30,9 +30,10 @@ from ipywidgets import (
     VBox,
 )
 
-from .utils import Point, arange, image_to_gif, image_to_png, progress_bar, distance
+from .utils import Point, arange, image_to_gif, image_to_png, distance
 from .world import World
 
+from aitk.utils import progress_bar
 
 def make_attr_widget(obj, map, title, attrs, labels):
     box = VBox()

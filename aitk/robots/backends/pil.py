@@ -92,16 +92,17 @@ class PILBackend(Backend):
         self.set_fill(WHITE)
         self.text(text, 1, self.height - 1)
 
-    def to_png(self):
+    def to_image(self, format=None):
+        format = format if format is not None else self.format
         fp = io.BytesIO()
-        self.image.save(fp, format=self.format)
+        self.image.save(fp, format=format)
         return fp.getvalue()
 
     def get_widget(self, width=None, height=None):
         from ipywidgets import Image
 
         if self.widget is None:
-            self.widget = Image(value=self.to_png())
+            self.widget = Image(value=self.to_image())
             self.widget.layout.margin = "auto"
             self.widget.layout.border = "10px solid rgb(0 177 255)"
 
@@ -114,7 +115,7 @@ class PILBackend(Backend):
 
     def draw_watcher(self):
         if self.widget:
-            self.widget.value = self.to_png()
+            self.widget.value = self.to_image()
 
     def flush(self):
         pass

@@ -245,7 +245,7 @@ class World:
         return "<World width=%r, height=%r>" % (self.width, self.height)
 
     def _repr_png_(self):
-        return self._backend.to_png()
+        return self._backend.to_image("png")
 
     def _event(self, etype, **kwargs):
         if etype == "food-off":

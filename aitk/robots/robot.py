@@ -654,6 +654,20 @@ class Robot:
         rotate = (right - left) / 2.0
         self.move(trans, rotate)
 
+    def imotors(self, left, right):
+        """
+        A move function that takes desired motor values
+        and converts to trans and rotate. Uses instantaneous
+        move.
+
+        Args:
+            left (float): the speed to move the left wheel
+            right (float): the speed to move the right wheel
+        """
+        trans = (right + left) / 2.0
+        rotate = (right - left) / 2.0
+        self.imove(trans, rotate)
+
     def move(self, translate, rotate):
         """
         Set the target translate and rotate velocities.
@@ -673,6 +687,26 @@ class Robot:
             self.tvx = round(translate * self.vx_max, 1)
         if rotate is not None:
             self.tva = round(rotate * self.va_max, 1)
+
+    def imove(self, translate, rotate):
+        """
+        Instantaneously set target speeds (zero momentum).
+
+        Args:
+            translate (float): the speed to move the robot forward/backward
+            rotate (float): the speed to rotate the robot left/right
+
+        Args should be between -1 and 1.
+        """
+        # values between -1 and 1
+        # compute target velocities
+        if self.world is not None:
+            if self.world.status != "running":
+                print_once("This world is not running")
+        if translate is not None:
+            self.tvx = self.vx = round(translate, 1)
+        if rotate is not None:
+            self.tva = self.va = round(rotate, 1)
 
     def translate(self, translate):
         """

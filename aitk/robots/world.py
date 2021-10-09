@@ -279,6 +279,13 @@ class World:
             raise Exception("unknown event: %s" % etype)
         self.update() # request draw
 
+
+    def get_time(self):
+        """
+        Get the simulated time as a formatted string.
+        """
+        return format_time(self.time)
+
     def get_image(self, index=None, size=100, copy=True):
         """
         Get a PIL image (copy) of the world, or of a robot.
@@ -1114,6 +1121,7 @@ class World:
         quiet=False,
         background=False,
         interrupt=False,
+        callback=None,
     ):
         """
         Run the simulator until one of the control functions returns True
@@ -1133,6 +1141,7 @@ class World:
             background (bool): if True, run in the background.
             interrupt (bool): if True, raise KeyboardInterrupt, otherwise
                 just stop and continue
+            callback: a function that takes the world to run on each step
         """
         time_step = time_step if time_step is not None else self.time_step
         if background:
@@ -1153,7 +1162,8 @@ class World:
                 print("The world is already running in the background. Use world.stop()")
         else:
             return self.steps(
-                float("inf"), function, time_step, show, real_time, show_progress, quiet, interrupt
+                float("inf"), function, time_step, show, real_time,
+                show_progress, quiet, interrupt, callback
             )
 
     def seconds(
@@ -1166,6 +1176,7 @@ class World:
         show_progress=True,
         quiet=False,
         interrupt=False,
+        callback=None,
     ):
         """
         Run the simulator for N seconds, or until one of the control
@@ -1185,10 +1196,12 @@ class World:
                 completed
             interrupt (bool): if True, raise KeyboardInterrupt, otherwise
                 just stop and continue
+            callback: a function that takes the world to run on each step
         """
         time_step = time_step if time_step is not None else self.time_step
         steps = round(seconds / time_step)
-        return self.steps(steps, function, time_step, show, real_time, show_progress, quiet, interrupt)
+        return self.steps(steps, function, time_step, show, real_time,
+                          show_progress, quiet, interrupt, callback)
 
     def steps(
         self,
@@ -1200,6 +1213,7 @@ class World:
         show_progress=True,
         quiet=False,
         interrupt=False,
+        callback=None,
     ):
         """
         Run the simulator for N steps, or until one of the control
@@ -1219,6 +1233,7 @@ class World:
                 completed
             interrupt (bool): if True, raise KeyboardInterrupt, otherwise
                 just stop and continue
+            callback: a function that takes the world to run on each step
         """
         self.status = "running"
         stop_values = []
@@ -1260,6 +1275,8 @@ class World:
                     if stop:
                         break
                 self._step(time_step, show=show, real_time=real_time)
+                if callback is not None:
+                    callback(self)
         self.status = "stopped"
         stop_real_time = time.monotonic()
         stop_time = self.time

@@ -50,6 +50,7 @@ class RangeSensor(BaseDevice):
             "max": max,
             "width": width,
             "name": name,
+            "visible": True,
         }
         config.update(kwargs)
         self._watcher = None
@@ -70,6 +71,7 @@ class RangeSensor(BaseDevice):
         self.a = degrees_to_world(0)  # comes in degrees, save as radians
         self.max = 20  # CM
         self.width = 1.0  # radians
+        self.visible = True
         self.name = "sensor"
         self.distance = self.reading * self.max
 
@@ -123,7 +125,7 @@ class RangeSensor(BaseDevice):
             config (dict): a config dictionary
         """
         valid_keys = set([
-            "position", "a", "max", "width", "name", "class"
+            "position", "a", "max", "width", "name", "class", "visible"
         ])
         self.verify_config(valid_keys, config)
 
@@ -138,6 +140,8 @@ class RangeSensor(BaseDevice):
             self.max = config["max"]
         if "width" in config:
             self.width = config["width"] * PI_OVER_180  # save as radians
+        if "visible" in config:
+            self.visible = config["visible"]
         if self.width == 0:
             self.type = "laser"
         if "name" in config:
@@ -154,6 +158,7 @@ class RangeSensor(BaseDevice):
             "a": world_to_degrees(self.a),
             "max": self.max,
             "width": self.width * ONE80_OVER_PI,  # save as degrees
+            "visible": self.visible,
             "name": self.name,
         }
         return config
@@ -229,6 +234,9 @@ class RangeSensor(BaseDevice):
         Args:
             backend (Backend): an aitk drawing backend
         """
+        if not self.visible:
+            return
+        
         backend.set_fill(Color(128, 0, 128, 64))
         dist = self.get_distance()
         if self.width > 0:
@@ -388,3 +396,9 @@ class RangeSensor(BaseDevice):
             self.type = "laser"
         else:
             self.type = "ir"
+
+    def set_visible(self, visible):
+        """
+        Set the display visibility of the rangesensor.
+        """
+        self.visible = visible

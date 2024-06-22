@@ -1,3 +1,0 @@
-# World
-
-::: aitk.robots.World

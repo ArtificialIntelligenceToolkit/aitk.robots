@@ -8,37 +8,16 @@
 #
 # **************************************************
 
-"""
-aitk.robots setup
-"""
-import io
-import os
-
 import setuptools
 
-HERE = os.path.abspath(os.path.dirname(__file__))
-
-# The name of the project
 name = "aitk.robots"
+version = "2.0.0"
+long_description = """
+# aitk.robots
 
-
-# Get our version
-def get_version(file, name="__version__"):
-    """Get the version of the package from the given file by
-    executing it and extracting the given `name`.
-    """
-    path = os.path.realpath(file)
-    version_ns = {}
-    with io.open(path, encoding="utf8") as f:
-        exec(f.read(), {}, version_ns)
-    return version_ns[name]
-
-
-version = get_version(os.path.join(HERE, "aitk/robots/_version.py"))
-
-with open(os.path.join(HERE, "README.md"), "r") as fh:
-    long_description = fh.read()
-
+DEPRECATED PACKAGE: use `aitk` instead.
+"""
+print(long_description)
 setup_args = dict(
     name=name,
     version=version,
@@ -47,9 +26,7 @@ setup_args = dict(
     description="A lightweight Python Robot simulator",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    packages=setuptools.find_namespace_packages(include=['aitk.*']),
-    package_data={"aitk.robots": ["worlds/*.json", "worlds/*.png"]},
-    install_requires=["setuptools", "Pillow", "aitk.utils>=0.6.1", "ipywidgets"],
+    install_requires=["aitk"],
     python_requires=">=3.6",
     license="BSD-3-Clause",
     platforms="Linux, Mac OS X, Windows",

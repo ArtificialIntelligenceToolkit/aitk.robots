@@ -1,3 +1,0 @@
-# Robot
-
-::: aitk.robots.Robot

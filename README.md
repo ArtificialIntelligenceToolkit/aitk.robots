@@ -1,3 +1,8 @@
+# This code has been moved to [aitk](https://github.com/ArtificialIntelligenceToolkit/aitk)
+
+<i>This is a archived repository.</i>
+
+
 # aitk.robots
 
 [![PyPI version](https://badge.fury.io/py/aitk.robots.svg)](https://badge.fury.io/py/aitk.robots) [![CI build status](https://img.shields.io/circleci/build/github/ArtificialIntelligenceToolkit/aitk.robots)](https://app.circleci.com/pipelines/github/ArtificialIntelligenceToolkit/aitk.robots)
